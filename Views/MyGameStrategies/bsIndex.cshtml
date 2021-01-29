@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "我发表的攻略";
+    Layout = "_MemberShipLayout";
+}
+
+  <!--homepage-->
+  <link rel="stylesheet" href="/css/websitebase.css" />
+  <link rel="stylesheet" href="/css/common.min.css" />
+  <link rel="stylesheet" href="/css/icon.min.css" />
+  <link rel="stylesheet" href="/css/fuceng.min.css" />
+  <link rel="stylesheet" href="/css/GameStrategiesCenter/home-page.min.css" />
+ 
+<!--过渡图片-->
+<div class="row col-sm-12 col-md-12 col-lg-12">
+    <!--轮播内容-->
+	<div class="bd">
+		<ul>
+			<li  class="slide-bd-list" >
+				<a class="slide-bd-a" style="background: url(/public/hotbg.jpg) repeat top center;" href="#" target="_blank"></a>
+			</li>
+						
+		</ul>
+	</div>
+</div>
+<div class="row" id="webapp">
+    <div id="myTabContent" class="tab-content col-md-9 col-xs-9 col-sm-12" style="min-height:300px;overflow:hidden; border:1px solid #e8e8e8;margin-top:30px;">
+        <product-show-comp v-bind:post="posts">
+
+        </product-show-comp>
+        <div class="col-md-12">
+            <ul class="list-group col-md-12 col-xs-12 col-sm-12">
+                <li v-for="item in facilities1" class="list-group-item" style="float:left;border:none;display:block;width:100%;">
+                    <a :href="'../GameStrategiesShow?Id='+item.Id" class="sw-btn" target="_blank">{{item.Title}}</a> <a :href="'../MyGameStrategies/showDetail?Id='+item.Id" class="sw-btn" target="_blank">编辑</a>
+                </li>
+            </ul>
+            <ul class="pagination">
+                <li v-if="pageCount >1" class="list-group-item" style="margin:-1px 1px 0 -1px;padding:0;">
+                    <select v-if="pageCount >1" v-bind:change="selectChanged(this)" v-model="selectPageSize" class="selectpicker" style="height:34px;margin-top:0;display:inline;">
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>200</option>
+                    </select>
+                </li>
+                <li><a v-if="pageCount >1" v-on:click="PrevPage" :class="isprevDisable">&laquo;</a></li>
+                <li v-for="index of pageCount "><a v-if="index >= pageindex && pageCount>1" v-on:click="PageChanged(index)">{{index}}</a></li>
+                <li><a v-if="pageCount >1" v-on:click="NextPage" :class="isNextDisable">&raquo;</a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<script>
+    Vue.component("product-show-comp", {
+        props: ['post'],
+
+        template: `
+            <div v-bind:id=post.containerId>
+            <ul v-bind:id=post.tabid class= "nav nav-tabs">
+            <li role="presentation" v-for="item in post.tabitems" v-bind:key="item.id" v-bind:class="{ active: item.isActive }"  v-show="post.tabitems.length!=0" >
+            <a v-bind:href=item.targetid  data-toggle="tab" v-on:click="OnChange(item)">{{item.text}}</a></li></ul>
+            </div>`,
+        methods: {
+            OnChange: function (e) {
+                var ntype = -1;
+                $.each(this.post.tabitems, function (i, item) {
+                    if (item.targetid === e.targetid) {
+                        ntype = item.Typeid;
+                        return false;
+                    }
+                });
+                $.ajax({
+                    url: "../MyGameStrategies/GetGameStrategies",
+                    type: "post",
+                    dataType: "json",
+                    data: { type: ntype },
+                    success: (arrdata)=> {
+                        if (arrdata != null) {
+                            this.$parent.facilities1 = arrdata.data;
+                            this.$parent.pageCount = arrdata.Total;
+                            this.$parent.ntype = ntype;
+                        }
+
+                    }
+                });
+            }
+
+        }
+    });
+    //vue
+    var app = new Vue({
+        el:'#myTabContent',
+        data: {
+            facilities1: [],
+            pageCount: 0,
+            pageindex: 1,
+            ntype: 0,
+            selectPageSize: 10,
+            isprevDisable: { disabled: true },
+            isNextDisable: { disabled: false },
+            posts: {
+                containerId: 'divcontainer',
+                tabid: 'tabul',
+
+                tabitems: [
+                    {
+                        Typeid: 0,
+                        targetid: '#home',
+                        text: '全部攻略',
+                        isActive: true,
+                    },
+                    {
+                        Typeid: 1,
+                        targetid: '#web',
+                        text: '页游攻略',
+                        isActive: false,
+                    },
+                    {
+                        Typeid: 2,
+                        targetid: '#app',
+                        text: 'App攻略',
+                        isActive: false,
+                    },
+                ]
+            },
+        },
+       
+        methods:
+        {
+            PrevPage: function () {
+                if (this.pageindex <= 1) {
+                    this.isprevDisable.disabled = true;
+                    this.isNextDisable.disabled = false;
+                }
+                else {
+                    this.pageindex--;
+                    this.isNextDisable.disabled = false;
+                    $.ajax({
+                        url: "../MyGameStrategies/GetGameStrategies",
+                        type: "post",
+                        dataType: "json",
+                        data: { page: this.pageindex, rows: this.selectPageSize, type: this.ntype },
+                        success: (arrdata) =>{
+                            if (arrdata != null) {
+                                this.facilities1 = arrdata.data;
+                                this.pageCount = arrdata.Total;
+
+                            }
+
+                        }
+                    });
+                }
+            },
+            NextPage: function () {
+                if (this.pageindex < this.pageCount) {
+                    this.pageindex++;
+                    $.ajax({
+                        url: "../MyGameStrategies/GetGameStrategies",
+                        type: "post",
+                        dataType: "json",
+                        data: { page: this.pageindex, rows: this.selectPageSize, type: this.ntype },
+                        success:(arrdata) => {
+                            if (arrdata != null) {
+                                this.facilities1 = arrdata.data;
+                                this.pageCount = arrdata.Total;
+
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    this.isprevDisable.disabled = false;
+                    this.NextPage.disabled = true;
+                }
+            },
+            PageChanged: function (page) {
+                this.pageindex = page;
+                $.ajax({
+                    url: "../MyGameStrategies/GetGameStrategies",
+                    type: "post",
+                    dataType: "json",
+                    data: { page: this.pageindex, rows: this.selectPageSize, type: this.ntype },
+                    success:  (arrdata)=> {
+                        if (arrdata != null) {
+                            this.facilities1 = arrdata.data;
+                            this.pageCount = arrdata.Total;
+
+                        }
+
+                    }
+                });
+            },
+            selectChanged: function (e) {
+                $.ajax({
+                    url: "../MyGameStrategies/GetGameStrategies",
+                    type: "post",
+                    dataType: "json",
+                    data: { page: this.pageindex, rows: this.selectPageSize, type: this.ntype },
+                    success: (arrdata)=> {
+                        if (arrdata != null) {
+                            this.facilities1 = arrdata.data;
+                            this.pageCount = arrdata.Total;
+
+                        }
+
+                    }
+                });
+            },
+        },
+        mounted: function () {
+            $.ajax({
+                url: "../MyGameStrategies/GetGameStrategies",
+                type: "post",
+                dataType: "json",
+                data: { rows: this.selectPageSize, type: 0 },
+                success: (arrdata) =>{
+                    if (arrdata != null) {
+                        this.facilities1 = arrdata.data;
+                        this.pageCount = arrdata.Total;
+                        this.ntype = 0;
+                    }
+
+                }
+            });
+        }
+        
+
+    });
+   
+</script>

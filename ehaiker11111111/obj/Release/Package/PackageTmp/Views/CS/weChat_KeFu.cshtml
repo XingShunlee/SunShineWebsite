@@ -1,0 +1,318 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>客服中心</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<!--不缓存东西  start-->
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<style type="text/css">
+	    .CustomerBG
+	    {
+	        display:block;
+	    }
+		.myclass{
+			width:100%;
+			font-size: 12pt;
+			padding-bottom: 10px;
+		}
+		.myclass span{
+			width:100px;
+			background-color: #66b3ff;
+			border: 1px;
+		}
+		.mylinkbutton
+		{
+		    display:block;
+		    width:150px;
+            height:35px;
+            float:left;
+            background: #95B8E7;
+	        font-weight: bold;
+	        color: white;
+	        border:1px solid gray;
+	        border-radius: 2px;
+	        cursor: pointer;
+		}
+		.mylinkbutton:hover
+		{
+		     color:Lime;
+		    border:1px solid #27AE60; 
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="../../Content/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../Content/themes/icon.css"/>
+    <script charset=utf-8 language=javascript src ="../../common/js/jquery.min.js"></script>
+    <script charset=utf-8 language=javascript src ="../../Scripts/EASYUI/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../Content/themes/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript">
+    
+	    //计算时间间隔
+	    function computeTime(oldTime, style) {
+	        date = new Date(oldTime);
+	        var date2 = date.getTime() - datetemp.getTime();
+	        //一分钟内再次发消息，则不显示发送消息的时间
+	        if (date2 > 60000) {
+	            var flagH = "";
+	            var flagM = "";
+	            var hour = date.getHours();
+	            var min = date.getMinutes();
+	            //解决小时和分钟小于10，数字前面不显示0的情况
+	            if (hour < 10) flagH = "0"; else flagH = "";
+	            if (min < 10) flagM = ":0"; else flagM = ":";
+	            //发送内容时间
+	            $("#contentCS").append("<div style='" + style + "'>" + flagH + hour + flagM + min + "</div>")
+	            datetemp = date;
+	        }
+	    }
+
+	    function getAllRecord() {
+	        $.ajax({
+	            url: "./getSAllChatRecord?idTemp=user_id&id=" + id + "&oldId=" + oldId,
+	            type: "POST",
+	            dataType: "json",
+	            data: null,
+	            success: function (data) {
+	                if (data.iSuccessCode) {
+	                    //将聊天信息显示到页面上
+	                    for (var i in data.obj) {
+
+	                        var csChatRecord = data.obj[i];
+	                        if (csChatRecord.kfContent != null && csChatRecord.kfContent != '') {
+	                            computeTime(csChatRecord.Time, "text-align:right;");
+	                            $("#contentCS").append("<div class='myclass' style='text-align:right ;'><span>"
+																									+ unescape( csChatRecord.kfContent )
+																							+ "</span></div>");
+	                        }
+	                        if (csChatRecord.customerContent != null && csChatRecord.customerContent != '') {
+	                            computeTime(csChatRecord.Time, "text-align:left;");
+	                            $("#contentCS").append("<div class='myclass'><span>"
+																									+ unescape(csChatRecord.customerContent)
+																							+ "</span></div>");
+	                        }
+
+	                        oldId = csChatRecord.RecordId;
+	                    }
+	                }
+	                else {
+	                    
+	                    if (data.ErrorCode != 0) {
+	                        clearTimeout(g_timerId_getmsg);
+	                    }
+	                    //alert(data.msg);
+	                }
+	            },
+	            error: function (result) {
+	                clearTimeout(g_timerId_getlist);
+	                clearTimeout(g_timerId_getmsg);
+	                window.close();
+	            }
+	        });
+	    }
+	    //获取左侧正在沟通的用户列表
+	    function getCustomerList() {
+
+	        $.ajax({
+	            url: "./getCustomerList",
+	            type: "POST",
+	            dataType: "json",
+	            success: function (data) {
+	                //清空用户
+	                $(".CustomerBG").remove();
+	                if (data.iSuccessCode) {
+	                    var onlineFlag = 1;
+	                    //用户下线，如果客服人员正在与此人沟通，那么清空聊天页面
+	                    for (var i in data.obj) {
+	                        var customer = data.obj[i];
+	                        if (id == customer.customerId) {
+	                            onlineFlag = 0;
+	                        }
+	                    }
+	                    //清空右边内容
+	                    if (onlineFlag == 1) {
+	                        $("#contentCS").html("");
+	                        id = "";
+	                    }
+	                    
+	                    //获取之前的用户列表
+	                    var exitstbg;
+	                   
+	                    //获得用户列表，显示到页面上
+	                    for (var i in data.obj) {
+	                        var customer = data.obj[i];
+	                        cId = customer.customerId;
+	                        var cHeadImg = customer.headImg;
+	                        var cName = customer.UserName;
+	                        exitstbg = $("div#" + cId + ".CustomerBG")
+	                        if (customer.isOnline > 0 && exitstbg.length < 1) {
+	                            $("#westList").append(
+						        	                    "<div id=" + cId + " class='CustomerBG'><img alt='加载中' src='../../common/kefu/"
+										                    + cHeadImg
+										                    + "' height='40px' width='40px' >"
+						        	                    + "<label id='labelId' class='checkLabel' style='font-size: 12pt;'data_id='"
+										                    + cId
+										                    + "'>"
+                                                            + cName
+
+                                                        + "</div>");
+	                           
+	                        }
+	                        else {
+	                            //--移除下线的用户
+	                            if (exitstbg != null && customer.isOnline <= 0) {
+	                                $(exitstbg).remove()
+	                            }
+	                            $("div#" + cId + ".CustomerBG>img").attr("src", '../../common/kefu/'
+										                    + cHeadImg);
+	                        }
+	                        //防止列表刷新将选中的用户置为未选中状态
+	                        if (cId == id) {
+	                            $("div#" + cId).css('background', '#00ffff');
+	                        }
+
+	                    } //--for
+	                    //剔除下线的用户
+	                    // $(".CustomerBG").each(
+	                } else {
+	                    //读取失败
+	                    if (data.ErrorCode != 0) {
+	                        clearTimeout(g_timerId_getlist);
+	                    }
+	                    //alert(data.msg);
+	                }
+	            }, //success
+	            error: function (result) {
+	                clearTimeout(g_timerId_getlist);
+	                clearTimeout(g_timerId_getmsg);
+	                window.close();
+
+	            }
+	        });
+	    }
+	    var datetemp = new Date(0); //用于计算时间差的中间变量
+	    var date;
+	    $(function () {
+	        //获取用户列表
+	        //定时刷新
+	        g_timerId_getlist = setInterval('getCustomerList()', 750);
+	        //消息存入数据库
+	        $("#send").click(function () {
+                var content = $("#textId").val();
+	            $.ajax({
+	                url: "./saveUserChatRecord?id=" + id,
+	                type: "POST",
+	                dataType: "json",
+	                /* 向后端传输的数据 */
+	                data: { userContent: escape(content.replace(/(?!<(img|p|span).*?>)<.*?>/g, "")) },
+	                success: function (data) {
+	                    if (!data.iSuccessCode) {
+	                        alert(data.msg);
+	                    }
+	                    $("#textId").textbox('clear');
+	                },
+	                error: function (result) {
+	                    clearTimeout(g_timerId_getlist);
+	                    clearTimeout(g_timerId_getmsg);
+	                    window.close();
+	                }
+	            });
+	        });
+	        //一键换人
+	        $("#sendRg").click(function () {
+	            //关闭
+	            clearTimeout(g_timerId_getlist);
+	            clearTimeout(g_timerId_getmsg);
+	            $.ajax({
+	                url: "./ChangeKefu",
+	                type: "POST",
+	                success: function (data) {
+	                    if (!data.iSuccessCode) {
+	                        alert(data.msg);
+	                    }
+
+	                },
+	                error: function (result) {
+	                    clearTimeout(g_timerId_getlist);
+	                    clearTimeout(g_timerId_getmsg);
+	                    window.close();
+	                }
+	            });
+	        });
+	        //
+	        $("#sendLeave").click(function () {
+	            //关闭
+	            clearTimeout(g_timerId_getlist);
+	            clearTimeout(g_timerId_getmsg);
+	            $.ajax({
+	                url: "./KefuOffline",
+	                type: "POST",
+	                success: function (data) {
+	                    if (!data.iSuccessCode) {
+	                        alert(data.msg);
+	                    }
+	                    window.close();
+	                },
+	                error: function (result) {
+	                    //alert(result);
+	                    window.close();
+	                }
+	            });
+	        });
+
+
+	    });
+	    var oldId = 1;
+	    var id = "";
+	    var g_timerId_getmsg;
+	    var g_timerId_getlist;
+	    $(document).off("click", ".CustomerBG").on("click", ".CustomerBG", function () {
+	        oldId = 0;
+	        datetemp = new Date(0);
+	        id = $(this.lastElementChild).attr("data_id");
+	        $(this).css('background', '#ffffff');
+	        $("div#" + id).css('background', '#00ffff');
+	        $("#contentCS").html("");
+	        $("#contentCS").append("<div class='myclass'>当前正在沟通的用户：" + $(this.lastElementChild).text() + "</div>");
+	        // 定时刷新组件，读取数据库信息 
+	        g_timerId_getmsg = setInterval('getAllRecord()', 3000);
+	    });
+	    window.onbeforeunload = function () {
+	        $.ajax({
+	            url: "./KefuOffline",
+	            type: "POST"
+	        });
+	    }     
+	</script>
+</head>
+<body>
+	<div id="cc" class="easyui-layout" style="width:600px;height:500px;" fit="true">   
+	    <!-- <div data-options="region:'north'" style="height:10%"></div>   --> 
+	    <div data-options="region:'south'" style="height:30%;">   
+	    	<form id="ff" style="height:100%;width:100%" >   
+			    <div>   
+			        <input id="textId" class="easyui-textbox" name="userContent" style="height:120px;width:100%;border: 0;" multiline="true" prompt="说点什么吧..." />   
+			    </div>  
+			    <div style="float:right" >   
+                    <button type="button" id="sendLeave" class="mylinkbutton" >离开会话</button>
+                    <button type="button" id="sendRg" class="mylinkbutton"  >一键移交</button>
+					<button type="button" id="send"  class="mylinkbutton"  >发送</button>
+
+			    </div>   
+			</form>  
+		</div>
+	    <!-- <div data-options="region:'east'" style="width:10%;"></div>    -->
+	    <div id="westList" data-options="region:'west'" style="width:20%;">
+		  <!--  <button type="button" id="list" style="display: block">正在沟通的用户</button>-->
+	    </div>   
+	    <div id="contentCS" data-options="region:'center'" style="padding:5px;" >
+	    	
+	    </div>   
+	</div>   
+</body>
+</html>

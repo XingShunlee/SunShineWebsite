@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "发布公告";
+    var types = ViewBag.Types as IEnumerable<SelectListItem>;
+}
+@model ehaikerv202010.Models.NewsModel
+<header>
+    
+    
+    <script src="../Scripts/news_add.js"></script>
+    <script src="../../plugins/tinymce/tinymce.min.js"></script>
+    <link rel="stylesheet" href="../css/CommonDialog.css" />
+    <script type="text/javascript" src="../js/CommonDialog.js"></script>
+    <script>
+        tinymce.init({
+            selector: '#idContent',
+            language: 'zh_CN',
+            directionality: 'ltr',
+            browser_spellcheck: true,
+            contextmenu: false,
+            plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table contextmenu paste imagetools wordcount",
+                "code"
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code",
+
+        });
+    </script>
+    <style>
+        .box-wrap {
+            line-height: 36px;
+            font-weight: 700;
+            margin: 10px auto 6px;
+            width: 100%;
+            padding: 0;
+        }
+
+            .box-wrap .box-title {
+                height: 38px;
+                line-height: 38px
+            }
+
+        .box-title h3 {
+            font-size: 24px;
+            color: #3f3f4d;
+            line-height: 28px;
+            float: left;
+            margin: 0 20px 0 6px
+        }
+
+        .box-title .title-icon {
+            float: left;
+            width: 5px;
+            height: 24px;
+            background: #31c37c;
+            margin: 8px 0 0
+        }
+
+        .box-wrap .ul-nav li a {
+            font-size: 14px;
+            color: #999;
+            text-decoration: none;
+        }
+
+        .box-wrap .ul-nav li {
+            border-bottom: 0px solid #e8e8e8;
+            height: 24px;
+            line-height: 24px;
+            font-weight: 700;
+            margin: 5px auto 6px;
+            width: 138px;
+            padding: 0;
+        }  
+    </style>
+</header>
+<div style="margin-top:30px;margin-bottom:10px;">
+    <div class="box-wrap">
+        <div class="login-input clear-fix focus-style">
+            <span class="box-title">标题:(请填写在下面)</span>
+            <input id="idTitle" name="idTitle" class="input-text" type="text" placeholder="请输入标题，不超过255个字符" style="width:100%;" />
+        </div>
+        <div class=" form-group">
+            <span style="font-size:24px;">请在下面输入内容(1024)：</span><br />
+            <textarea id="idContent" cols="10" rows="50"></textarea>
+        </div>
+        <div class=" form-group">
+            @Html.DropDownList("Types", ViewData["Types"] as SelectList, "--请选择--", new { @class = "SelectList" })
+        </div>
+        <hr />
+        <div class="login-btn"><a id="personal-shiwan-add-btn" href="javascript:void(0)" title="">立即提交</a></div>
+    </div>
+</div>
+

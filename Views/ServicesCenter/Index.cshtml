@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="../css/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../css/favicon.ico" type="image/x-icon" />
+    <title>游戏分享平台-数据分享平台-ehaiker官网</title>
+    <meta name="keywords" content="游戏分享平台,数据分享平台" />
+    <meta name="description" content="ehaiker是一个网络游戏分享平台，通过对游戏进行多维度的数据分析，让用户能在充分了解游戏过程中的难点与收益时效，为用户的“投资决策”提供必要的数据解决方案." />
+    <link rel="stylesheet" href="../css/websitebase.css" />
+    <link rel="stylesheet" href="../css/common.min.css" />
+    <link rel="stylesheet" href="../css/icon.min.css" />
+    <link rel="stylesheet" href="../css/Login/home-page.min.css" />
+    <!--jquery-->
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+    <script src="../js/kefuLogin.js"></script>
+    <!--QQ-第三方登录---->
+    <script type="text/javascript"
+            src="../js/DaojishiPlug.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var redirect = new DaojishiPlugEx2("redirecturi", function () {
+                window.location.href = "../CS/Customer";
+            });
+            var stampend = parseInt($("#redirecturi").attr('data-time')); //灵活读取表里的结束时间戳
+            redirect.timer(stampend);
+        });
+    </script>
+</head>
+<body>
+<div class="page-body">
+		<div id="left-right-layout">
+			<!-- 区域顶部-->
+			<div class="block-top"></div>
+
+			<!-- 区域主侧 -->
+			<div class="block-main">
+	    <strong style="left:50%;top:50%;text-align: center;position: absolute;z-index: 100;height: 38px;">
+         <p>欢迎访问李兴顺的个人网站，欢迎派单，系统将在<span data-time="10" id="redirecturi">...</span>秒后跳转登录页面</p></strong>
+                                    
+                                    
+                             <div style="left:60%;top:60%;text-align: center;position: absolute;z-index: 100;height: 38px;">
+                             
+                             <p style="margin-bottom:10px;">系统测试帐号以下</p>
+                            
+                            <p style="margin-bottom:10px;">普通管理员：simAdmin   密码：1234567 </p>
+                            
+                            <p style="margin-bottom:10px;">客服：kefu001          密码：1234567 </p>
+                            </div>
+	        </div>
+
+			<!-- 区域右侧 -->
+			<div class="block-right">
+            
+            </div>
+
+			<!-- 区域底部 -->
+			<div class="block-bottom"></div>
+		</div>
+	</div>
+</body>
+</html>

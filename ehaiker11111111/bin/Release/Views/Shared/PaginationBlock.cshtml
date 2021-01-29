@@ -1,0 +1,34 @@
+﻿@{
+    var pageindex = Convert.ToInt32(ViewBag.Pageindex);
+    var pagecount = Convert.ToInt32(ViewBag.PageCount);
+    var pagestart = pageindex>1?pageindex:1;
+    var pageend = pageindex + 4 >= pagecount ? pagecount : pagestart + 4;
+    var pageSize = Convert.ToInt32(ViewBag.PageSize);
+    var pageUri = ViewBag.PageUri;
+    var pagetarget = ViewBag.pageTarget;
+    
+}
+@if(pagetarget == null){
+        pagetarget ="_self";}
+<script src="../common/js/pagination.js"></script>
+<ul class="datagrid-pager-container">
+<li><select class="datagrid-pager-select">
+<option selected='@(pageSize==10?true:false)' >10</option>
+<option selected='@(pageSize==20?true:false)' >20</option>
+<option selected='@(pageSize==30?true:false)' >30</option>
+<option selected='@(pageSize==40?true:false)' >40</option>
+</select></li>
+<li class="@(pageindex == 1? "disabled":"")">
+<a href="@pageUri?pageindex=@( pageindex==1?1:pageindex-1)&pagesize=@(pageSize)">&laquo</a>
+</li>
+@for (int i = pagestart; i <= pageend; i++)
+{
+    <li @(pageindex == i ? "class=active" : "")>
+    <a href="@pageUri?pageindex=@i&pagesize=@pageSize" >@i</a>
+    </li>
+}
+<li class="@(pageindex == pagecount ? "disabled":"")">
+<a href="@pageUri?pageindex=@(pageindex == pagecount ?pagecount:pageindex+1)&pagesize=@pageSize" target="@pagetarget">&raquo;</a>
+</li>
+<input id="idpagerUri" type="hidden" value='@pageUri' />
+</ul>

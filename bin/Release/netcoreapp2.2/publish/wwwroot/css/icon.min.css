@@ -1,0 +1,46 @@
+.ubi-gray{width:11px;height:11px}
+.ubi,.ubi-big,.ubi-gray,.udou,.udou-gray,.uquan,.uquan-gray{display:inline-block;background:url(/common/public/ubi.png) no-repeat 0 0;margin:0 0 0 3px;*zoom:1;*display:inline;*vertical-align:middle}
+.ubi{width:11px;height:11px}.ubi-big{width:18px;height:18px;background-position:0 -66px}
+.udou{width:12px;height:10px;background-position:0 -12px}
+.uquan{width:15px;height:9px;background-position:0 -23px}
+.ubi-gray{background-position:0 -33px}
+.udou-gray{width:12px;height:10px;background-position:0 -45px}
+.uquan-gray{width:15px;height:9px;background-position:0 -56px}
+.svip-pic,.vip-pic{display:inline-block;width:30px;height:12px;background:url(/common/public/vip.png) no-repeat 0 0;*zoom:1;*display:inline;vertical-align:middle;margin:-3px 0 0 3px;*margin:5px 0 0 3px;background-color:transparent}
+.vip-card.plute,.vip0{background-position:0 0}
+.vip1{background-position:0 -12px}
+.vip2{background-position:0 -24px}
+.vip3{background-position:0 -36px}
+.vip4{background-position:0 -48px}
+.vip5{background-position:0 -60px}
+.vip6{background-position:0 -72px}
+.vip0-guoqi{display:none;background-position:0 -84px}
+.vip1-guoqi,.vip2-guoqi{display:none;background-position:0 -96px}
+.vip2-guoqi{background-position:0 -108px}
+.vip3-guoqi,.vip4-guoqi{display:none;background-position:0 -120px}
+.vip4-guoqi{background-position:0 -132px}
+.vip5-guoqi,.vip6-guoqi{display:none;background-position:0 -144px}
+.vip6-guoqi{background-position:0 -156px}.svip1{background-position:0 -168px}
+.svip2{background-position:0 -180px}.svip3{background-position:0 -192px}
+.svip4{background-position:0 -204px}.svip5{background-position:0 -264px}
+.svip1-guoqi{background-position:0 -216px}
+.svip2-guoqi{background-position:0 -228px}
+.svip3-guoqi{background-position:0 -240px}
+.svip4-guoqi{background-position:0 -252px}
+.svip5-guoqi{background-position:0 -276px}
+.sv-star,.svj,.svt,.svz{width:14px;height:12px;background-position:0 -288px}
+.sv-star,.svj,.svt{background-position:0 -300px}
+.sv-star,.svt{background-position:0 -312px}
+.sv-star{height:14px;background-position:0 -326px}
+.vip-card{display:inline-block;width:16px;height:16px;background:url(/common/public/card_small_icon.png) no-repeat 0 0;vertical-align:middle;margin-right:3px}
+.vip-card.star{background-position:-16px 0}
+.vip-card.svip{background-position:-32px 0}
+.vip-card.svip2{background-position:-48px 0}
+.vip-card.svip1{background-position:-64px 0}
+.vip-card.vip{background-position:-80px 0}
+.vip-card.diamonds{background-position:-192px 0}
+.vip-card.titanium{background-position:-112px 0}
+.vip-card.phoenix{background-position:-128px -1px}
+.vip-card.kylin{background-position:-144px 0}
+.vip-card.dragon{background-position:-160px 0}
+.vip-card.tiger{background-position:-176px 0}

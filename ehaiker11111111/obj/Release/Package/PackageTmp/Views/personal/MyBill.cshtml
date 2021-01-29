@@ -1,0 +1,105 @@
+﻿@model List<ehaiker.Models.PaybillApproveModel>
+@{
+    Layout = null;
+    var datta = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="../common/css/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../common/css/favicon.ico" type="image/x-icon" />
+    <title>资讯中心-数据分享平台-ehaiker</title>
+    <meta name="keywords" content="游戏分享平台,数据分享平台,ehaiker" />
+    <meta name="description" content="ehaiker是一个网络游戏分享平台，通过对游戏进行多维度的数据分析，让用户能在充分了解游戏过程中的难点与收益时效，为用户的“投资决策”提供必要的数据解决方案."/>
+    <link rel="stylesheet" href="../common/css/websitebase.css" /><!--基本样式应用-->
+    <link rel="stylesheet" href="../common/css/common.min.css" /><!--菜单与悬浮样式应用-->
+    <link rel="stylesheet" href="../common/css/icon.min.css" />
+    <link rel="stylesheet" href="../common/css/personal/home-page.min.css" />
+    <script src="../common/js/jquery.min.js"></script>
+    <script src="../Scripts/personalbill_approve.js"></script>
+    <script src="../common/js/personal.js"></script>
+    <link rel="stylesheet" href="../common/css/CommonDialog.css" />
+    <script type="text/javascript" src="../common/js/CommonDialog.js"></script>
+    
+</head>
+<body>
+<style>
+    html {
+        background-color: #f3f4f4;
+    }
+
+    .w_header .header-nav .nav-item li a.wzgl {
+        border-bottom: 2px solid #2D81E0;
+        background-color: #E8F4FF;
+        color: #2D81E0;
+        font-weight: bold;
+    }
+
+    .w_center .center-nav-item a.zfgl {
+        color: #156cd1;
+    }
+    .toolbarBox
+    {
+        width:100%;
+        min-width:800px;
+    }
+   
+</style>
+@Html.Partial("personalTopBlock")
+ <div id="left-right-layout" style="width:100%;">
+    <div class="block-main" style="width:100%;white-space:nowrap;overflow;hidden;">
+    <!--左边操作-->
+    <div class="block-Left">
+        <div class="box-wrap">
+       @Html.Partial("MemberShipMenu")
+        </div>
+    </div>
+    <div class="block-Right" id="Main" style="float:left;min-width:800px;max-width:1800px">
+        <div class="toolbarBox clear">
+                <div id="searchForm">
+                    <div class="L attSeach">
+                        <span>数据状态：</span>
+                        <select class="att-txt" id="PayForState" name="PayForState">
+                            <option value="10000">==所有==</option>
+                            <option value="0">待审核</option>
+                            <option value="1">已通过</option>
+                            <option value="-1">退回</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+                <div class="datagrid-container-fliud">
+                    <div class="data-row">
+                        <div style="width:8%;" class="data-col">账单ID</div>
+                        <div style="width:12%;" class="data-col">支付内容</div>
+                        <div style="width:8%;" class="data-col">支付类型</div>
+                        <div style="width:8%;" class="data-col">支付数值</div>
+                        <div style="width:30%;" class="data-col">支付凭证</div>
+                        <div style="width:24%;" class="data-col">提交时间</div>
+                        <div style="width:10%;" class="data-col">状态</div>
+                    </div>
+                    @foreach (var item in Model)
+                    {
+                      <div class="data-row">
+                        <div style="width:8%;" class="data-col">@item.PayBillID</div>
+                         <div style="width:12%;" class="data-col">@item.ApproveForWhat</div>
+                          <div style="width:8%;" class="data-col"> @(item.PayType == 2 ? "支付宝" : item.PayType > 1 ? "在线支付" : "微信支付") </div>
+                           <div style="width:8%;" class="data-col">@item.ApproveForWhat</div>
+                           <div style="width:30%;" class="data-col">@item.ApproveForWhat </div>
+                           <div style="width:24%;" class="data-col">@item.PayForDateTime </div>
+                           <div style="width:10%;" class="data-col">@item.PayState </div>
+                       </div>
+        
+                    }
+                   </div>
+        
+        @Html.Partial("PaginationBlock")
+        <input type="hidden" id="griddata" value='@datta' />
+    </div>
+</div>
+</div>
+@Html.Partial("FooterBlock")
+</body>
+</html>

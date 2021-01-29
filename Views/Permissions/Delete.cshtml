@@ -1,0 +1,69 @@
+﻿@model ehaiker.Auth.Permission
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2 style="margin-top:30px;">Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Permission</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GlobalNo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GlobalNo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ChineseActionName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ChineseActionName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Controller)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Controller)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Action)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Action)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.isGet)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.isGet)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShowInManagerBar)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShowInManagerBar)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.VisitLevel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VisitLevel)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="删除" class="btn btn-default" /> |
+        <a asp-action="Index">返回列表</a>
+    </form>
+</div>

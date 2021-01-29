@@ -1,0 +1,90 @@
+﻿@model ehaikerv202010.Models.Administrator
+
+@{
+    ViewData["Title"] = "GroupAdminDispatchView";
+    Layout = "_ManagerTop";
+}
+
+<h2 style="margin-top:30px;">指定分组，每个组都又自己的权限</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Account)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Account)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.LoginGuid)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LoginGuid)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.sPermission)
+            
+        </dt>
+        <dd>
+            <input id="sPermission" name="sPermission" value='@Model.sPermission' />
+            <hr />
+            <table>
+                <tr id="permissionblock">
+                    @foreach (var item in (List<ehaiker.Auth.Permission>)ViewData["myPermissions"])
+                    {
+
+                        <td>
+                            <input type="checkbox" name="permissions" value='@item.Id' checked /><span>@item.ChineseActionName</span>
+                        </td>
+
+                    }
+                 </tr>
+            </table>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupId)
+        </dt>
+        <dd>
+            @Html.DropDownList("Groups", ViewData["Groups"] as SelectList, "--请选择--", new { @class = "SelectList" })
+        </dd>
+    </dl>
+</div>
+<script>
+    (function () {
+        $("#Groups").on('change', function () {
+            //判断是否选取prompt属性，无返回值；
+            if ($(this).val()) {
+                var selectText = $(this).find('option:selected').text();
+                var that = this;
+                $.ajax({
+                    url: "/ManagerMain/GetAPermissions",
+                    type: "post",
+                    dataType: "json",
+                    data: { id: $(that).find('option:selected').val() },
+                    success: (arrdata) => {
+                        if (arrdata != null) {
+                            $('#sPermission').val(arrdata.data);
+                            //
+
+                            $("#permissionblock").empty();
+                            $.each(arrdata.data1, function (i, item) {
+                                var listr = "<td><input type='checkbox' name='permissions' vaue='" + item.Id + "' checked  /><span>" + item.ChineseActionName + "</span></td>";
+                                  
+                                    $("#permissionblock").append(listr);  //动态取数据
+                            });
+                        }
+
+                    }
+                });
+               
+
+            } else {
+
+                $("#permissionblock").empty();
+                $('#sPermission').val('');
+            }
+        });
+    })();
+</script>

@@ -1,0 +1,346 @@
+﻿@model ehaiker.Models.GameModel
+@{
+    ViewData["Title"] = "上线游戏";
+    Layout = "_MemberShipLayout";
+}
+
+<link rel="stylesheet" type="text/css" href="../css/Gameitemlist/GamelistItemMgr.css" />
+<div class="container mainPage" id="app">
+    <!--轮播行-->
+    <div id="flashads" class="row">
+        <div class="col-md-12 col-lg-12" style="padding:0;">
+            <div id="myCarousel" class="carousel slide col-md-12 col-lg-12" style="height:200px; padding:0;overflow:hidden;" data-ride="carousel" data-wrap="true" data-interval="2000">
+                <!-- 轮播（Carousel）指标 -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <!-- 轮播（Carousel）项目 -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="~/images/banner1.svg" alt="First slide">
+                    </div>
+                    <div class="item">
+                        <img src="~/images/banner2.svg" alt="Second slide">
+                    </div>
+                    <div class="item">
+                        <img src="~/images/banner3.svg" alt="Third slide">
+                    </div>
+                </div>
+                <!-- 轮播（Carousel）导航 -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--左边个人信息展示-->
+
+    <div id="app3" class="row">
+
+        <div id="myTabContent1" class="tab-content col-md-12 col-xs-12 col-sm-12" style="min-height:300px; border:1px solid #e8e8e8;">
+            <div id="imgDlg" class="popImgDialog" style="display: none; position: absolute; z-index: 50000;">
+                <a href="javascript:void(0);" class="close-a"></a>
+                <ul class="popImgWrap"></ul>
+                <input type="button" name="imgprev" id="imgprev" v-on:click="PrevPage();" :class="isprevDisable" value="上一页" />
+                <input type="button" name="imgnext" id="imgnext" v-on:click="NextPage();" :class="isNextDisable" value="下一页" />
+            </div>
+            <table class="table table-hover table-success list-group col-md-12 col-xs-12 col-sm-12">
+                <tbody>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td style="border:2px dotted green;" class="data-col">游戏名称:</td>
+                        <td class="data-col" colspan="3"> <input type="text" id="gamename"  style="width:100%;" /></td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td class="data-col">运营商:</td>
+                        <td class="data-col" colspan="3"> <input type="text" id="gamesupporter"  style="width:100%;" /></td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td class="data-col">著作所有者:</td>
+                        <td class="data-col" colspan="3"> <input type="text" id="gameproducer"  style="width:100%;" /></td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td class="data-col">游戏评分(0-10):</td>
+                        <td class="data-col" colspan="3"> <input type="text" v-model="gamegrade"  style="width:100%;" /></td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td class="data-col">游戏推荐系数(1-100):</td>
+                        <td class="data-col" colspan="3"> <input type="text" v-model="gameTopLevel" style="width:100%;" /></td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td class="data-col">文章引用地址:</td>
+                        <td class="data-col" colspan="3"> <input type="text" v-model="gameresourcefrom"  style="width:100%;" /></td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td class="data-col">游戏关键字:</td>
+                        <td class="data-col" colspan="2"> <input type="text" id="gamekeywords"  style="width:100%;" /></td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td class="data-col">封面图片地址:</td>
+                        <td class="data-col" colspan="2"> <input type="text" name="imgDesc" id="imgDesc"   style="width:100%;" /></td>
+                        <td class="data-col"><input type="button" v-on:click="GetGameImages('imgDesc')" value="浏 览" /></td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td class="data-col">封面图片地址(鼠标移入):</td>
+                        <td class="data-col" colspan="2"> <input type="text" name="imgHover" id="imgHover"  style="width:100%;" /></td>
+                        <td class="data-col"><input type="button" v-on:click="GetGameImages('imgHover')" value="浏 览" /></td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td class="data-col">游戏入口地址(互联网):</td>
+                        <td class="data-col" colspan="2"> <input type="text" id="gametargetUri"  style="width:100%;" /></td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td class="data-col" colspan="2">简单介绍:</td>
+                    </tr>
+                    <tr class="data-row" style="border:1px dotted red;">
+                        <td style="width:100%;" class="data-col" colspan="4"> <textarea name="DIVCSS5" cols="3" rows="4" style="width:100%;" id="gameDescription"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><span class="Title">游戏类型：</span>@Html.DropDownList("GameTypes", ViewData["GameTypes"] as SelectList, "--请选择--", new { @class = "SelectList" })</td>
+                        <td><span class="login-btn"><a id="personal-shiwan-add-btn" href="javascript:void(0)" title="" v-on:click="DoNewGameItem();">新    增</a></span></td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+<script charset="utf-8">
+        (function () {
+            //----------------------------
+            var datas = [];
+            var app = new Vue({
+
+                el: '#app',
+                data: {
+                    animating: false,
+                    selectPageSize: 10,
+                    current_index: 0,
+                    totalitems: 0,
+                    previous_index: 0,
+                    imgdata: [],
+                    isprevDisable: { disabled: true },
+                    isNextDisable: { disabled: false },
+                    imgctrl: '',
+                   // gamename: '',
+                   // gamesupporter: '',
+                  //  gameproducer: '',
+                    gamegrade: '',
+                    gameTopLevel: '',
+                    gameresourcefrom: '',
+                    //gamekeywords: '',
+                   // gameDescUri: '',
+                   // gameHoverUri: '',
+                  //  gametargetUri: '',
+                   // gameDescription: '',
+                    posts: {
+                    },
+
+                },
+                methods: {
+                    PrevPage: function () {
+                        if (this.animating === true)
+                            return false;
+
+                        if (this.current_index - 4 <= 0) {
+                            this.isprevDisable.disabled = true;
+                            this.isNextDisable.disabled = false;
+                        }
+                        else {
+                            this.isNextDisable.disabled = false;
+
+                        }
+                        this.animating = true;
+                        var that = this;
+                        //取得下一页的开始索引
+                        this.current_index = this.current_index - 4;
+                        if (this.current_index < 0) {
+                            this.current_index = 0;
+                        }
+                        $(".popImgWrap li").remove();
+                        $.each(that.imgdata, function (i, item) {
+                            if (that.current_index <= i && i < that.current_index + 4) {
+                                var listr = '<li><a class="img-a" href="javascript:void(0);"><img class="img" src="' + item +
+                                    '" alt=" " width=200px height=200px  /></a></li>';
+                                $(".popImgWrap").append(listr);  //动态取数据
+                            }
+                            else if (that.current_index + 4 <= i) {
+
+
+                                return false;
+                            }
+                        });
+                        //选择图片时
+                        $(".img-a").on("click", function (o) {
+                            o.stopPropagation();
+                            if (that.imgctrl === "#imgDesc") {
+                                that.gameDescUri = $(this).children('.img').attr('src');
+                            }
+                            else {
+                                that.gameHoverUri = $(this).children('.img').attr('src');
+                            }
+                            // $(that.imgctrl).val($(this).children('.img').attr('src'));
+                            //
+                            $("#imgDlg").css('display', "none");
+                        });
+                        if (this.current_index < 0) {
+                            this.current_index = 0;
+                            this.isprevDisable.disabled = true;
+                            this.isNextDisable.disabled = false;
+                        }
+                        this.animating = false;
+                    },
+                    NextPage: function () {
+
+                        if (this.animating === true)
+                            return false;
+
+                        this.animating = true;
+                        var that = this;
+                        $(".popImgWrap li").remove();
+                        //取得下一页的开始索引
+                        this.current_index = this.current_index + 4;
+                        if (this.current_index > this.totalitems) {
+                            this.current_index = this.current_index - 4;
+                        }
+                        $.each(that.imgdata, function (i, item) {
+                            if (that.current_index <= i && i < that.current_index + 4) {
+                                var listr = '<li><a class="img-a" href="javascript:void(0);"><img class="img" src="' + item +
+                                    '" alt=" " width=200px height=200px  /></a></li>';
+                                $(".popImgWrap").append(listr);  //动态取数据
+                            }
+                            else if (i >= that.current_index + 4) {
+
+                                return false;
+                            }
+                        });
+                        //选择图片时
+                        $(".img-a").on("click", function (o) {
+                            o.stopPropagation();
+                            if (that.imgctrl === "#imgDesc") {
+                                that.gameDescUri = $(this).children('.img').attr('src');
+                            }
+                            else {
+                                that.gameHoverUri = $(this).children('.img').attr('src');
+                            }
+                            //
+                            $("#imgDlg").css('display', "none");
+                        });
+                        this.animating = false;
+                        this.isprevDisable.disabled = false;
+                        if (this.current_index >= this.totalitems) {
+
+                            this.isNextDisable.disabled = true;
+                            return;
+                        }
+                    },
+                    GetGameImages: function (e) {
+                        $(".popImgWrap li").remove();
+                        var that = this;
+                        this.imgctrl = '#' + e;
+                        $.ajax({
+                            url: "../MyGameCenter/GetDescImgs",
+                            type: "post",
+                            dataType: "json",
+                            success: function (arrdata) {
+                                if (arrdata != null) {
+                                    that.totalitems = arrdata.total;
+                                    that.imgdata = arrdata.data;
+                                    that.current_index = 0;
+                                    that.animating = false;
+                                    $.each(that.imgdata, function (i, item) {
+                                        if (i > that.current_index + 3)
+                                            return false;
+                                        var listr = '<li><a class="img-a" href="javascript:void(0);"><img class="img" src="' + item +
+                                            '" alt=" " width=200px height=200px  /></a></li>';
+                                        $(".popImgWrap").append(listr);  //动态取数据
+                                    });
+                                    //修改弹出位置
+                                    $(".popImgDialog").css('display', "block");
+                                    //选择图片时
+                                    $(".img-a").on("click", function (o) {
+                                        o.stopPropagation();
+
+                                        if (that.imgctrl === "#imgDesc") {
+                                            that.gameDescUri = $(this).children('.img').attr('src');
+                                        }
+                                        else {
+                                            that.gameHoverUri = $(this).children('.img').attr('src');
+                                        }
+                                        $("#imgDlg").css('display', "none");
+                                    });
+                                    that.isprevDisable.disabled = true;
+                                    that.isNextDisable.disabled = false;
+
+                                    if (that.current_index + 4 <= that.totalitems) {
+                                        that.isNextDisable.disabled = true;
+
+                                    }
+                                }
+
+                            }
+                        });
+                    },
+                    DoNewGameItem: function () {
+                        $.ajax(
+                            {
+                                url: "/MyGameCenter/AddNewGameItem",
+                                type: "post",
+                                data: {
+                                    Item_parameter: JSON.stringify(
+                                        {
+                                            ItemName: $("#gamename").val(),
+                                            supporter: $("#gamesupporter").val(),
+                                            producer: $("#gameproducer").val(),
+                                            grade: this.gamegrade,
+                                            TopLevel: this.gameTopLevel,
+                                            resourcefrom: this.gameresourcefrom,
+                                            Keywords: $("#gamekeywords").val(),
+                                            ImgDescUri: $("#imgDesc").val(),
+                                            ImgHoverUri: $("#imgHover").val(),
+                                            targetUri: $("#gametargetUri").val(),
+                                            gameDescription: $("#gameDescription").val(),
+                                            Gametype: $("#GameTypes").val(),
+
+                                        })
+                                },
+                                dataType: "json",
+                                success: function (o) {
+                                    if (o.code == "0") {
+                                        alert("添加成功");
+
+                                    }
+                                    else {
+                                        alert("添加失败");
+                                    }
+                                }
+                                ,
+                                error: function (o) {
+                                    alert("添加失败1");
+                                }
+
+                            }); //ajax
+                    },
+                },
+                mounted: function () {
+
+                    $(".close-a").on("click", function (o) {
+                        o.stopPropagation();
+                        $("#imgDlg").css('display', "none");
+                    });
+
+
+                }
+            })
+
+        })()
+</script>
+

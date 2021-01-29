@@ -1,0 +1,167 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>客服中心</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<!--微信不缓存东西  start-->
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<style type="text/css">
+		.myclass{
+			width:100%;
+			font-size: 12pt;
+			padding-bottom: 10px;
+		}
+		span{
+			width:100px;
+			background-color: #66b3ff;
+			border: 1px;
+		}
+		.mylinkbutton
+		{
+		    display:block;
+		    width:150px;
+            height:35px;
+            float:left;
+            background: #95B8E7;
+	        font-weight: bold;
+	        color: white;
+	        border:1px solid gray;
+	        border-radius: 2px;
+	        cursor: pointer;
+		}
+		.mylinkbutton:hover
+		{
+		     color:Lime;
+		    border:1px solid #27AE60; 
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="../../Content/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../Content/themes/icon.css"/>
+    <script charset=utf-8 language=javascript src ="../../common/js/jquery.min.js"></script>
+    <script charset=utf-8 language=javascript src ="../../Scripts/EASYUI/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../Content/themes/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript">
+   
+	    //计算时间间隔
+		var oldId = 1;
+		//计算时间间隔
+		function computeTime(oldTime,style){
+			date = new Date(oldTime);
+			var date2 = date.getTime()-datetemp.getTime();
+			//一分钟内再次发消息，则不显示发送消息的时间
+			if(date2>60000){
+				var flagH="";
+				var flagM="";
+				var hour = date.getHours();
+				var min= date.getMinutes();
+				//解决小时和分钟小于10，数字前面不显示0的情况
+				if(hour<10)flagH="0";else flagH="";
+				if(min<10)flagM=":0";else flagM=":";
+				//发送内容时间
+				$("#content").append("<div style='" + style +"'>"+flagH+hour+flagM+min+"</div>")
+				datetemp=date;
+			}
+		}
+		function getAllRecord(){
+			$.ajax({
+			   url : "./getAllChatRecord?idTemp=customer_id&oldId="+oldId,
+			   type : "POST",
+		       dataType:"json",
+	    	   success : function(data) {
+	    	       if (data.iSuccessCode) {
+						for ( var i in data.obj) {
+							var csChatRecord = data.obj[i];
+							if(csChatRecord.kfContent != null && csChatRecord.kfContent != ''){
+								computeTime(csChatRecord.Time,"text-align:left;"); 
+								//发送的内容
+						        $("#content").append("<div class='myclass'><span>"				
+										+ unescape( csChatRecord.kfContent )
+								+"</span></div>");
+							}
+							if(csChatRecord.customerContent != null && csChatRecord.customerContent != ''){
+								computeTime(csChatRecord.Time,"text-align:right;"); 
+								$("#content").append("<div class='myclass' style='text-align:right ;'><span>"				
+										+ unescape( csChatRecord.customerContent)
+								+"</span></div>");
+							}
+							oldId=csChatRecord.RecordId;
+						}
+					} else {
+                        if (data.ErrorCode != 0) {
+                            clearTimeout(g_timerId_getmsg);
+                        }
+                        alert(data.msg);
+					}
+				} ,	
+		       error:function(result){
+		           clearTimeout(g_timerId_getmsg);
+		           window.close();
+		         }	
+		     });
+		}
+		var datetemp=new Date(0);//用于计算时间差的中间变量
+		var date;
+		var g_timerId_getmsg;
+		$(function () {
+			/* 定时刷新组件，读取数据库信息 */
+		    g_timerId_getmsg=setInterval('getAllRecord()', 1000);
+			/* 定时刷新组件，读取时间 */
+			$("#send").click(function() {
+             var content = $("#textId").val();
+				$.ajax({
+				   url : "./saveCustomerChatRecord",
+				   type : "POST",
+			       dataType:"json",
+			        /* 向后端传输的数据 */
+			       data: { customerContent: escape(content.replace(/(?!<(img|p|span).*?>)<.*?>/g, "")) },
+		    	   success : function(data) {
+		    	       if (data.iSuccessCode) {
+							$("#textId").textbox('clear');
+						} else {
+							alert(data.msg);
+							$("#textId").textbox('clear');
+						}
+					} ,
+                    error: function (result) {
+                        clearTimeout(g_timerId_getmsg);
+			             alert("发送失败");
+			         }	
+			     });
+			});
+		});
+		window.onbeforeunload = function () {
+		    $.ajax({
+		        url: "./customerOffline",
+		        type: "POST"
+		    });
+		}     
+	</script>
+</head>
+<body>
+	<div id="cc" class="easyui-layout" style="width:600px;height:400px;" fit="true">  
+	    <div data-options="region:'north'" style="height:15%">
+	    	<h1 >客服中心</h1>  
+	    </div>   
+	    <div data-options="region:'south'" style="height:25%;">   
+	    	<form id="ff" style="height:100%;width:100%" >   
+			    <div>   
+			        <input id="textId" class="easyui-textbox" name="customerContent" style="height:100px;width:100%" multiline="true" prompt="说点什么吧..." />   
+			    </div>   
+			    <div style="float:right" >   
+					<button type="button" id="send" class="mylinkbutton">发送</button>
+			    </div>   
+			</form>  
+		</div>
+	    <!-- <div data-options="region:'east'" style="width:10%;"></div>   
+	    <div data-options="region:'west'" style="width:10%;"></div> -->   
+	    <div id="content" data-options="region:'center'" style="padding:5px;" >
+	    </div>   
+	</div>   
+</body>
+</html>

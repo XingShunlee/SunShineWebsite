@@ -1,0 +1,80 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "UserInfo";
+}
+@model ehaiker.Models.MemberShip
+<!DOCTYPE html />
+<html>
+
+<head>
+<meta charset="utf-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="../common/css/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../common/css/favicon.ico" type="image/x-icon" />
+    <title>用户中心-数据分享平台-ehaiker</title>
+    <meta name="keywords" content="游戏分享平台,数据分享平台,ehaiker" />
+    <meta name="description" content="ehaiker是一个网络游戏分享平台，通过对游戏进行多维度的数据分析，让用户能在充分了解游戏过程中的难点与收益时效，为用户的“投资决策”提供必要的数据解决方案."/>
+    <link rel="stylesheet" href="../common/css/websitebase.css" /><!--基本样式应用-->
+    <link rel="stylesheet" href="../common/css/common.min.css" /><!--菜单与悬浮样式应用-->
+    <link rel="stylesheet" href="../common/css/icon.min.css" />
+    <link rel="stylesheet" href="../common/css/personal/home-page.min.css" /> <!--主体样式应用-->
+    <script src="../common/js/jquery.min.js"></script>
+    <script src="../Scripts/personalInfo_upload.js"></script>
+    <link rel="stylesheet" href="../common/css/CommonDialog.css" />
+    <script type="text/javascript" src="../common/js/CommonDialog.js"></script>
+<style>
+    .Img-p{float:left;
+         width:200px;
+         height:200px;
+         overflow:hidden;
+         background-color:Green;
+          margin-top:0px;
+          position:relative;
+    }
+    p
+    {
+        height:45px;
+        margin-top:10px;
+    }
+    .action-btn
+  {
+      width:148px;
+      background: #27AE60;
+	font-weight: bold;
+	color: white;
+	border: 0 none;
+	border-radius: 2px;
+	cursor: pointer;
+	height:45px;
+	font-size:18px;
+    text-align:center;
+  }
+ .action-btn:hover
+{
+   box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+}
+ .wrap
+ {
+    width:450px;
+	border: 0 none;
+	border-radius: 2px;
+	height:250px;
+     }
+</style>
+</head>
+<body>
+<form method="post" enctype="multipart/form-data">
+<div class="wrap">
+<p style="height:24px;margin-bottom:0px;">用户头像(点击下方上传): </p>
+<p class="Img-p"><input type="file" name="fileToUpload" id="fileToUpload" style="opacity:0;width:200px;height:200px;position:absolute;top:0;left:0"/>
+<img src=@Model.Icon  id="imgshow"/></img></p>
+<p>用户昵称: <input type="text" readonly=true value=@Model.UserName /></p>
+<p>用 户 ID: <input type="text" readonly=true value=@Model.UserId /></p>
+<p>手机号码: <input type="text"value=@Model.MobilePhone /></p>
+</div>
+
+<p><input type="button" value="修  改" class="action-btn"/></p>
+</form>
+</body>
+</html>

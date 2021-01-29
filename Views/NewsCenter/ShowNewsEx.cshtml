@@ -1,0 +1,191 @@
+﻿@{
+    Layout = "_ManagerTop";
+    ViewData["Title"] = "新闻中心";
+}
+
+<!-- 顶部导航区域 -->
+<div class="container mainPage" id="app" style="margin-top:30px;">
+    <div class="block-main">
+        <div class="datagrid-container-fliud">
+            <div id="app3" class="row">
+
+                <div id="NewsTabctl" class="tab-content col-md-12 col-xs-12 col-sm-12" style="min-height:300px; border:1px solid #e8e8e8;">
+                    <table class="table table-hover table-success list-group col-md-12 col-xs-12 col-sm-12">
+                        <tbody>
+                            <tr class="data-row" style="border:1px dotted red;">
+                                <td style="width:36%;" class="data-col">标题</td>
+                                <td style="width:18%;" class="data-col">状态</td>
+                                <td style="width:16%;" class="data-col">  </td>
+                                <td style="width:8%;" class="data-col">  </td>
+                            </tr>
+                            <tr v-for="(item,index) in facilities">
+                                <td>
+                                    <span class="grade-tag">{{item.Title}}</span>
+                                </td>
+                               
+                                <td>
+                                    <span class="grade-tag"> <a :href="'../NewsCenter/ShowDetailEx?newsID='+item.Id" target='_self'>查看|修改</a></span>
+                                </td>
+                                <td>
+                                    <span class="grade-tag"><input type="button" value="删除" /></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul class="pagination">
+
+                        <li v-if="pageCount >1" class="list-group-item" style="margin:-1px 1px 0 -1px;padding:0;">
+                            <select v-bind:change="selectChanged(this)" v-model="selectPageSize" class="selectpicker" style="height:34px;margin-top:0;display:inline;">
+                                <option>10</option>
+                                <option>20</option>
+                                <option>50</option>
+                                <option>100</option>
+                                <option>200</option>
+                            </select>
+                        </li>
+                        <li><a v-if="pageCount >1" v-on:click="PrevPage" :class="isprevDisable">&laquo;</a></li>
+                        <li v-for="index of pageCount "><a v-if="index >= pageindex && pageCount>1" v-on:click="PageChanged(index)">{{index}}</a></li>
+                        <li><a v-if="pageCount >1" v-on:click="NextPage" :class="isNextDisable">&raquo;</a></li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+
+        //----------------------------
+        var datas = [];
+        var app = new Vue({
+
+            el: '#app',
+            data: {
+                checkAll: false,
+                checkedRows: [],
+                facilities: datas,
+                pageCount: 0,
+                pageindex: 1,
+                ntype: 0,
+                selectPageSize: 10,
+                isprevDisable: { disabled: true },
+                isNextDisable: { disabled: false },
+                posts: {
+                    containerId: '456',
+                    tabid: '7777',
+
+                    tabitems: [
+                    ]
+                },
+
+            },
+            methods: {
+                PrevPage: function () {
+                    if (this.pageindex <= 1) {
+                        this.isprevDisable.disabled = true;
+                        this.isNextDisable.disabled = false;
+                    }
+                    else {
+                        this.pageindex--;
+                        this.isNextDisable.disabled = false;
+                        $.ajax({
+                            url: "../NewsCenter/GetShowNews",
+                            type: "post",
+                            dataType: "json",
+                            data: { page: this.pageindex, rows: this.selectPageSize },
+                            success: (arrdata) => {
+                                if (arrdata != null) {
+                                    this.facilities = arrdata.data;
+                                    this.pageCount = arrdata.Total;
+
+                                }
+
+                            }
+                        });
+                    }
+                },
+                NextPage: function () {
+                    if (this.pageindex < this.pageCount) {
+                        this.pageindex++;
+                        $.ajax({
+                            url: "../NewsCenter/GetShowNews",
+                            type: "post",
+                            dataType: "json",
+                            data: { page: this.pageindex, rows: this.selectPageSize },
+                            success: (arrdata) => {
+                                if (arrdata != null) {
+                                    this.facilities = arrdata.data;
+                                    this.pageCount = arrdata.Total;
+
+                                }
+
+                            }
+                        });
+                    }
+                    else {
+                        this.isprevDisable.disabled = false;
+                        this.NextPage.disabled = true;
+                    }
+                },
+                PageChanged: function (page) {
+                    this.pageindex = page;
+                    $.ajax({
+                        url: "../NewsCenter/GetShowNews",
+                        type: "post",
+                        dataType: "json",
+                        data: { page: this.pageindex, rows: this.selectPageSize },
+                        success: (arrdata) => {
+                            if (arrdata != null) {
+                                this.facilities = arrdata.data;
+                                this.pageCount = arrdata.Total;
+
+                            }
+
+                        }
+                    });
+                },
+
+                selectChanged: function (e) {
+                    $.ajax({
+                        url: "../NewsCenter/GetShowNews",
+                        
+                        type: "post",
+                        dataType: "json",
+                        data: { page: this.pageindex, rows: this.selectPageSize },
+                        success: (arrdata) => {
+                            if (arrdata != null) {
+                                this.facilities = arrdata.data;
+                                this.pageCount = arrdata.Total;
+
+                            }
+
+                        }
+                    });
+                },
+                
+            },
+            mounted: function () {
+                $.ajax({
+                    url: "../NewsCenter/GetShowNews",
+                    type: "post",
+                    dataType: "json",
+                    data: { page: this.pageindex, rows: this.selectPageSize },
+                    success: (arrdata) => {
+                        if (arrdata != null) {
+                            this.facilities = arrdata.data;
+                            this.pageCount = arrdata.Total;
+                        }
+
+                    }
+                });
+
+            }
+
+
+        });
+
+    })()
+</script>

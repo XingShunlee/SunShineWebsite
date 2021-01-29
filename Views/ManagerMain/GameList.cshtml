@@ -1,0 +1,274 @@
+
+@{
+    ViewData["Title"] = "游戏管理";
+    Layout = "_ManagerTop";
+}
+<link rel="stylesheet" href="~/css/gameitemlist/GamelistItemMgr.css" asp-append-version="true" />
+<div class="container mainPage" id="app">
+    <!--轮播行-->
+    <div id="flashads" class="row">
+        <div class="col-md-12 col-lg-12" style="padding:0;">
+            <div id="myCarousel" class="carousel slide col-md-12 col-lg-12" style="height:200px; padding:0;overflow:hidden;" data-ride="carousel" data-wrap="true" data-interval="2000">
+                <!-- 轮播（Carousel）指标 -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <!-- 轮播（Carousel）项目 -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="~/images/banner1.svg" alt="First slide">
+                    </div>
+                    <div class="item">
+                        <img src="~/images/banner2.svg" alt="Second slide">
+                    </div>
+                    <div class="item">
+                        <img src="~/images/banner3.svg" alt="Third slide">
+                    </div>
+                </div>
+                <!-- 轮播（Carousel）导航 -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--左边个人信息展示-->
+
+    <div id="app3" class="row">
+
+        <div id="myTabContent1" class="tab-content col-md-12 col-xs-12 col-sm-12" style="min-height:300px; border:1px solid #e8e8e8;">
+            <Image-show-comp v-bind:post="posts">
+
+            </Image-show-comp>
+            <ul class="list-group col-md-12 col-xs-12 col-sm-12">
+                <li v-for="(item,index) in facilities" class="list-group-item" style="float:left;">
+                    <div class="Item-img">
+                        <img :src="item.ImgDescUri" alt=" " />
+                        <div class="cover">
+                            <div class="opacity">
+                                <div class="info">
+                                    <a :href="'../ManagerMain/GameItemModify?ItemId='+item.ItemID" class=" sw-btn" target="_blank">修改</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Item-content">
+                        <span class="grade-tag">星级:{{item.grade}}</span>
+                        <p> {{item.ItemName}}</p>
+                        <p>运营商:<span class="yunying-tag">{{item.supporter}}</span></p>
+                    </div>
+                </li>
+            </ul>
+            <ul class="pagination">
+
+                <li v-if="pageCount >1" class="list-group-item" style="margin:-1px 1px 0 -1px;padding:0;">
+                    <select v-bind:change="selectChanged(this)" v-model="selectPageSize" class="selectpicker" style="height:34px;margin-top:0;display:inline;">
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>200</option>
+                    </select>
+                </li>
+                <li><a v-if="pageCount >1" v-on:click="PrevPage" :class="isprevDisable">&laquo;</a></li>
+                <li v-for="index of pageCount "><a v-if="index >= pageindex && pageCount>1" v-on:click="PageChanged(index)">{{index}}</a></li>
+                <li><a v-if="pageCount >1" v-on:click="NextPage" :class="isNextDisable">&raquo;</a></li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    (function () {
+        Vue.component("image-show-comp", {
+            props: ['post'],
+
+            template: `
+            <div v-bind:id=post.containerId>
+
+            <ul v-bind:id=post.tabid class= "nav nav-tabs">
+            <li role="presentation" v-for="item in post.tabitems" v-bind:key="item.id" v-bind:class="{ active: item.isActive }"  v-show="post.tabitems.length!=0" >
+            <a v-bind:href=item.targetid  data-toggle="tab" v-on:click="OnChange(item)">{{item.text}}</a></li></ul><a href="../ManagerMain/NewGameItem" class="addnew-a">新增游戏</a>
+            </div>`,
+            methods: {
+                OnChange: function (e) {
+                    var ntype = -1;
+                    $.each(this.post.tabitems, function (i, item) {
+                        if (item.targetid === e.targetid) {
+                            ntype = i;
+                            return false;
+                        }
+                    });
+                    $.ajax({
+                        url: "../ManagerMain/GetGameList",
+                        type: "post",
+                        dataType: "json",
+                        data: { type: ntype },
+                        success: (arrdata)=> {
+                            if (arrdata != null) {
+                                this.$parent.facilities = arrdata.data;
+                                this.$parent.pageCount = arrdata.Total;
+                                this.$parent.ntype = ntype;
+                            }
+
+                        }
+                    });
+                }
+
+            }
+        });
+       //----------------------------
+        var datas = [];
+        var app = new Vue({
+
+            el: '#app',
+            data: {
+                checkAll: false,
+                checkedRows: [],
+                facilities: datas,
+                pageCount: 0,
+                pageindex: 1,
+                ntype: 0,
+                selectPageSize: 10,
+                isprevDisable: { disabled: true },
+                isNextDisable: { disabled: false },
+                posts: {
+                    containerId: '456',
+                    tabid:'7777',
+
+                    tabitems: [
+                        {
+                            id: 'jhh789jk2',
+                            targetid: '#ALL',
+                            text: '所有游戏',
+                            isActive: true,
+                        },
+                        {
+                        id: 'jhh789jk',
+                        targetid: '#web',
+                        text: '网页游戏',
+                        },
+                        {
+                            id: 'jhh789jk1',
+                            targetid: '#APP',
+                            text: 'APP游戏',
+                        },
+
+                    ]
+                },
+
+            },
+            methods: {
+                PrevPage: function () {
+                    if (this.pageindex <= 1) {
+                        this.isprevDisable.disabled = true;
+                        this.isNextDisable.disabled = false;
+                    }
+                    else {
+                        this.pageindex--;
+                        this.isNextDisable.disabled = false;
+                        $.ajax({
+                            url: "../GameCenter/GetGameListInfo",
+                            type: "post",
+                            dataType: "json",
+                            data: { page: this.pageindex, rows: this.selectPageSize, type: this.ntype },
+                            success: (arrdata) => {
+                                if (arrdata != null) {
+                                    this.facilities = arrdata.data;
+                                    this.pageCount = arrdata.Total;
+
+                                }
+
+                            }
+                        });
+                    }
+                },
+                NextPage: function () {
+                    if (this.pageindex < this.pageCount) {
+                        this.pageindex++;
+                        $.ajax({
+                            url: "../ManagerMain/GetGameList",
+                            type: "post",
+                            dataType: "json",
+                            data: { page: this.pageindex, rows: this.selectPageSize, type: this.ntype },
+                            success: (arrdata) => {
+                                if (arrdata != null) {
+                                    this.facilities = arrdata.data;
+                                    this.pageCount = arrdata.Total;
+
+                                }
+
+                            }
+                        });
+                    }
+                    else {
+                        this.isprevDisable.disabled = false;
+                        this.NextPage.disabled = true;
+                    }
+                },
+                PageChanged: function (page) {
+                    this.pageindex = page;
+                    $.ajax({
+                        url: "../ManagerMain/GetGameList",
+                        type: "post",
+                        dataType: "json",
+                        data: { page: this.pageindex, rows: this.selectPageSize, type: this.ntype },
+                        success: (arrdata) => {
+                            if (arrdata != null) {
+                                this.facilities = arrdata.data;
+                                this.pageCount = arrdata.Total;
+
+                            }
+
+                        }
+                    });
+                },
+                selectChanged: function (e) {
+                    $.ajax({
+                        url: "../ManagerMain/GetGameList",
+                        type: "post",
+                        dataType: "json",
+                        data: { page: this.pageindex, rows: this.selectPageSize, type: this.ntype },
+                        success: (arrdata) => {
+                            if (arrdata != null) {
+                                this.facilities = arrdata.data;
+                                this.pageCount = arrdata.Total;
+
+                            }
+
+                        }
+                    });
+                },
+            },
+            mounted:function() {
+                $.ajax({
+                    url: "../ManagerMain/GetGameList",
+                    type: "post",
+                    dataType: "json",
+                    data: { ntype: 0 },
+                    success: (arrdata)=> {
+                        if (arrdata != null) {
+                            this.facilities = arrdata.data;
+                            this.pageCount = arrdata.Total;
+                        }
+
+                    }
+                });
+
+            }
+
+
+        });
+
+    })()
+</script>
+

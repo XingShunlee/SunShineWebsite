@@ -1,0 +1,65 @@
+﻿@model ehaiker.Auth.Permission
+
+@{
+    ViewData["Title"] = "添加权限";
+}
+
+<h2 style="margin-top:30px;">添加新权限</h2>
+
+<h4>Permission</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="GlobalNo" class="control-label"></label>
+                <input asp-for="GlobalNo" class="form-control" />
+                <span asp-validation-for="GlobalNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChineseActionName" class="control-label"></label>
+                <input asp-for="ChineseActionName" class="form-control" />
+                <span asp-validation-for="ChineseActionName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Controller" class="control-label"></label>
+                <input asp-for="Controller" class="form-control" />
+                <span asp-validation-for="Controller" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Action" class="control-label"></label>
+                <input asp-for="Action" class="form-control" />
+                <span asp-validation-for="Action" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="isGet" class="control-label"></label>
+                <input asp-for="isGet" class="form-control" />
+                <span asp-validation-for="isGet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShowInManagerBar" class="control-label"></label>
+                <input asp-for="ShowInManagerBar" class="form-control" />
+                <span asp-validation-for="ShowInManagerBar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisitLevel" class="control-label"></label>
+                <input asp-for="VisitLevel" class="form-control" />
+                <span asp-validation-for="VisitLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="新  建" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">返回列表</a>
+</div>
+

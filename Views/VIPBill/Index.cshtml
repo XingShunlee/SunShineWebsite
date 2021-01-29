@@ -1,0 +1,254 @@
+﻿@*@@model List<ehaiker.Models.PaybillApproveModel>*@
+@{
+    ViewBag.Title = "我的账单";
+    Layout = "_MemberShipLayout";
+    //var datta = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+}
+
+<link rel="stylesheet" href="../css/websitebase.css" /><!--基本样式应用-->
+<link rel="stylesheet" href="../css/common.min.css" /><!--菜单与悬浮样式应用-->
+<link rel="stylesheet" href="../css/icon.min.css" />
+<link rel="stylesheet" href="../css/personal/home-page.min.css" />
+
+<script src="../Scripts/personalbill_approve.js"></script>
+<script src="../js/personal.js"></script>
+<link rel="stylesheet" href="../css/CommonDialog.css" />
+<script type="text/javascript" src="../js/CommonDialog.js"></script>
+@*<!-- 引入样式 -->
+<link rel="stylesheet" href="../lib/element-ui/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="../lib/element-ui/lib/theme-chalk/container.css">
+<link rel="stylesheet" href="../lib/element-ui/lib/theme-chalk/header.css">
+<link rel="stylesheet" href="../lib/element-ui/lib/theme-chalk/table.css">
+<link rel="stylesheet" href="../lib/element-ui/lib/theme-chalk/table-column.css">
+<!-- 引入组件库 -->
+<script src="../lib/element-ui/lib/index.js"></script>*@
+
+<style>
+    html {
+        margin-top: 30px;
+    }
+
+    .datagrid-container-fliud {
+        float: left;
+    }
+
+    .da.data-row {
+        float: left;
+        width: 100%;
+        height: 25px;
+        border: 2px solid green;
+    }
+
+    .data-row.data-col {
+        float: left;
+        border: 2px solid green;
+    }
+</style>
+<div id="left-right-layout" style="width:100%;height:200px">
+
+    @*<el-container>
+        <el-header>Header</el-header>
+        <el-main>
+            <el-row :gutter="20" type="flex" justify="center">
+                <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+                <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+                <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+                <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+            </el-row>
+            <el-row :gutter="20" type="flex" justify="center">
+                <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+                <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+                <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+            </el-row>
+        </el-main>
+    </el-container>*@
+
+
+    <Table class="datagrid-container-fliud">
+            <tr class="data-row" style="border:1px dotted red;">
+                <td style="width:8%;" class="data-col">账单ID</td>
+                <td style="width:18%;" class="data-col">支付内容</td>
+                <td style="width:4%;" class="data-col">支付类型</td>
+                <td style="width:8%;" class="data-col">支付数值</td>
+                <td style="width:30%;" class="data-col">支付凭证</td>
+                <td style="width:24%;" class="data-col">提交时间</td>
+                <td style="width:8%;" class="data-col">状态</td>
+            </tr>
+            <tr v-for="item in paybills" class="data-row" style="clear:both;">
+                <td  class="data-col">{{item.PayBillID}}</td>
+                <td  class="data-col">{{item.ApproveForWhat}}</td>
+                <td v-if="item.PayType===0"  class="data-col">支付宝支付</td>
+                <td v-else-if="item.PayType===1"  class="data-col">微信支付</td>
+                <td v-else class="data-col">在线支付</td>
+                <td  class="data-col">{{item.PayValue}}</td>
+                <td  class="data-col">{{item.PayForDateTime}}</td>
+                <td  class="data-col">{{item.CreateTime}}</td>
+                <td v-if="item.PayState===1" class="data-col">审核通过</td>
+                <td v-else  class="data-col">审核未通过</td>
+            </tr>
+            <tr class="data-row">
+                <td v-if="pageCount >1" class="list-group-item" style="margin:-1px 1px 0 -1px;padding:0;">
+                    <select v-if="pageCount >1" v-on:change="selectChanged(this)" v-model="selectPageSize" class="selectpicker" style="height:34px;margin-top:0;display:inline;">
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>200</option>
+                    </select>
+                </td>
+                <td><a v-if="pageCount >1" v-on:click="PrevPage" :class="isprevDisable">&laquo;</a></td>
+                <td v-for="index of pageCount "><a v-if="index >= pageindex && pageCount>1" v-on:click="PageChanged(index)">{{index}}</a></td>
+                <td><a v-if="pageCount >1" v-on:click="NextPage" :class="isNextDisable">&raquo;</a></td>
+            </tr>
+            <tr id="BillStateSeach" class="data-row">
+                <td colspan="7">
+                    <span>数据状态：</span>
+                    <select class="att-txt" id="PayForState" name="PayForState" v-on:change="StateselectChanged(this)" v-model="Stateselected">
+                        <option value="10000">==所有==</option>
+                        <option value="0">待审核</option>
+                        <option value="1">已通过</option>
+                        <option value="-1">退回</option>
+                    </select>
+                </td>
+            </tr>
+        </Table>
+
+
+</div>
+<script>
+    var app = new Vue({
+        el: '#left-right-layout',
+        data: {
+            paybills: [],
+            pageCount: 0,
+            pageindex: 1,
+            selectPageSize: 10,
+            Stateselected: 10000,
+            isprevDisable: { disabled: true },
+            isNextDisable: { disabled: false }
+
+        },
+        created() {
+            //如果没有这句代码，select中初始化会是空白的，默认选中就无法实现
+            this.Stateselected = 10000;
+        },
+        methods:
+        {
+            PrevPage: function () {
+                if (this.pageindex <= 1) {
+                    this.isprevDisable.disabled = true;
+                    this.isNextDisable.disabled = false;
+                }
+                else {
+                    this.pageindex--;
+                    this.isNextDisable.disabled = false;
+                    $.ajax({
+                        url: "../VIPBill/MyBill",
+                        type: "post",
+                        dataType: "json",
+                        data: { page: this.pageindex, pagesize: this.selectPageSize, type: this.Stateselected },
+                        success: (arrdata) => {
+                            if (arrdata != null) {
+                                this.paybills = arrdata.data;
+                                this.pageCount = arrdata.Total;
+
+                            }
+
+                        }
+                    });
+                }
+            },
+            NextPage: function () {
+                if (this.pageindex < this.pageCount) {
+                    this.pageindex++;
+                    $.ajax({
+                        url: "../VIPBill/MyBill",
+                        type: "post",
+                        dataType: "json",
+                        data: { page: this.pageindex, pagesize: this.selectPageSize, type: this.Stateselected },
+                        success: (arrdata) => {
+                            if (arrdata != null) {
+                                this.paybills = arrdata.data;
+                                this.pageCount = arrdata.Total;
+
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    this.isprevDisable.disabled = false;
+                    this.NextPage.disabled = true;
+                }
+            },
+            PageChanged: function (page) {
+                this.pageindex = page;
+                $.ajax({
+                    url: "../VIPBill/MyBill",
+                    type: "post",
+                    dataType: "json",
+                    data: { page: this.pageindex, pagesize: this.selectPageSize, type: this.Stateselected },
+                    success: (arrdata) => {
+                        if (arrdata != null) {
+                            this.paybills = arrdata.data;
+                            this.pageCount = arrdata.Total;
+
+                        }
+
+                    }
+                });
+            },
+            selectChanged: function (e) {
+                $.ajax({
+                    url: "../VIPBill/MyBill",
+                    type: "post",
+                    dataType: "json",
+                    data: { page: this.pageindex, pagesize: this.selectPageSize, type: this.Stateselected },
+                    success: (arrdata) => {
+                        if (arrdata != null) {
+                            this.paybills = arrdata.data;
+                            this.pageCount = arrdata.Total;
+
+                        }
+
+                    }
+                });
+            },
+            StateselectChanged: function (e) {
+                $.ajax({
+                    url: "../VIPBill/MyBill",
+                    type: "post",
+                    dataType: "json",
+                    data: { page: this.pageindex, pagesize: this.selectPageSize, type: this.Stateselected },
+                    success: (arrdata) => {
+                        if (arrdata != null) {
+                            this.paybills = arrdata.data;
+                            this.pageCount = arrdata.Total;
+
+                        }
+
+                    }
+                });
+            },
+        },
+        mounted: function () {
+            $.ajax({
+                url: "../VIPBill/MyBill",
+                type: "post",
+                dataType: "json",
+                data: { pagesize: this.selectPageSize, type: 10000 },
+                success: (arrdata) => {
+                    if (arrdata != null) {
+                        this.paybills = arrdata.data;
+                        this.pageCount = arrdata.Total;
+                        this.ntype = 0;
+                    }
+
+                }
+            });
+        }
+
+
+    });
+
+</script>

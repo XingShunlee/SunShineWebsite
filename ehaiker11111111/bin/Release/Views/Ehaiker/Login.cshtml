@@ -1,0 +1,255 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<style>
+    /*底部区域*/
+    .footer-box {
+        height: 163px;
+        color: #999;
+        background-color: #f4f5f9;
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid #e5e5e5
+    }
+
+        .footer-box .p-link {
+            margin-bottom: 18px
+        }
+
+            .footer-box .p-link > a {
+                padding: 0 6px 0 10px
+            }
+
+                .footer-box .p-link > a + a {
+                    line-height: 12px
+                }
+
+        .footer-box .p-text {
+            line-height: 24px
+        }
+
+            .footer-box .p-link > a, .footer-box .p-text > a {
+                color: #999;
+                text-decoration: none
+            }
+
+        .footer-box .p-img {
+            margin-top: 16px
+        }
+
+            .footer-box .p-img > a {
+                margin: 0 5px;
+                text-decoration: none
+            }
+</style>
+<style>
+  
+
+  #login {
+  	width: 100%;
+    height: 100%;
+	background-size: 100% 100%;
+	  padding: 0;
+  }
+
+
+  .content {
+  	height: 100%;
+  }
+
+  form {
+  	box-shadow: 0 20px 38px rgba(8, 49, 101, 0.4);
+  	font-family: "Microsoft YaHei" !important;
+  	text-align: center;
+  	color: #000;
+  	font-weight: 300;
+  }
+
+    .form-control::-webkit-input-placeholder {
+        color: #999;
+        font-family: "Microsoft YaHei" !important;
+        padding: 0;
+    }    /* 使用webkit内核的浏览器 */
+    .form-control::-moz-placeholder {
+        color: #999;
+        font-family: "Microsoft YaHei" !important;
+        padding: 0;
+    }                  /* Firefox版本19+ */
+    .form-control:-ms-input-placeholder {
+        color: #999;
+        font-family: "Microsoft YaHei" !important;
+        padding: 0;
+    }     /* IE浏览器 */
+
+    .header {
+        font-size: 25px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    input {
+        max-width:100%;
+        margin-bottom: 20px;
+        border-radius: 15px;
+        color: #333;
+    }
+
+    .nav {
+        float: left;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        font-family: "Microsoft YaHei" !important;
+    }
+
+  .nav-link {
+    color: #999;
+    padding: 0;
+  }
+
+  button {
+      float:left;
+      width:100%;
+  	background: #459dc6;
+  	color: #fff;
+  	margin-top: 20px;
+  	margin-bottom: 20px;
+  	border-radius: 15px;
+  	font-family: "Microsoft YaHei" !important;
+  }
+  
+</style>
+<!--<div class="row" style="margin-top:30px;">
+    
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="loginName" class="col-sm-2 col-md-2 col-lg-2 control-label">用户名：</label>
+            <div class="col-sm-10 col-md-10 col-lg-10">
+                <input type="text" class="form-control" id="loginName" placeholder="请输入邮箱地址">
+            </div>
+            
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 col-md-2 col-lg-2 control-label">密  码：</label>
+            <div class="col-sm-10 col-md-10 col-lg-10">
+                <input type="text" class="form-control" id="password" placeholder="请输入密码">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2 col-md-2 col-lg-2" for="code">验证码：</label>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <input id="code" class="form-control" placeholder="请输入右边验证码" />
+            </div>
+            <div class="col-sm-6 col=md-6 col-lg-6">
+                <a class="yzm-pic" style="display:block; float:left"><img class="J_validate_code" id="J_validate_code" src="/EHaiker/GetValidateCode" width="88" height="32"></a>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-3 col-md-offset-2 col-md-3 col-lg-offset-2 col-lg-2">
+                <button type="button" class="form-control btn btn-success btn-lgbtn-block" id="submit">登   录</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-2 col-md-offset-2 col-md-2 col-lg-offset-2 col-lg-2">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="isAuto">请记住我
+                    </label>
+                </div>
+
+            </div>
+            <label class="col-sm-8 col-md-8 col-lg-8" style="margin-top:5px;">
+                <a href="/register/index">注册新账号</a>
+            </label>
+        </div>
+
+
+
+    </form>
+</div>-->
+<div id="login"class="row justify-content-center align-items-center">
+    <form class="col-xl-3  col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-4 ">
+        <div class="header">
+            会员后台管理系统
+        </div>
+        <span class="help-block login-error">
+        </span>
+        <input type="text" class="form-control" id="loginName" placeholder="请输入账号" v-model="account">
+        <input type="password" class="form-control" id="password" placeholder="请输入密码" v-model="pwd">
+        <div class="form-group">
+            <div class="col-sm-6 col-md-6 col-lg-6" style="padding:0;">
+                <input id="code" class="form-control" placeholder="请输入右边验证码" />
+            </div>
+            <div class="col-sm-5 col=md-5 col-lg-5">
+                <a class="yzm-pic" style="display:block; float:left"><img class="J_validate_code" id="J_validate_code" src="/EHaiker/GetValidateCode" width="88" height="32"></a>
+            </div>
+        </div>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/register/index">注册账号</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">忘记密码</a>
+            </li>
+        </ul>
+        <button type="button" class="btn btn-default col-lg-12" id="submit">登录</button>
+    </form>
+</div>
+<script>
+    $(function () {
+        $("#submit").on("click",
+            function (o) {
+                o.stopPropagation();
+                var n = $("#loginName").val(),
+                    t = $("#password").val(),
+                    r = $("#code").val(),
+                    c = false;//$("#isAuto").prop("checked");
+                //ajax提交
+                $.ajax(
+                    {
+                        url: "/EHaiker/memshiplogin",
+                        type: "post",
+                        data: {
+                            ehaiker_parameter: JSON.stringify(
+                                {
+                                    c: "Index",
+                                    fun: "login",
+                                    account: n,
+                                    password: t,
+                                    verificat_code: r,
+                                    is_auto: c
+                                })
+                        },
+                        dataType: "json",
+                        success: function (o) {
+                            if (o.SuccessCode == "0") {
+                               window.location.href = "../Personal/Index";
+                                return;
+                            }
+                            else {
+                                $("#header-login-info").attr("href", o.UserInfoUrl);
+                                $(".login-error").text(o.msg).show();
+                            }
+
+                        }
+                        ,
+                        error: function (o) {
+                            e("J_validate_code");
+                            $(".login-error").text(o.msg).show();
+                        }
+
+                    }); //ajax
+            });
+        $("#code,#J_validate_code").on("click", function (o) {
+            o.stopPropagation();
+            if ("" != $(".J_validate_code").attr("src")) {
+                var n = Date.parse(new Date);
+                $(".J_validate_code").attr("src", "/EHaiker/GetValidateCode?t=" + n);
+                $(".yzm-pic").show();
+            }
+        });
+    });
+</script>
+

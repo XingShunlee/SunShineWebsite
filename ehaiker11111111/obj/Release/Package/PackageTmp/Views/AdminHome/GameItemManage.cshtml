@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>游戏上线管理</title>
+     <link rel="stylesheet" type="text/css" href="../../Content/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../Content/themes/icon.css"/>
+    <link rel="stylesheet" type="text/css" href="../../common/css/Gameitemlist/GamelistItemMgr.css"/>
+    <script charset=utf-8 language=javascript src ="../common/js/jquery.min.js"></script>
+    <script charset=utf-8 language=javascript src ="../common/js/common.min.js"></script>
+    <script charset=utf-8 language=javascript src ="../../Scripts/EASYUI/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../Content/themes/locale/easyui-lang-zh_CN.js"></script>
+    <script language=javascript charset=utf-8  src ="../../common/js/GameListMgr.js"></script>
+    <link rel="stylesheet" href="../common/css/CommonDialog.css" />
+    <script type="text/javascript" src="../common/js/CommonDialog.js"></script>
+</head>
+<body>
+ <div id="Usertool">
+        <input id="Usertb" type="text" style="width:300px" />
+        <a id="btnItemAdd" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
+  </div>
+  <div id="imgDlg" class="popImgDialog">
+   <a href="#" class="close-a"></a>
+   <ul class="popImgWrap">
+   </ul>
+   <input type="button" name="imgprev" id="imgprev" class=".previous action-button" value="上一页" />
+   <input type="button" name="imgnext" id="imgnext" class=".next action-button" value="下一页" />
+  </div>
+  <table id="UserGrid" style="min-height:500px;" ></table>
+  
+   
+</body>
+</html>

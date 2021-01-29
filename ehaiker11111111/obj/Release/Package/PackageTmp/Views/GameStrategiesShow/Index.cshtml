@@ -1,0 +1,58 @@
+﻿@model ehaiker.GameStrategies
+<html>
+@{
+    Layout = null;
+}
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="renderer" content="webkit" />
+<link rel="shortcut icon" href="../../common/css/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="../../common/css/favicon.ico" type="image/x-icon" />
+<title data-title="游戏分析平台-数据分析平台-ehaiker官网">@Model.Title-ehaiker官网</title>
+<meta property="qc:admins" content="1410217727625011671756375" />
+<meta name="keywords" content=游戏分析平台,数据分析平台,ehaiker官网>
+<meta name="description" content=ehaiker是一个网络游戏分析平台，通过对游戏进行多维度的数据分析，让用户能在充分了解游戏过程中的难点与收益时效，为用户的“投资决策”提供必要的数据解决方案。>
+<link rel="stylesheet" href="../../common/css/websitebase.css" />
+<link rel="stylesheet" href="../../common/css/showdetail/home-page.min.css" />
+  <link rel="stylesheet" href="../../common/css/common.min.css" />
+  <link rel="stylesheet" href="../../common/css/icon.min.css" />
+  <link rel="stylesheet" href="../../common/css/fuceng.min.css" />
+  <link rel="stylesheet" href="../../common/css/icon.min.css" />
+<link rel="stylesheet" type="text/css" href="../../Content/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../Content/themes/icon.css"/>
+    <script charset=utf-8 language=javascript src ="../common/js/jquery.min.js"></script>
+    <script charset=utf-8 language=javascript src ="../../Scripts/EASYUI/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../Content/themes/locale/easyui-lang-zh_CN.js"></script>
+    </head>
+ <body style="height:100%;">
+ <!-- 顶部导航区域 -->
+@Html.Partial("TopBlock")
+<div class="page-body">
+    <div id="left-right-layout">
+    <div class="block-main">
+	<header class="article-header">
+        <h1 class="article-title">@Model.Title</h1>
+		<div class="article-info">
+			<span><i class="article-lastedit">最后修改：</i> @Model.LastEditTime </span>
+			<span><i class="article-reader">浏览量：</i> @Model.readers </span>
+			<span><i class="article-comment">评论：</i><a href="#contabcomment1"> 1 </a></span>
+		</div>
+	</header>
+	<article class="article-content clear-fix">
+    <div class="article-progra" id="article"> @Html.Raw(@Model.Content) </div>
+    </article>
+
+	<div class="article-copyright clear-fix"> 
+    <p>本文 @Model.Author 原创，转载保留链接</p>
+    </div>
+    </div>
+	
+   
+    </div><!---fg-->
+</div>
+
+<!-- 底部区域 -->
+@Html.Partial("FooterBlock")
+</body>
+</html>

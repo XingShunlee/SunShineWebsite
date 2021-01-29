@@ -1,0 +1,240 @@
+﻿@{
+    ViewBag.Title = "我收藏的游戏";
+    Layout = "_MemberShipLayout";
+}
+
+  <!--homepage-->
+ 
+<!--过渡图片-->
+<div class="row col-sm-12 col-md-12 col-lg-12">
+    <!--轮播内容-->
+	<div class="bd">
+		<ul>
+			<li  class="slide-bd-list" >
+				<a class="slide-bd-a" style="background: url(/public/hotbg.jpg) repeat top center;" href="#" target="_blank"></a>
+			</li>
+						
+		</ul>
+	</div>
+</div>
+<div class="row" id="webapp">
+    <div id="myTabContent" class="tab-content col-md-9 col-xs-9 col-sm-12" style="border:1px solid #e8e8e8;margin-top:30px;">
+        <product-show-comp v-bind:post="posts">
+
+        </product-show-comp>
+        <div class="col-md-12">
+            <ul class="list-group col-md-12 col-xs-12 col-sm-12" style="min-height:300px;">
+                <li v-for="(item,index) in facilities1" class="list-group-item" style="float:left;">
+                    <div class="Item-img">
+                        <img :src="item.ImgDescUri" alt=" " />
+                        <div class="cover">
+                            <div class="opacity">
+                                <div class="info">
+                                    <a :href="item.targetUri" class="sw-btn" target="_blank">前去玩耍</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Item-content">
+                        <span class="grade-tag">星级:{{item.grade}}</span>
+                        <p> {{item.ItemName}}</p>
+                        <p>运营商:<span class="yunying-tag">{{item.supporter}}</span></p>
+                    </div>
+                </li>
+            </ul>
+            <ul class="pagination">
+               
+                <li v-if="pageCount >1" class="list-group-item" style="margin:-1px 1px 0 -1px;padding:0;">
+                    <select  v-bind:change="selectChanged(this)" v-model="selectPageSize" class="selectpicker" style="height:34px;margin-top:0;display:inline;">
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>200</option>
+                    </select>
+                </li>
+                <li><a v-if="pageCount >1" v-on:click="PrevPage" :class="isprevDisable">&laquo;</a></li>
+                <li v-for="index of pageCount "><a v-if="index >= pageindex && pageCount>1" v-on:click="PageChanged(index)">{{index}}</a></li>
+                <li><a v-if="pageCount >1" v-on:click="NextPage" :class="isNextDisable">&raquo;</a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<script>
+    Vue.component("product-show-comp", {
+        props: ['post'],
+
+        template: `
+            <div v-bind:id=post.containerId>
+            <ul v-bind:id=post.tabid class= "nav nav-tabs">
+            <li role="presentation" v-for="item in post.tabitems" v-bind:key="item.id" v-bind:class="{ active: item.isActive }"  v-show="post.tabitems.length!=0" >
+            <a v-bind:href=item.targetid  data-toggle="tab" v-on:click="OnChange(item)">{{item.text}}</a></li></ul>
+            </div>`,
+        methods: {
+            OnChange: function (e) {
+                var ntype = -1;
+                $.each(this.post.tabitems, function (i, item) {
+                    if (item.targetid === e.targetid) {
+                        ntype = item.Typeid;
+                        return false;
+                    }
+                });
+                $.ajax({
+                    url: "../MyGameCenter/GetMyGameListInfo",
+                    type: "post",
+                    dataType: "json",
+                    data: { type: ntype },
+                    success: (arrdata)=> {
+                        if (arrdata != null) {
+                            this.$parent.facilities1 = arrdata.data;
+                            this.$parent.pageCount = arrdata.Total;
+                            this.$parent.ntype = ntype;
+                        }
+
+                    }
+                });
+            }
+
+        }
+    });
+    //vue
+    var app = new Vue({
+        el:'#webapp',
+        data: {
+            facilities1: [],
+            pageCount: 0,
+            pageindex: 1,
+            ntype: 0,
+            selectPageSize: 10,
+            isprevDisable: { disabled: true },
+            isNextDisable: { disabled: false },
+            posts: {
+                containerId: 'maintab',
+                tabid: 'mainul',
+
+                tabitems: [
+                    {
+                        Typeid: 0,
+                        targetid: '#home',
+                        text: '全部游戏',
+                        isActive: true,
+                    },
+                    {
+                        Typeid: 1,
+                        targetid: '#web',
+                        text: '网页游戏',
+                        isActive: false,
+                    },
+                    {
+                        Typeid: 2,
+                        targetid: '#app',
+                        text: 'APP游戏',
+                        isActive: false,
+                    },
+                ]
+            },
+        },
+        mounted: function () {
+            $.ajax({
+                url: "../MyGameCenter/GetMyGameListInfo",
+                type: "post",
+                dataType: "json",
+                data: { type: 0, rows: this.selectPageSize },
+                success: (arrdata)=> {
+                    if (arrdata != null) {
+                        this.facilities1 = arrdata.data;
+                        this.pageCount = arrdata.Total;
+
+                    }
+
+                }
+            });
+        },
+        methods:
+        {
+            PrevPage: function () {
+                if (this.pageindex <= 1) {
+                    this.isprevDisable.disabled = true;
+                    this.isNextDisable.disabled = false;
+                }
+                else {
+                    this.pageindex--;
+                    this.isNextDisable.disabled = false;
+                    $.ajax({
+                        url: "../MyGameCenter/GetMyGameListInfo",
+                        type: "post",
+                        dataType: "json",
+                        data: { page: this.pageindex, rows: this.selectPageSize,type: this.ntype },
+                        success: (arrdata)=> {
+                            if (arrdata != null) {
+                                this.facilities1 = arrdata.data;
+                                this.pageCount = arrdata.Total;
+
+                            }
+
+                        }
+                    });
+                }
+            },
+            NextPage: function () {
+                if (this.pageindex < this.pageCount) {
+                    this.pageindex++;
+                    $.ajax({
+                        url: "../MyGameCenter/GetMyGameListInfo",
+                        type: "post",
+                        dataType: "json",
+                        data: { page: this.pageindex, rows: this.selectPageSize,type: this.ntype },
+                        success:(arrdata)=> {
+                            if (arrdata != null) {
+                                this.facilities1 = arrdata.data;
+                                this.pageCount = arrdata.Total;
+
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    this.isprevDisable.disabled = false;
+                    this.NextPage.disabled = true;
+                }
+            },
+            PageChanged: function (page) {
+                this.pageindex = page;
+                $.ajax({
+                    url: "../MyGameCenter/GetMyGameListInfo",
+                    type: "post",
+                    dataType: "json",
+                    data: { page: this.pageindex, rows: this.selectPageSize,type: this.ntype },
+                    success: (arrdata)=> {
+                        if (arrdata != null) {
+                            this.facilities1 = arrdata.data;
+                            this.pageCount = arrdata.Total;
+
+                        }
+
+                    }
+                });
+            },
+            selectChanged: function (e) {
+                $.ajax({
+                    url: "../MyGameCenter/GetMyGameListInfo",
+                    type: "post",
+                    dataType: "json",
+                    data: { page: this.pageindex, rows: this.selectPageSize, type: this.ntype },
+                    success:  (arrdata)=> {
+                        if (arrdata != null) {
+                            this.facilities1 = arrdata.data;
+                            this.pageCount = arrdata.Total;
+
+                        }
+
+                    }
+                });
+            },
+        },
+
+    });
+    
+</script>

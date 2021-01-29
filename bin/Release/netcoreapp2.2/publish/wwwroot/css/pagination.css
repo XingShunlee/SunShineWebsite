@@ -1,0 +1,46 @@
+.pagination
+{
+    float:left;
+    white-space:nowrap;
+    display:block;
+    height:22px;
+}
+.pagination .pager-select
+{
+    border: 1px solid gray;
+    float:left;
+    display:block;
+    width:38px;
+    height:22px;
+}
+.pagination li
+{
+    list-style-type:none;
+    width:38px;
+    float:left;
+   
+}
+
+.pagination li .disabled
+{
+    display:block;
+    background-color:Gray;
+}
+.pagination li .active
+{
+    display:block;
+    background-color:Gray;
+}
+ .pagination li > a,li .disabled >a,li .active>a
+{
+    border: 1px solid gray;
+    display:block;
+    text-decoration:none;
+     width:34px;
+      height:20px;
+      text-align:center;
+      font-weight:200;
+      font-size:14px;
+      margin:0;
+      padding:0;
+}
