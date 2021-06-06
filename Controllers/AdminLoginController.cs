@@ -53,7 +53,8 @@ namespace ehaiker.Controllers
                     var _admin = adminManager.Find(juser.Account);
 
                     _admin.LoginTime = DateTime.Now;
-                    _admin.LoginIP = HttpContext.Connection.RemoteIpAddress.MapToIPv4()?.ToString(); ;
+                    //  _admin.LoginIP = HttpContext.Connection.RemoteIpAddress.MapToIPv4()?.ToString(); ;
+                    _admin.LoginIP = HttpContext.Request.Headers["X-Real-IP"].FirstOrDefault();
                     if (_admin.LoginGuid != Guid.Empty)
                     {
                         _admin.LoginGuid = Guid.NewGuid();

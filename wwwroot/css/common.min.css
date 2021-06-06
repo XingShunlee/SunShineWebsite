@@ -64,3 +64,12 @@ fieldset,img{border:0;vertical-align:top}
 .login-btn:hover, .login-btn a:hover {background: #43cb83;text-decoration: none}
 .small-btn{display: block;width: 48px;height: 24px;background: #31c37c;color: #fff; font-size: 16px;border-radius: 4px;
             text-align: center;line-height: 24px}
+/*底部区域*/
+.footer-box{height:163px;color:#999;background-color:#f4f5f9;text-align:center;padding-top:30px;border-top:1px solid #e5e5e5;width:100%; padding-left:0px;margin-left:0;float:left;}
+.footer-box .p-link{margin-bottom:18px}
+.footer-box .p-link>a{padding:0 6px 0 10px}
+.footer-box .p-link>a+a{line-height:12px}
+.footer-box .p-text{line-height:24px}
+.footer-box .p-link>a,.footer-box .p-text>a{color:#999;text-decoration:none}
+.footer-box .p-img{margin-top:16px}
+.footer-box .p-img>a{margin:0 5px;text-decoration:none}

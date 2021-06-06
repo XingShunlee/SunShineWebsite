@@ -20,8 +20,8 @@ namespace ehaikerv202010
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
             .UseKestrel()
-          //  .UseContentRoot(@"/webapp/netcoreapp2.2/publish/")
-         //   .UseWebRoot(@"/webapp/netcoreapp2.2/publish/wwwroot")
+            .UseContentRoot(@"/webapp/netcoreapp2.2/publish/")
+            .UseWebRoot(@"/webapp/netcoreapp2.2/publish/wwwroot")
             .UseUrls("http://*:5000")
                 .UseStartup<Startup>();
     }

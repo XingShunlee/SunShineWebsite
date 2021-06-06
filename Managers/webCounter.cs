@@ -86,7 +86,7 @@ namespace ehaiker
         //统计功能
         public void accessMethod(HttpContext request)
         {
-            string ipurl=request.Connection.RemoteIpAddress.ToString();
+            string ipurl=request.Request.Headers["X-Real-IP"].FirstOrDefault();
             string uri = request.Request.Path+"?Id="+request.Request.Query["Id"];
             bool flag = false;
             foreach (string ip in iplist)

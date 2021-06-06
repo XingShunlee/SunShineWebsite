@@ -2,70 +2,70 @@
     ;
 }
 
-  <!--homepage-->
-  @*<link rel="stylesheet" href="/css/GameStrategiesCenter/home-page.min.css" />*@
 
-<!--过渡图片-->
-<div class="row col-sm-12 col-md-12 col-lg-12">
-    <!--轮播内容-->
-	<div class="bd">
-		<ul>
-			<li  class="slide-bd-list" >
-				<a class="slide-bd-a" style="background: url(/public/hotbg.jpg) repeat top center;" href="#" target="_blank"></a>
-			</li>
-						
-		</ul>
-	</div>
-</div>
-<div class="row" id="webapp">
-    <div id="myTabContent" class="tab-content col-md-9 col-xs-9 col-sm-12" style="border:1px solid #e8e8e8;margin-top:30px;">
-        <product-show-comp v-bind:post="posts">
+<div class="container mainPage" id="app">
+    <!--过渡图片-->
+    <div class="row col-sm-12 col-md-12 col-lg-12">
+        <!--轮播内容-->
+        <div class="bd">
+            <ul>
+                <li class="slide-bd-list">
+                    <a class="slide-bd-a" style="background: url(/public/hotbg.jpg) repeat top center;" href="#" target="_blank"></a>
+                </li>
 
-        </product-show-comp>
-        <div class="col-md-12">
-            <ul class="list-group col-md-12 col-xs-12 col-sm-12" style="min-height:300px;">
-                <li v-for="(item,index) in facilities1" class="list-group-item" style="float:left;">
-                    <div class="Item-img">
-                        <img :src="item.ImgDescUri" alt=" " />
-                        <div class="cover">
-                            <div class="opacity">
-                                <div class="info">
-                                    <a :href="item.targetUri" class="sw-btn" target="_blank">前去玩耍</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Item-content">
-                        <span class="grade-tag">星级:{{item.grade}}</span>
-                        <p class="title-tag"> {{item.ItemName}}</p>
-                        <p>运营商:<span class="yunying-tag">{{item.supporter}}</span></p>
-                        <P class="shoucang-tag">
-                            <a href="javascript:void(0);" v-on:click="SaveMygame(item.ItemID)">收藏</a>
-                        </P>
-                    </div>
-                </li>
-            </ul>
-            <ul class="pagination">
-               
-                <li v-if="pageCount >1" class="list-group-item" style="margin:-1px 1px 0 -1px;padding:0;">
-                    <select  v-bind:change="selectChanged(this)" v-model="selectPageSize" class="selectpicker" style="height:34px;margin-top:0;display:inline;">
-                        <option>10</option>
-                        <option>20</option>
-                        <option>50</option>
-                        <option>100</option>
-                        <option>200</option>
-                    </select>
-                </li>
-                <li><a v-if="pageCount >1" v-on:click="PrevPage" :class="isprevDisable">&laquo;</a></li>
-                <li v-for="index of pageCount "><a v-if="index >= pageindex && pageCount>1" v-on:click="PageChanged(index)">{{index}}</a></li>
-                <li><a v-if="pageCount >1" v-on:click="NextPage" :class="isNextDisable">&raquo;</a></li>
             </ul>
         </div>
-
     </div>
-</div>
-<script>
+    <div class="row" id="webapp">
+        <div id="myTabContent" class="tab-content col-md-9 col-xs-9 col-sm-12" style="border:1px solid #e8e8e8;margin-top:30px;">
+            <product-show-comp v-bind:post="posts">
+
+            </product-show-comp>
+            <div class="col-md-12">
+                <ul class="list-group col-md-12 col-xs-12 col-sm-12" style="min-height:300px;">
+                    <li v-for="(item,index) in facilities1" class="list-group-item" style="float:left;">
+                        <div class="Item-img">
+                            <img :src="item.ImgDescUri" alt=" " />
+                            <div class="cover">
+                                <div class="opacity">
+                                    <div class="info">
+                                        <a :href="item.targetUri" class="sw-btn" target="_blank">前去玩耍</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Item-content">
+                            <span class="grade-tag">星级:{{item.grade}}</span>
+                            <p class="title-tag"> {{item.ItemName}}</p>
+                            <p>运营商:<span class="yunying-tag">{{item.supporter}}</span></p>
+                            <P class="shoucang-tag">
+                                <a href="javascript:void(0);" v-on:click="SaveMygame(item.ItemID)">收藏</a>
+                            </P>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="pagination">
+
+                    <li v-if="pageCount >1" class="list-group-item" style="margin:-1px 1px 0 -1px;padding:0;">
+                        <select v-bind:change="selectChanged(this)" v-model="selectPageSize" class="selectpicker" style="height:34px;margin-top:0;display:inline;">
+                            <option>10</option>
+                            <option>20</option>
+                            <option>50</option>
+                            <option>100</option>
+                            <option>200</option>
+                        </select>
+                    </li>
+                    <li><a v-if="pageCount >1" v-on:click="PrevPage" :class="isprevDisable">&laquo;</a></li>
+                    <li v-for="index of pageCount "><a v-if="index >= pageindex && pageCount>1" v-on:click="PageChanged(index)">{{index}}</a></li>
+                    <li><a v-if="pageCount >1" v-on:click="NextPage" :class="isNextDisable">&raquo;</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <script>
     Vue.component("product-show-comp", {
         props: ['post'],
 
@@ -262,9 +262,9 @@
 
                     }); //ajax
             },
-           
+
         },
 
     });
-   
-</script>
+
+    </script>

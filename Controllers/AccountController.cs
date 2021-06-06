@@ -211,7 +211,8 @@ namespace ehaikerv202010.Controllers
                     
 
                     _admin.LoginTime = DateTime.Now;
-                    _admin.LoginIP = HttpContext.Connection.RemoteIpAddress.MapToIPv4()?.ToString();
+                    // _admin.LoginIP = HttpContext.Connection.RemoteIpAddress.MapToIPv4()?.ToString();
+                    _admin.LoginIP = HttpContext.Request.Headers["X-Real-IP"].FirstOrDefault();
                     _admin.LoginGuid = Guid.NewGuid();
                     ship.Update(_admin);
                     ship.SaveChanges();
