@@ -11,6 +11,7 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("d851b4fe-1919-4cf8-b4fc-63706ebc2c1d")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("ehaikerv202010")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]

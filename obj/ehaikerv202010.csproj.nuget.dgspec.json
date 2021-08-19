@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LeeXingShun\\source\\repos\\ehaikerv202010\\ehaikerv202010.csproj": {}
+    "E:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LeeXingShun\\source\\repos\\ehaikerv202010\\ehaikerv202010.csproj": {
+    "E:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LeeXingShun\\source\\repos\\ehaikerv202010\\ehaikerv202010.csproj",
+        "projectUniqueName": "E:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj",
         "projectName": "ehaikerv202010",
-        "projectPath": "C:\\Users\\LeeXingShun\\source\\repos\\ehaikerv202010\\ehaikerv202010.csproj",
-        "packagesPath": "C:\\Users\\LeeXingShun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LeeXingShun\\source\\repos\\ehaikerv202010\\obj\\",
+        "projectPath": "E:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj",
+        "packagesPath": "E:\\Microsoft\\microsoft SDKS\\NuGetPackages\\",
+        "outputPath": "E:\\CodeStore\\ehaikerv202010\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "E:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\LeeXingShun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator.USER-20190819XC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -26,8 +25,7 @@
           "netcoreapp2.2"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Users\\LeeXingShun\\AppData\\Local\\NuGet\\v3-cache": {},
+          "E:\\Microsoft\\microsoft SDKS\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -102,7 +100,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

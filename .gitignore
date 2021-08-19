@@ -1,3 +1,4 @@
+!/.gitignore
 # Compiled Object files
 *.slo
 *.lo
@@ -19,3 +20,6 @@
 *.exe
 *.out
 *.app
+/bin/*
+.vs/*
+/ehaiker11111111/*

@@ -14,7 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace ehaikerv202010
@@ -35,7 +37,7 @@ namespace ehaikerv202010
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddMemoryCache();//using cacheing technoligy
@@ -43,14 +45,30 @@ namespace ehaikerv202010
             services.AddSession(options=>{
                 options.Cookie.Name="AspnetCore";
                 options.IdleTimeout=TimeSpan.FromSeconds(300*10000);
+                //options.Cookie.IsEssential = true;
             });//使用session服务
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
             //SQLServer
+           // var connection = @"Server=localhost;uid=root; Database=NetNote; pwd=netnote5316;port=3306;sslmode=Preferred";
+            //remote
             var connection = @"Server=localhost;uid=root; Database=NetNote; pwd=netnote5316;port=3306;sslmode=Preferred";
             services.AddDbContext<EhaikerContext>(
                // options=>options.UseSqlServer(connection));
             options => options.UseMySQL(connection));
             services.AddTransient<EncodeService>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("any", builder =>
+                 {
+                     builder.AllowAnyOrigin()//允许任何来源的主机访问
+                     .AllowAnyMethod()
+                     .AllowAnyHeader()
+                     .AllowCredentials();//指定处理cookie
+
+                 });
+            });
             services.AddMvc(
                 options =>
                 {
@@ -64,7 +82,7 @@ namespace ehaikerv202010
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
                 }
                 );
         }
@@ -101,7 +119,7 @@ namespace ehaikerv202010
                 );*/
             app.UseCookiePolicy();//开启cookie
             app.UseSession();//使用session
-                             //  app.UseRequestIP("jhaoihdahaof");
+            app.UseCors("any");
           //  app.UseAuthentication( );
             app.UseMvc(routes =>
             {

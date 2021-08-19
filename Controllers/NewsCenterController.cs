@@ -10,6 +10,7 @@ using ehaikerv202010;
 using ehaikerv202010.helpers;
 using ehaikerv202010.Filters;
 using ehaikerv202010.Models;
+using System.Text.RegularExpressions;
 
 namespace ehaiker.Controllers
 {
@@ -67,7 +68,8 @@ namespace ehaiker.Controllers
                 {
                     ViewBag.Types = types.Select(r => new SelectListItem { Text = r.Name, Value = r.GameId.ToString(), Selected = (r.GameId == notes.NewsTypeId) });
                     NewsModel item = notes as NewsModel;
-                    return View(item);
+                item.Content =Regex.Unescape(item.Content);
+                return View(item);
                 }
                 else
                 {
@@ -193,11 +195,15 @@ namespace ehaiker.Controllers
                     juser.Announcer = admin.Account;
                     juser.ReleaseTime = DateTime.Now;
                     juser.LastEditTime = DateTime.Now;
-                    // juser.Content =
-                    // Microsoft.JScript.GlobalObject.unescape(juser.Content);
+                    
                     //juser.Content = JSCoderHelper.unescape(juser.Content);
-                    if(!string.IsNullOrEmpty(juser.Content))
-                     juser.Content = System.Text.RegularExpressions.Regex.Replace(juser.Content, "/(?!<(img|p|span).*?>)<.*?>/g", "");
+                    if (!string.IsNullOrEmpty(juser.Content))
+                    {
+                        //只保留几个标签
+                        juser.Content = System.Text.RegularExpressions.Regex.Replace(juser.Content, "/(?!<(img|p|span).*?>)<.*?>/g", "");
+                        //
+                        juser.Content =Regex.Escape(juser.Content);
+                    }
                      _noteRepository.Add(juser);
                     ret = _noteRepository.SaveChanges().ToString();
                     errMsg = "操作成功！";
@@ -235,8 +241,13 @@ namespace ehaiker.Controllers
                         notes.Title = juser.Title;
                         notes.NewsTypeId = juser.NewsTypeId;
                         notes.Content = juser.Content;
-                       //     Microsoft.JScript.GlobalObject.unescape(juser.Content);
-                       //  JSCoderHelper.unescape(juser.Content);
+                        if (!string.IsNullOrEmpty(juser.Content))
+                        {
+                            //只保留几个标签
+                            juser.Content = System.Text.RegularExpressions.Regex.Replace(juser.Content, "/(?!<(img|p|span).*?>)<.*?>/g", "");
+                            //
+                            juser.Content = Regex.Escape(juser.Content);
+                        }
                         try
                         {
                             _noteRepository.Update(notes);
@@ -277,6 +288,7 @@ namespace ehaiker.Controllers
                 {
                     ViewBag.Types = types.Select(r => new SelectListItem { Text = r.Name, Value = r.GameId.ToString(), Selected = (r.GameId == notes.NewsTypeId) });
                     NewsModel item = notes as NewsModel;
+                    item.Content = Regex.Unescape(item.Content);
                     return View(item);
                 }
                 else

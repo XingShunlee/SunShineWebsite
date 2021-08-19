@@ -16,9 +16,11 @@ namespace ehaikerv202010.Controllers
     public class AccountController : Controller
     {
         private EhaikerContext DbContext;
-        public AccountController(EhaikerContext _cont)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public AccountController(EhaikerContext _cont, IHttpContextAccessor httpContextAccessor)
         {
             DbContext = _cont;
+            _httpContextAccessor = httpContextAccessor;
         }
         //public IActionResult Index()
         //{
@@ -192,7 +194,8 @@ namespace ehaikerv202010.Controllers
                 {
                     ModelState.AddModelError("code", "validate code is error");
                     msg.msg = "验证码错误";
-                    msg.SuccessCode = "10000";
+                    msg.SuccessCode = "10000:"+ HttpContext.Session.GetString("ValidateCode");
+                    msg.Account = juser.Account;
                     return Json(msg);
                 }
                 string _passowrd = Security.Sha256(juser.Password);
@@ -290,7 +293,7 @@ namespace ehaikerv202010.Controllers
         {
             ValidateCode vCode = new ValidateCode();
             string code = vCode.CreateValidateCode(5);
-            HttpContext.Session.SetString("ValidateCode", code);
+            HttpContext.Session.SetString("ValidateCode", code); //HttpContext.Session.GetString("ValidateCode")
             byte[] bytes = vCode.CreateValidateGraphic(code);
             return File(bytes, @"image/jpeg");
         }
