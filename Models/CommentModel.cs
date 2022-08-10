@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace ehaiker.Models
 {
@@ -28,7 +24,7 @@ namespace ehaiker.Models
         /// </summary>
         [Display(Name = "評論")]
         public string comment { get; set; }
-    
+
         [Display(Name = "創建时间")]
         public DateTime? CreateTime { get; set; }
         [Display(Name = "是否审核")]

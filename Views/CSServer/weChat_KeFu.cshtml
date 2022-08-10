@@ -47,8 +47,7 @@
 		}
 	</style>
 	<link rel="stylesheet" type="text/css" href="/lib/EASYUI/themes/default/easyui.css"/>
-    <link rel="stylesheet" type="text/css" href="/lib/EASYUI/themes/icon.css"/>
-    <script charset=utf-8 language=javascript src ="~/lib/jquery/dist/jquery.min.js"></script>
+    <script charset=utf-8 language=javascript src ="/lib/jquery/dist/jquery.min.js"></script>
     <script charset=utf-8 language=javascript src ="/lib/EASYUI/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="/lib/EASYUI/themes/locale/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript">
@@ -184,7 +183,6 @@
 	                    if (data.ErrorCode != 0) {
 	                        clearTimeout(g_timerId_getlist);
 	                    }
-	                    //alert(data.msg);
 	                }
 	            }, //success
 	            error: function (result) {
@@ -194,99 +192,128 @@
 
 	            }
 	        });
-	    }
+		}
+		//数据定义 应用入口
 	    var datetemp = new Date(0); //用于计算时间差的中间变量
 	    var date;
-	    $(function () {
-	        //获取用户列表
-	        //定时刷新
-	        g_timerId_getlist = setInterval('getCustomerList()', 750);
-	        //消息存入数据库
-	        $("#send").click(function () {
-                var content = $("#textId").val();
-	            $.ajax({
-	                url: "./saveUserChatRecord?id=" + id,
-	                type: "POST",
-	                dataType: "json",
-	                /* 向后端传输的数据 */
-	                data: { userContent: escape(content.replace(/(?!<(img|p|span).*?>)<.*?>/g, "")) },
-	                success: function (data) {
-	                    if (!data.iSuccessCode) {
-	                        alert(data.msg);
-	                    }
-	                    $("#textId").textbox('clear');
-	                },
-	                error: function (result) {
-	                    clearTimeout(g_timerId_getlist);
-	                    clearTimeout(g_timerId_getmsg);
-	                    window.close();
-	                }
-	            });
-	        });
-	        //一键换人
-	        $("#sendRg").click(function () {
-	            //关闭
-	            clearTimeout(g_timerId_getlist);
-	            clearTimeout(g_timerId_getmsg);
-	            $.ajax({
-	                url: "./ChangeKefu",
-	                type: "POST",
-	                success: function (data) {
-	                    if (!data.iSuccessCode) {
-	                        alert(data.msg);
-	                    }
-
-	                },
-	                error: function (result) {
-	                    clearTimeout(g_timerId_getlist);
-	                    clearTimeout(g_timerId_getmsg);
-	                    window.close();
-	                }
-	            });
-	        });
-	        //
-	        $("#sendLeave").click(function () {
-	            //关闭
-	            clearTimeout(g_timerId_getlist);
-	            clearTimeout(g_timerId_getmsg);
-	            $.ajax({
-	                url: "./KefuOffline",
-	                type: "POST",
-	                success: function (data) {
-	                    if (!data.iSuccessCode) {
-	                        alert(data.msg);
-	                    }
-	                    window.close();
-	                },
-	                error: function (result) {
-	                    //alert(result);
-	                    window.close();
-	                }
-	            });
-	        });
-
-
-	    });
 	    var oldId = 1;
 	    var id = "";
 	    var g_timerId_getmsg;
-	    var g_timerId_getlist;
-	    $(document).off("click", ".CustomerBG").on("click", ".CustomerBG", function () {
-	        oldId = 0;
-	        datetemp = new Date(0);
-	        id = $(this.lastElementChild).attr("data_id");
-	        $(this).css('background', '#ffffff');
-	        $("div#" + id).css('background', '#00ffff');
-	        $("#contentCS").html("");
-	        $("#contentCS").append("<div class='myclass'>当前正在沟通的用户：" + $(this.lastElementChild).text() + "</div>");
-	        // 定时刷新组件，读取数据库信息 
-	        g_timerId_getmsg = setInterval('getAllRecord()', 3000);
-	    });
-	    window.onbeforeunload = function () {
-	        $.ajax({
-	            url: "./KefuOffline",
-	            type: "POST"
-	        });
+		var g_timerId_getlist;
+		var g_timerId_jq;
+		//判断JQ是否完成加载
+		IsJQureyLoadCompleted();
+		function IsJQureyLoadCompleted() {
+			if (typeof $ != 'undefined' && document.body) {
+				JQEntryMain();
+                clearTimeout(g_timerId_jq);
+			}
+			else {
+                clearTimeout(g_timerId_jq);
+                g_timerId_jq=setTimeout(IsJQureyLoadCompleted,1000);
+			}
+		}
+		function JQEntryMain() {
+            $(function () {
+                //获取用户列表
+                //定时刷新
+                g_timerId_getlist = setInterval('getCustomerList()', 750);
+                //消息存入数据库
+                $("#send").click(function () {
+                    if (id === "") {
+                        alert("请择用户对象");
+                        return;
+                    }
+                    var content = $("#textId").val();
+                    $.ajax({
+                        url: "./saveUserChatRecord?id=" + id,
+                        type: "POST",
+                        dataType: "json",
+                        /* 向后端传输的数据 */
+                        data: { userContent: escape(content.replace(/(?!<(img|p|span).*?>)<.*?>/g, "")) },
+                        success: function (data) {
+                            if (!data.iSuccessCode) {
+                                alert(data.msg);
+                            }
+                            $("#textId").textbox('clear');
+                        },
+                        error: function (result) {
+                            clearTimeout(g_timerId_getlist);
+                            clearTimeout(g_timerId_getmsg);
+                            window.close();
+                        }
+                    });
+                });
+                //一键换人
+                $("#sendRg").click(function () {
+                    //关闭
+                    clearTimeout(g_timerId_getlist);
+                    clearTimeout(g_timerId_getmsg);
+                    $.ajax({
+                        url: "./ChangeKefu",
+                        type: "POST",
+                        success: function (data) {
+                            if (!data.iSuccessCode) {
+                                alert(data.msg);
+                            }
+                            window.location.href = "../ManagerMain/Index";
+                        },
+                        error: function (result) {
+                            clearTimeout(g_timerId_getlist);
+                            clearTimeout(g_timerId_getmsg);
+                            window.close();
+                        }
+                    });
+                });
+                //
+                $("#sendLeave").click(function () {
+                    //关闭
+                    clearTimeout(g_timerId_getlist);
+                    clearTimeout(g_timerId_getmsg);
+                    $.ajax({
+                        url: "./KefuOffline",
+                        type: "POST",
+                        success: function (data) {
+                            if (!data.iSuccessCode) {
+                                alert(data.msg);
+                            }
+                            window.location.href = "../ManagerMain/Index";
+                        },
+                        error: function (result) {
+                            window.close();
+                        }
+                    });
+                });
+
+
+            });
+            $(document).off("click", ".CustomerBG").on("click", ".CustomerBG", function () {
+                oldId = 0;
+                datetemp = new Date(0);
+                id = $(this.lastElementChild).attr("data_id");
+                $(this).css('background', '#ffffff');
+                $("div#" + id).css('background', '#00ffff');
+                $("#contentCS").html("");
+                $("#contentCS").append("<div class='myclass'>当前正在沟通的用户：" + $(this.lastElementChild).text() + "</div>");
+                // 定时刷新组件，读取数据库信息 
+                g_timerId_getmsg = setInterval('getAllRecord()', 3000);
+            });
+            $(document).keydown(function () {
+                if ((event.keyCode == 116) || //屏蔽F5 
+                    (event.ctrlkey && event.keycode == 82)) {//CTRL +R
+                    event.keycode = 0;
+                    event.returnValue = false;
+                }
+            });
+		}
+       
+        window.onbeforeunload = function () {
+			if (window.event.clientY < 0 || window.event.altkey) {
+				$.ajax({
+					url: "./KefuOffline",
+					type: "POST"
+				});
+			}
 	    }     
 	</script>
 </head>

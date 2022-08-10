@@ -4,7 +4,7 @@
 }
 
 <!-- 顶部导航区域 -->
-<div class="container mainPage" id="app" style="margin-top:30px;">
+<div class="container mainPage" id="app">
     <div class="block-main">
         <div class="datagrid-container-fliud">
             <div id="app3" class="row">
@@ -27,7 +27,9 @@
                                     <span class="grade-tag"> <a :href="'../NewsCenter/ShowDetailEx?newsID='+item.Id" target='_self'>查看|修改</a></span>
                                 </td>
                                 <td>
-                                    <span class="grade-tag"><input type="button" value="删除" /></span>
+                                    <span class="grade-tag"><input type="button" v-on:click="OnDeleteItem(item.Id)" value="删除" /></span>
+                                    <span class="grade-tag" v-if="item.IsUnVisible>0"><input type="button" v-on:click="OnRecoverItem(item.Id)" value="恢复" /></span>
+                                    <span class="grade-tag" v-else><input type="button" v-on:click="OnHiddenItem(item.Id)" value="隐藏" /></span>
                                 </td>
                             </tr>
                         </tbody>
@@ -165,7 +167,51 @@
                         }
                     });
                 },
-                
+                OnDeleteItem: function (e) {
+                    $.ajax({
+                        url: "../NewsCenter/NewsDel",
+                        type: "post",
+                        dataType: "json",
+                        data: { uid: e },
+                        success: (arrdata) => {
+                            if (arrdata != null) {
+                                alert("公告ID:" + e + "已经成功删除");
+
+                            }
+
+                        }
+                    });
+                },
+                OnHiddenItem: function (e) {
+                    $.ajax({
+                        url: "../NewsCenter/NewsHidden",
+                        type: "post",
+                        dataType: "json",
+                        data: { uid: e },
+                        success: (arrdata) => {
+                            if (arrdata != null) {
+                                alert("公告ID:" + e + "已经成功隐藏");
+
+                            }
+
+                        }
+                    });
+                },
+                OnRecoverItem: function (e) {
+                    $.ajax({
+                        url: "../NewsCenter/NewsRecover",
+                        type: "post",
+                        dataType: "json",
+                        data: { uid: e },
+                        success: (arrdata) => {
+                            if (arrdata != null) {
+                                alert("公告ID:" + e + "已经成功恢复");
+
+                            }
+
+                        }
+                    });
+                },
             },
             mounted: function () {
                 $.ajax({

@@ -28,6 +28,12 @@ fieldset,img{border:0;vertical-align:top}
     /* zoom: 1; 
  }
 */
+/*-- 盒子计算问题--*/
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
  /*游戏项定义开始*/
  .Item-img{position:relative;overflow:hidden;width:200px;height:150px;}
  .Item-img img{width:200px;height:150px}
@@ -45,11 +51,43 @@ fieldset,img{border:0;vertical-align:top}
  .Item-img .cover:hover .info .rs,.Item-img .cover:hover .info .sw-btn ,.Item-img .cover .info .sw-btn{display:block;width:62%;height:35px;line-height:35px;font-size:16px;color:#fff;text-align:center;background-color:#31c37c;text-decoration:none;border-radius:3px;position:absolute;top:49px;left:19%;}
  .Item-img .cover .info .sw-btn:hover{background-color:#43cb83}
  li .Item-content{background-color:#FFFFFFFF }
- li .Item-content .title-tag{color:#ff4800}
- li .Item-content .yunying-tag{color:#ff4800}
- li .Item-content .grade-tag{display:block;width:48px;height:15px;border:1px solid #ff4c4c;color:#ff4c4c;font-size:12px;text-indent:0;text-align:center;line-height:15px;position:absolute;bottom:20px;right:5px;border-radius:2px}
- li .Item-content .shoucang-tag{display:block;color:#ff4800;font-size:12px;text-indent:0;text-align:center;line-height:15px;position:absolute;bottom:2px;right:5px;border-radius:2px}
- li .Item-content .shoucang-tag>a{display:block;color:#ff4800;font-size:12px;text-indent:0;text-align:center;line-height:15px;border-radius:2px}
+    li .Item-content .title-tag {
+        text-overflow: ellipsis;
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+.Item-content .yunying-tag {
+    color: #ff4800;
+    display: inline-block;
+    text-overflow: ellipsis;
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-indent: 0;
+    text-align: center;
+    line-height: 12px;
+}
+    li .Item-content .grade-tag {
+        display: block;
+        max-width: 48px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        height: 12px;
+        border: 0px solid #ff4c4c;
+        color: #ff4c4c;
+        font-size: 12px;
+        text-indent: 0;
+        text-align: center;
+        line-height: 12px;
+        position: absolute;
+        bottom: 20px;
+        right: 5px;
+        border-radius: 2px
+    }
+ li .Item-content .shoucang-tag{display:block;color:#ff4800;font-size:12px;text-indent:0;text-align:center;line-height:12px;position:absolute;bottom:2px;right:5px;border-radius:2px}
+ li .Item-content .shoucang-tag>a{display:block;color:#ff4800;font-size:12px;text-indent:0;text-align:center;line-height:12px;border-radius:2px}
 /*close-button style*/
 .close-a{position:absolute;top:-13px;right:0;width:9px;height:9px;
                                            background:url(/public/close.png) no-repeat 0 0}
@@ -73,3 +111,58 @@ fieldset,img{border:0;vertical-align:top}
 .footer-box .p-link>a,.footer-box .p-text>a{color:#999;text-decoration:none}
 .footer-box .p-img{margin-top:16px}
 .footer-box .p-img>a{margin:0 5px;text-decoration:none}
+
+body {
+    min-width: 380px
+}
+
+.img-gray {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: gray
+}
+
+.width-1180 {
+    width: 1180px;
+    margin: 0 auto;
+    position: relative
+}
+
+.color-ubi {
+    color: #f60
+}
+
+.color-red {
+    color: #ff4c4c
+}
+/*几大主要塊定義*/
+#left-right-layout {
+    width: 1180px;
+    margin: 0 auto;
+    overflow: hidden
+}
+
+#left-right-layout .block-top {
+    width: 100%
+}
+
+#left-right-layout .block-main {
+    width: 880px;
+    float: left;
+    min-height: 800px;
+    position: relative
+}
+
+#left-right-layout .block-right {
+    width: 280px;
+    float: right;
+    min-height: 800px
+}
+
+#left-right-layout .block-bottom {
+    width: 100%;
+    clear: both
+}

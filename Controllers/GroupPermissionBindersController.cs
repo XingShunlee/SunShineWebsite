@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ehaiker;
+using ehaiker.Auth;
+using ehaikerv202010.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ehaiker;
-using ehaiker.Auth;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ehaikerv202010.Controllers
 {
+
     public class GroupPermissionBindersController : Controller
     {
         private readonly EhaikerContext _context;
@@ -20,12 +20,14 @@ namespace ehaikerv202010.Controllers
         }
 
         // GET: GroupPermissionBinders
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.GroupBinderTable.ToListAsync());
+            return View(await _context.GroupBinderTable.Where(r => r.Name != "superadmin").ToListAsync());
         }
 
         // GET: GroupPermissionBinders/Details/5
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +46,7 @@ namespace ehaikerv202010.Controllers
         }
 
         // GET: GroupPermissionBinders/Create
+        [AdminLoginStateRequiredAttribute]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +57,7 @@ namespace ehaikerv202010.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Create([Bind("Id,ControllerNo,Name,Description,OwnPermissions")] GroupPermissionBinder groupPermissionBinder)
         {
             if (ModelState.IsValid)
@@ -66,6 +70,7 @@ namespace ehaikerv202010.Controllers
         }
 
         // GET: GroupPermissionBinders/Edit/5
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,7 +83,7 @@ namespace ehaikerv202010.Controllers
             {
                 return NotFound();
             }
-           var chk =_context.PermissionTable.ToList();
+            var chk = _context.PermissionTable.ToList();
             var types = chk;
             ViewBag.Types = types.Select(r => new SelectListItem { Text = r.ChineseActionName, Value = r.Id.ToString() });
             return View(groupPermissionBinder);
@@ -89,6 +94,7 @@ namespace ehaikerv202010.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ControllerNo,Name,Description,OwnPermissions")] GroupPermissionBinder groupPermissionBinder)
         {
             if (id != groupPermissionBinder.Id)
@@ -120,6 +126,7 @@ namespace ehaikerv202010.Controllers
         }
 
         // GET: GroupPermissionBinders/Delete/5
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,6 +147,7 @@ namespace ehaikerv202010.Controllers
         // POST: GroupPermissionBinders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var groupPermissionBinder = await _context.GroupBinderTable.FindAsync(id);

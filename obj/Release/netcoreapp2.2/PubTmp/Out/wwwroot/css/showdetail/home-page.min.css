@@ -9,4 +9,18 @@
  .block-main .article-commentBlcok{margin-top:15px;float:left;background-color:#f5f2f2;z-index:100;width:99%;}
  .article-commentBlcok .commentItem{float:left;clear:both;}
  .block-main .article-copyright{margin-top:15px;float:left;background-color:white;z-index:100;width:99%; text-align:right;}
+.block-main .article-copyright .ReferUri{
+    margin-top: 15px;
+    float: left;
+    background-color: white;
+    z-index: 100;
+    text-align: left;
+}
+    .block-main .article-copyright .Author {
+        margin-top: 15px;
+        float: right;
+        background-color: white;
+        z-index: 100;
+        text-align: right;
+    }
  

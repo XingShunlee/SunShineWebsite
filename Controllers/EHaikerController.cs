@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Text;
-using ehaiker;
-using System.ComponentModel;
-using Microsoft.AspNetCore.Mvc;
-using ehaiker.Models;
-using ehaikerv202010;
-using Microsoft.AspNetCore.Authorization;
+﻿using ehaiker.Models;
 using ehaikerv202010.Filters;
 using ehaikerv202010.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ehaiker.Controllers
 {
-   /// [Description(No = 1, Name = "首页功能")]
-   
+    /// [Description(No = 1, Name = "首页功能")]
+
     public class EHaikerController : Controller
     {
         private EhaikerContext DbContext;
@@ -27,17 +21,17 @@ namespace ehaiker.Controllers
         private GameListManager GamelistManager;
         private SupplierListManager SupplierlistMgr;
         // GET: /EHaiker/
-       // [ServiceFilter(typeof(LoginAuthorize))]
-       [NoPermissionRequiredAttribute]
+        // [ServiceFilter(typeof(LoginAuthorize))]
+        [NoPermissionRequiredAttribute]
         [AllowAnonymous]
         public ActionResult Index()
         {
             //没有登录
-            MemberShip cookie = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext,"memshipUserInfo");
+            MemberShip cookie = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
             if (cookie != null)
             {
                 //从Cookie对象中取出Json串
-                 return View("Index", cookie);
+                return View("Index", cookie);
             }
             else
             {
@@ -47,8 +41,8 @@ namespace ehaiker.Controllers
             }
             //return View();
         }
-       
-      
+
+
         //---------------------------------游戏推荐--
         [HttpPost]
         public JsonResult GameTopMost(int type = 0)
@@ -56,27 +50,27 @@ namespace ehaiker.Controllers
             GamelistManager = new GameListManager(DbContext);
             if (type == 0)
             {
-               var tt = GamelistManager.GetDbSet().Where(r=>r.IsIdentified==1).ToList();
-               return Json(tt);
+                var tt = GamelistManager.GetDbSet().Where(r => r.IsIdentified == 1).ToList();
+                return Json(tt);
             }
             else
             {
                 //取前8条记录
-                var tt = GamelistManager.GetDbSet().Where(r => r.Gametype == type&& r.IsIdentified == 1).Take(8).ToList();
+                var tt = GamelistManager.GetDbSet().Where(r => r.Gametype == type && r.IsIdentified == 1).Take(8).ToList();
                 return Json(tt);
             }
-            
-            
+
+
         }
         //火爆推荐
         [HttpPost]
         public JsonResult GameHotItems()
         {
-            GamelistManager = GamelistManager !=null ? GamelistManager : new GameListManager(DbContext);
-            var tt = GamelistManager.GetDbSet().GroupBy(r=>r.TopLevel).Take(8).ToList();
+            GamelistManager = GamelistManager != null ? GamelistManager : new GameListManager(DbContext);
+            var tt = GamelistManager.GetDbSet().GroupBy(r => r.TopLevel).Take(8).ToList();
             return Json(tt);
         }
-            //游戏攻略推荐
+        //游戏攻略推荐
         [HttpPost]//GameStrategies
         public JsonResult GetGameStrategies(int page = 1, int rows = 5, int type = 0)
         {
@@ -85,13 +79,13 @@ namespace ehaiker.Controllers
             var query = new List<GameStrategies>();
             if (type == 0)
             {
-                query = _noteRepository.GetDbSet().Where(r=>r.IsIdentified==1).ToList();
+                query = _noteRepository.GetDbSet().Where(r => r.IsIdentified == 1).ToList();
 
 
             }
             else
             {
-                query = _noteRepository.GetDbSet().Where(r => r.GameId == type && r.IsIdentified==1).Take(5).ToList();
+                query = _noteRepository.GetDbSet().Where(r => r.GameId == type && r.IsIdentified == 1).Take(5).ToList();
             }
             var count = query.Count();
             var pagecount = count % rows == 0 ? count / rows : count / rows + 1;
@@ -110,6 +104,6 @@ namespace ehaiker.Controllers
             var tt = SupplierlistMgr.List().Take(6).ToList();
             return Json(tt);
         }
-     
+
     }
 }

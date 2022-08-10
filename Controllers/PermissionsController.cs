@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ehaiker;
+using ehaiker.Auth;
+using ehaikerv202010.Filters;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ehaiker;
-using ehaiker.Auth;
 
 namespace ehaikerv202010.Controllers
 {
+    [AdminLoginStateRequiredAttribute]
     public class PermissionsController : Controller
     {
         private readonly EhaikerContext _context;
@@ -20,12 +19,14 @@ namespace ehaikerv202010.Controllers
         }
 
         // GET: Permissions
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Index()
         {
             return View(await _context.PermissionTable.ToListAsync());
         }
 
         // GET: Permissions/Details/5
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +45,7 @@ namespace ehaikerv202010.Controllers
         }
 
         // GET: Permissions/Create
+        [AdminLoginStateRequiredAttribute]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace ehaikerv202010.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Create([Bind("Id,GlobalNo,ChineseActionName,Controller,Action,Description,isGet,ShowInManagerBar,VisitLevel")] Permission permission)
         {
             if (ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace ehaikerv202010.Controllers
         }
 
         // GET: Permissions/Edit/5
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +90,7 @@ namespace ehaikerv202010.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Edit(int id, [Bind("Id,GlobalNo,ChineseActionName,Controller,Action,Description,isGet,ShowInManagerBar,VisitLevel")] Permission permission)
         {
             if (id != permission.Id)
@@ -117,6 +122,7 @@ namespace ehaikerv202010.Controllers
         }
 
         // GET: Permissions/Delete/5
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +143,7 @@ namespace ehaikerv202010.Controllers
         // POST: Permissions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AdminLoginStateRequiredAttribute]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var permission = await _context.PermissionTable.FindAsync(id);

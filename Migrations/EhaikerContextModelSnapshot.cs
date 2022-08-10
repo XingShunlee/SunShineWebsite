@@ -281,8 +281,7 @@ namespace ehaikerv202010.Migrations
 
                     b.Property<DateTime?>("LastSignTime");
 
-                    b.Property<byte[]>("LoginGuid")
-                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
+                    b.Property<string>("LoginGuid");
 
                     b.Property<string>("LoginIP");
 
@@ -296,6 +295,8 @@ namespace ehaikerv202010.Migrations
                         .HasMaxLength(256);
 
                     b.Property<int>("SignCount");
+
+                    b.Property<string>("UserGuid");
 
                     b.Property<string>("UserName");
 
@@ -321,7 +322,7 @@ namespace ehaikerv202010.Migrations
 
                     b.Property<decimal>("UMoney");
 
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserGuid");
 
                     b.Property<int>("isIdentityValid");
 
@@ -419,8 +420,7 @@ namespace ehaikerv202010.Migrations
 
                     b.Property<int>("GroupId");
 
-                    b.Property<byte[]>("LoginGuid")
-                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
+                    b.Property<string>("LoginGuid");
 
                     b.Property<string>("LoginIP");
 
@@ -429,6 +429,10 @@ namespace ehaikerv202010.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(256);
+
+                    b.Property<string>("UserGuid");
+
+                    b.Property<string>("nickname");
 
                     b.Property<string>("sPermission");
 
@@ -444,8 +448,6 @@ namespace ehaikerv202010.Migrations
 
                     b.Property<string>("Author");
 
-                    b.Property<int>("AuthorID");
-
                     b.Property<string>("Content")
                         .IsRequired();
 
@@ -455,15 +457,21 @@ namespace ehaikerv202010.Migrations
 
                     b.Property<int>("IsIdentified");
 
+                    b.Property<int>("IsUnVisible");
+
                     b.Property<DateTime>("LastEditTime");
 
                     b.Property<int>("Rank");
 
                     b.Property<string>("ReferAthor");
 
+                    b.Property<string>("ReferUri");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(1024);
+
+                    b.Property<string>("UserGuid");
 
                     b.Property<int>("VipLevel");
 
@@ -478,6 +486,51 @@ namespace ehaikerv202010.Migrations
                     b.ToTable("GameStrategs");
                 });
 
+            modelBuilder.Entity("ehaikerv202010.Models.ItBlogModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Author");
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreateTime");
+
+                    b.Property<int>("IsIdentified");
+
+                    b.Property<int>("IsUnVisible");
+
+                    b.Property<DateTime>("LastEditTime");
+
+                    b.Property<int>("Rank");
+
+                    b.Property<string>("ReferAthor");
+
+                    b.Property<string>("ReferUri");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(1024);
+
+                    b.Property<string>("UserGuid");
+
+                    b.Property<int>("VipLevel");
+
+                    b.Property<int>("blogtype");
+
+                    b.Property<int>("lookupvalue");
+
+                    b.Property<int>("readers");
+
+                    b.Property<int>("toplevel");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ItBlogSets");
+                });
+
             modelBuilder.Entity("ehaikerv202010.Models.MyGameLibs", b =>
                 {
                     b.Property<int>("IndexID")
@@ -489,7 +542,7 @@ namespace ehaikerv202010.Migrations
 
                     b.Property<string>("ItemName");
 
-                    b.Property<int>("MemberShipID");
+                    b.Property<string>("UserGuid");
 
                     b.HasKey("IndexID");
 
@@ -507,11 +560,29 @@ namespace ehaikerv202010.Migrations
 
                     b.Property<string>("ItemName");
 
-                    b.Property<int>("MemberShipID");
+                    b.Property<string>("UserGuid");
 
                     b.HasKey("IndexID");
 
                     b.ToTable("MyGameStrages");
+                });
+
+            modelBuilder.Entity("ehaikerv202010.Models.MyItBlogModel", b =>
+                {
+                    b.Property<int>("IndexID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BlogID");
+
+                    b.Property<string>("ItemName");
+
+                    b.Property<string>("UserGuid");
+
+                    b.Property<int>("blogtype");
+
+                    b.HasKey("IndexID");
+
+                    b.ToTable("MyItBlogs");
                 });
 
             modelBuilder.Entity("ehaikerv202010.Models.NewsModel", b =>
@@ -523,6 +594,8 @@ namespace ehaikerv202010.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired();
+
+                    b.Property<int>("IsUnVisible");
 
                     b.Property<DateTime>("LastEditTime");
 

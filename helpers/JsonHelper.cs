@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Newtonsoft.Json;
 using System.IO;
 /*
  * 作者：MaFeng 出处：http://www.cnblogs.com/MaFeng0213/ 
@@ -37,9 +34,16 @@ namespace ehaikerv202010
         {
             JsonSerializer serializer = new JsonSerializer();
             StringReader sr = new StringReader(json);
-            object o = serializer.Deserialize(new JsonTextReader(sr), typeof(T));
-            T t = o as T;
-            return t;
+            try
+            {
+                object o = serializer.Deserialize(new JsonTextReader(sr), typeof(T));
+                T t = o as T;
+                return t;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -52,9 +56,16 @@ namespace ehaikerv202010
         {
             JsonSerializer serializer = new JsonSerializer();
             StringReader sr = new StringReader(json);
-            object o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<T>));
-            List<T> list = o as List<T>;
-            return list;
+            try
+            {
+                object o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<T>));
+                List<T> list = o as List<T>;
+                return list;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>

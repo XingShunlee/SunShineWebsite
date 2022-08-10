@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
-using ehaiker.Models;
+﻿using ehaiker.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ehaiker
 {
-    public class PaybillApproveRepository: IRepository<PaybillApproveModel>
+    public class PaybillApproveRepository : IRepository<PaybillApproveModel>
     {
         private EhaikerContext context;
         public PaybillApproveRepository(EhaikerContext _context)
@@ -20,7 +18,7 @@ namespace ehaiker
         public void Add(PaybillApproveModel note)
         {
             context.PayBillApproveModels.Add(note);
-            
+
         }
         public PaybillApproveModel GetById(int id)
         {
@@ -56,17 +54,17 @@ namespace ehaiker
             var _admin = GetById(administratorID);
             if (context.GameStrategs.Count() == 1)
             {
-                return ;
+                return;
             }
             else
             {
                 context.PayBillApproveModels.Remove(_admin);
-               
+
             }
         }
         public int SaveChanges()
         {
-           // try
+            // try
             {
                 return context.SaveChanges();
             }

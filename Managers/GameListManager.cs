@@ -1,11 +1,8 @@
-﻿using System;
+﻿using ehaiker.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ehaiker;
-using ehaiker.Models;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace ehaiker
 {
@@ -14,8 +11,8 @@ namespace ehaiker
         private EhaikerContext context;
         public GameListManager(EhaikerContext _context)
         {
-            context =_context;
-            
+            context = _context;
+
         }
         /// <summary>
         /// 添加
@@ -29,7 +26,7 @@ namespace ehaiker
             {
                 // _resp.Code = 0;
                 // _resp.Message = "帐号已存在";
-                return ;
+                return;
             }
             else
             {
@@ -62,7 +59,7 @@ namespace ehaiker
             var _admin = GetById(administratorID);
             if (context.GameLists.Count() == 1)
             {
-                return ;
+                return;
             }
             else
             {
@@ -77,7 +74,7 @@ namespace ehaiker
         public int DeleteArray(int[] administratorIDs)
         {
 
-            if (context.GameLists.Count() <=0 )
+            if (context.GameLists.Count() <= 0)
             {
                 return 0;
             }
@@ -133,7 +130,7 @@ namespace ehaiker
             }
         }
 
-       
+
         //根据用户页面大小，起始，返回相应的内容
         public Tuple<List<GameModel>, int> PageList(int pageindex, int pagesize)
         {
@@ -149,10 +146,10 @@ namespace ehaiker
         }
         public int SaveChanges()
         {
-           // try
+            // try
             //{
-                return context.SaveChanges();
-           // }
+            return context.SaveChanges();
+            // }
             //catch (DbEntityValidationException exception)
             //{
             //    var errorMessages =
@@ -169,7 +166,7 @@ namespace ehaiker
             //}
         }
     }
-   
+
 }
 /// <summary>
 /// 管理员身份验证类

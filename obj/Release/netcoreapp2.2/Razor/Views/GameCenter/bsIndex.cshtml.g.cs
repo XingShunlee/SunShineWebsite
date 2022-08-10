@@ -28,11 +28,13 @@ using ehaikerv202010.Models;
     public class Views_GameCenter_bsIndex : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #line hidden
+        #pragma warning disable 0649
+        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
+        #pragma warning restore 0649
+        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
         #pragma warning disable 0169
         private string __tagHelperStringValueBuffer;
         #pragma warning restore 0169
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __backed__tagHelperScopeManager = null;
         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __tagHelperScopeManager
         {
@@ -109,7 +111,7 @@ using ehaikerv202010.Models;
                             ");
             EndContext();
             BeginContext(2399, 19, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b65f4e3035d1368bb16e1761886947734f0a46095806", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b65f4e3035d1368bb16e1761886947734f0a46095882", async() => {
                 BeginContext(2407, 2, true);
                 WriteLiteral("10");
                 EndContext();
@@ -129,7 +131,7 @@ using ehaikerv202010.Models;
             WriteLiteral("\r\n                            ");
             EndContext();
             BeginContext(2448, 19, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b65f4e3035d1368bb16e1761886947734f0a46097006", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b65f4e3035d1368bb16e1761886947734f0a46097082", async() => {
                 BeginContext(2456, 2, true);
                 WriteLiteral("20");
                 EndContext();
@@ -149,7 +151,7 @@ using ehaikerv202010.Models;
             WriteLiteral("\r\n                            ");
             EndContext();
             BeginContext(2497, 19, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b65f4e3035d1368bb16e1761886947734f0a46098206", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b65f4e3035d1368bb16e1761886947734f0a46098282", async() => {
                 BeginContext(2505, 2, true);
                 WriteLiteral("50");
                 EndContext();
@@ -169,7 +171,7 @@ using ehaikerv202010.Models;
             WriteLiteral("\r\n                            ");
             EndContext();
             BeginContext(2546, 20, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b65f4e3035d1368bb16e1761886947734f0a46099406", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b65f4e3035d1368bb16e1761886947734f0a46099482", async() => {
                 BeginContext(2554, 3, true);
                 WriteLiteral("100");
                 EndContext();
@@ -189,7 +191,7 @@ using ehaikerv202010.Models;
             WriteLiteral("\r\n                            ");
             EndContext();
             BeginContext(2596, 20, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b65f4e3035d1368bb16e1761886947734f0a460910607", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b65f4e3035d1368bb16e1761886947734f0a460910683", async() => {
                 BeginContext(2604, 3, true);
                 WriteLiteral("200");
                 EndContext();

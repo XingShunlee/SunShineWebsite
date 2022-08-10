@@ -1,8 +1,4 @@
 ﻿using ehaikerv202010.helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ehaikerv202010.Filters
 {

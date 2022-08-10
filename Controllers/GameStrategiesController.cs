@@ -1,18 +1,16 @@
-﻿using System;
+﻿using ehaiker.Models;
+using ehaikerv202010.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using ehaiker.Models;
-using ehaiker.Managers;
-using Microsoft.AspNetCore.Mvc;
-using ehaikerv202010.Models;
 
 namespace ehaiker.Controllers
 {
     public class GameStrategiesController : Controller
     {
-        private IRepository<GameStrategies> _noteRepository ;
-              
+        private IRepository<GameStrategies> _noteRepository;
+
         private IRepository<GameType> _noteTypeRepository;
         private EhaikerContext DbContext;
 
@@ -21,18 +19,17 @@ namespace ehaiker.Controllers
             DbContext = _cont;
             _noteRepository = new GameStrategiesRepository(DbContext);
             _noteTypeRepository = new GameTypeRepository(DbContext);
-          
+
         }
-        
-        public ActionResult Index(int page=0)
+        public ActionResult Index(int page = 0)
         {
             ViewBag.PageIndex = page;//当前页
             return View("bsIndex");
         }
-       
+
         ///
         [HttpPost]//GameStrategies
-        public JsonResult GetGameStrategies(int page=1, int rows=10, int type = 1, string name = "")
+        public JsonResult GetGameStrategies(int page = 1, int rows = 10, int type = 1, string name = "")
         {
             page = page > 0 ? page : 1;
             GameStrategiesRepository _noteRepository;
@@ -40,24 +37,22 @@ namespace ehaiker.Controllers
             var query = new List<GameStrategies>();
             if (type != -1)
             {
-               
+
                 if (type == 0)
                 {
-                    query = _noteRepository.List();
+                    query = _noteRepository.GetDbSet().Where(r => r.IsIdentified > 0 && r.IsUnVisible < 1).ToList();
                 }
                 else
                 {
-                    query = _noteRepository.GetDbSet().Where(r => r.GameId == type).ToList();
+                    query = _noteRepository.GetDbSet().Where(r => r.GameId == type && r.IsIdentified > 0 && r.IsUnVisible < 1).ToList();
                 }
-               
-               
             }
             else
             {
                 query = (from c in _noteRepository.GetDbSet()
-                         where c.Title.Contains(name)
+                         where c.Title.Contains(name) && c.IsIdentified > 0 && c.IsUnVisible < 1
                          select c).ToList();
-               
+
             }
             var count = query.Count();
             var pagecount = count % rows == 0 ? count / rows : count / rows + 1;

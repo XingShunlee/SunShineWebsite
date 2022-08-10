@@ -81,10 +81,10 @@
                             <span class="grade-tag" v-else>已审核</span>
                         </td>
                         <td style="width:16%;">
-                            <span class="grade-tag"><input type="button" v-on:click="ValidPass(item.Id)" value="通过审核" /></span>  || <span class="grade-tag"><input type="button" v-on:click="PageResetPassword(item.UserId)" value="重新编辑" /></span>
+                            <span class="grade-tag"><input type="button" v-on:click="ValidPass(item.Id)" value="通过审核" /></span>  || <span class="grade-tag"><input type="button" v-on:click="ValidForbidden(item.Id)" value="退回修改" /></span>
                         </td>
                         <td style="width:8%;">
-                            <span class="grade-tag"><input type="button" v-on:click="ValidBack(item.Id)" value="退回修改" /></span>
+                            <span class="grade-tag"><input type="button" v-on:click="ValidBack(item.Id)" value="删除" /></span>
                         </td>
                     </tr>
                 </tbody>
@@ -226,15 +226,30 @@
                         data: { uid: e },
                         success: (arrdata) => {
                             if (arrdata != null) {
-                                alert("账单ID:" + e + "已经成功批付");
+                                alert("攻略ID:" + e + "已经成功批付");
 
                             }
 
                         }
                     });
                 },
-                ValidBack: function (page) {
-                    this.pageindex = page;
+                ValidForbidden: function (e) {
+                    $.ajax({
+                        url: "../ManagerMain/GameStrageForbidden",
+                        type: "post",
+                        dataType: "json",
+                        data: { uid: e },
+                        success: (arrdata) => {
+                            if (arrdata != null) {
+                                alert("攻略ID:" + e + "已经成功批付");
+
+                            }
+
+                        }
+                    });
+                },
+                ValidBack: function (e) {
+                    
                     $.ajax({
                         url: "../ManagerMain/GameStrageDel",
                         type: "post",

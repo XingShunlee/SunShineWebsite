@@ -1,38 +1,25 @@
-﻿using System;
+﻿using ehaiker.Models;
+using ehaikerv202010.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ehaiker;
-using ehaiker.Models;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
-using ehaikerv202010.Models;
 
 namespace ehaiker
 {
-    public class MyGameManager: IRepository<MyGameLibs>
+    public class MyGameManager : IRepository<MyGameLibs>
     {
         private EhaikerContext context;
         public MyGameManager(EhaikerContext _context)
         {
-            context =_context;
-            
+            context = _context;
+
         }
-        /// <summary>
-        /// 添加
-        /// </summary>
-        /// <param name="admin">管理员实体</param>
-        /// <returns></returns>
+
         public void Add(MyGameLibs ImgItem)
         {
 
-            if (HasAccounts(ImgItem.ItemName))
-            {
-                // _resp.Code = 0;
-                // _resp.Message = "帐号已存在";
-                return ;
-            }
-            else
+            if (!isHasRecord(ImgItem.GameID, ImgItem.UserGuid))
             {
                 context.GetView<MyGameLibs>().Add(ImgItem);
             }
@@ -43,7 +30,11 @@ namespace ehaiker
         }
         public MyGameLibs GetById(int id)
         {
-            return context.GetView<MyGameLibs>().FirstOrDefault(r => r.GameID == id);
+            return context.GetView<MyGameLibs>().FirstOrDefault(r => r.IndexID == id);
+        }
+        public MyGameLibs GetIdByUserId(int gameid, string userguid)
+        {
+            return context.GetView<MyGameLibs>().FirstOrDefault(r => r.GameID == gameid && r.UserGuid.ToUpper() == userguid.ToUpper());
         }
         public void Update(MyGameLibs ImgItem)
         {
@@ -53,39 +44,34 @@ namespace ehaiker
         {
             return context.GetView<MyGameLibs>();
         }
-        /// <summary>
-        /// 删除
-        /// </summary>
-        /// <param name="administratorID">主键</param>
-        /// <returns></returns>
-        public void Delete(int administratorID)
+
+        public void Delete(int keyID)
         {
-            var _admin = GetById(administratorID);
-            if (context.GameLists.Count() == 1)
-            {
-                return ;
-            }
-            else
+            var _admin = GetById(keyID);
+            if (_admin != null)
             {
                 context.GetView<MyGameLibs>().Remove(_admin);
             }
         }
-        /// <summary>
-        /// 删除
-        /// </summary>
-        /// <param name="administratorID">主键,主键</param>
-        /// <returns></returns>
-        public int DeleteArray(int[] administratorIDs)
+        public void SafeDelete(int gameID, string userguid)
+        {
+            var _admin = GetIdByUserId(gameID, userguid);
+            if (_admin != null)
+            {
+                context.GetView<MyGameLibs>().Remove(_admin);
+            }
+        }
+        public int DeleteArray(int[] keyIDs)
         {
 
-            if (context.GetView<MyGameLibs>().Count() <=0 )
+            if (context.GetView<MyGameLibs>().Count() <= 0)
             {
                 return 0;
             }
             else
             {
-                var idlist = administratorIDs;
-                IQueryable<Object> queryEntity = context.GetView<MyGameLibs>().Where(r => idlist.Contains(r.GameID));
+                var idlist = keyIDs;
+                IQueryable<Object> queryEntity = context.GetView<MyGameStrage>().Where(r => idlist.Contains(r.IndexID));
                 foreach (MyGameLibs item in queryEntity)
                 {
                     context.GetView<MyGameLibs>().Remove(item);
@@ -93,48 +79,10 @@ namespace ehaiker
                 return context.SaveChanges();
             }
         }
-        /// <summary>
-        /// 查找
-        /// </summary>
-        /// <param name="accounts">帐号</param>
-        /// <returns></returns>
-        public MyGameLibs Find(string account)
+        public bool isHasRecord(int gameid, string userguid)
         {
-            return context.GetView<MyGameLibs>().FirstOrDefault(a => a.ItemName == account);
+            return context.GetView<MyGameLibs>().FirstOrDefault(a => a.GameID == gameid && a.UserGuid.ToUpper() == userguid.ToUpper()) != null;
         }
-
-        /// <summary>
-        /// 帐号是否存在
-        /// </summary>
-        /// <param name="accounts">帐号</param>
-        /// <returns></returns>
-        public bool HasAccounts(string accounts)
-        {
-            return context.GetView<MyGameLibs>().FirstOrDefault(a => a.ItemName.ToUpper() == accounts.ToUpper()) != null;
-        }
-
-        /// <summary>
-        /// 更新登录信息
-        /// </summary>
-        /// <param name="administratorID">主键</param>
-        /// <param name="ip">IP地址</param>
-        /// <param name="time">时间</param>
-        /// <returns></returns>
-        public int UpadateLoginInfo(int administratorID, string ip, DateTime time)
-        {
-            var _admin = GetById(administratorID);
-            if (_admin == null)
-            {
-                return 0;
-            }
-            else
-            {
-                Update(_admin);
-                return SaveChanges();
-            }
-        }
-
-       
         //根据用户页面大小，起始，返回相应的内容
         public Tuple<List<MyGameLibs>, int> PageList(int pageindex, int pagesize)
         {
@@ -150,10 +98,10 @@ namespace ehaiker
         }
         public int SaveChanges()
         {
-           // try
+            // try
             //{
-                return context.SaveChanges();
-           // }
+            return context.SaveChanges();
+            // }
             //catch (DbEntityValidationException exception)
             //{
             //    var errorMessages =
@@ -170,5 +118,5 @@ namespace ehaiker
             //}
         }
     }
-   
+
 }

@@ -1,0 +1,112 @@
+﻿@model ehaikerv202010.Models.ItBlogModel
+
+@{
+    ViewBag.Title = Model.Title;
+    var comments = ViewBag.Comments as List<ehaiker.Models.CommentModel>;
+}
+<link rel="stylesheet" href="../css/showdetail/home-page.min.css" />
+
+    <div class="page-body">
+        <div id="left-right-layout">
+            <div class="block-main">
+                <header class="article-header">
+                    <h1 class="article-title">@Model.Title</h1>
+                    <div class="article-info">
+                        <span><i class="article-lastedit">最后修改：</i> @Model.LastEditTime </span>
+                        <span><i class="article-reader">浏览量：</i> @Model.readers </span>
+                        <span><i class="article-comment">评论：</i><a href="#articlecomment"> @comments.Count </a></span>
+                        <span><i class="article-comment"></i><a id="btnsubmit" class="small-btn" href="javascript:void(0);" title="">收  藏</a></span>
+                    </div>
+                </header>
+                <article class="article-content clear-fix">
+                    <div class="article-progra" id="article"> @Html.Raw(@Model.Content) </div>
+
+                </article>
+                <div class="article-copyright clear-fix">
+                    <p class="ReferUri">参考自:@Model.ReferUri </p>                 <p class="Author">本文由 @Model.Author 编辑，转载保留链接</p>
+                </div>
+                <!--討論-->
+                <div class="article-commentBlcok" id="articlecomment">
+                    @{
+                        var l = 0;
+                        for (int m = 0; m < comments.Count; m++)
+                        {
+                            l = m + 1;
+                            <div class="commentItem">@l 樓 @Html.Raw(comments[m].UserName) @Html.Raw(comments[m].CreateTime):<br />   @Html.Raw(comments[m].comment) </div>
+                        }
+                    }
+                </div>
+                <div class="article-commentBlcok" style='display:none;' id="speakcomment">
+                    <textarea id="speakContent" data-provider="markdown" rows="5" cols="50" class="form-control"></textarea>
+                    <button type="submit" class="btn" id="SpeakComment">发  表</button>
+                </div>
+            </div>
+
+
+        </div><!---fg-->
+    </div>
+
+    <script>
+        $(function () {
+            $("#btnsubmit").on("click",
+                function (o) {
+                    o.stopPropagation();
+                    
+                    
+                    $.ajax(
+                        {
+                            url: "/MyItBlog/SaveMyItBlogs",
+                            type: "post",
+                            data: { gid:@Model.Id  },
+                            dataType: "json",
+                            success: function (o) {
+                                if (o.SuccessCode == "0") {
+                                    window.location.href = "../ItBlogShow?Id="+@Model.Id;
+                                    return;
+                                }
+                                else {
+                                    alert(o.msg);
+                                }
+
+                            }
+                            ,
+                            error: function (o) {
+                                alert("请登录后再收藏");
+                            }
+
+                        }); 
+                });
+            //SpeakComment 
+            $("#SpeakComment").on("click",
+                function (o) {
+                    o.stopPropagation();
+                    var content = $("#speakContent").val();
+                    
+                    $.ajax(
+                        {
+                            url: "/CommentItBlog/commentSave",
+                            type: "post",
+                            data: { uid:@Model.Id ,customerContent: escape(content.replace(/(?!<(img|p|span).*?>)<.*?>/g, ""))},
+                            dataType: "json",
+                            success: function (o) {
+                                if (o.Code == "0") {
+                                    window.location.href = "../ItBlogShow?Id="+@Model.Id;
+                                    return;
+                                }
+                                else {
+                                    alert(o.msg);
+                                }
+
+                            }
+                            ,
+                            error: function (o) {
+                                alert("请登录后再发表评论");
+                            }
+
+                        }); //ajax
+                });
+            if (@ViewBag.loging > 0)
+                $("#speakcomment").css('display', "block");
+        });
+    </script>
+

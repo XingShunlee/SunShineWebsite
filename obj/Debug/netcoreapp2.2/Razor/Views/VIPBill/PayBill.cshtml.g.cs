@@ -41,11 +41,13 @@ using ehaikerv202010.Models;
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_11 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("value", "440", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_12 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("value", "550", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         #line hidden
+        #pragma warning disable 0649
+        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
+        #pragma warning restore 0649
+        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
         #pragma warning disable 0169
         private string __tagHelperStringValueBuffer;
         #pragma warning restore 0169
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __backed__tagHelperScopeManager = null;
         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __tagHelperScopeManager
         {
@@ -74,7 +76,7 @@ using ehaikerv202010.Models;
             WriteLiteral("<!DOCTYPE html>\r\n");
             EndContext();
             BeginContext(78, 2310, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a97486", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a97562", async() => {
                 BeginContext(84, 2297, true);
                 WriteLiteral(@"
     <meta charset=""utf-8"" />
@@ -168,7 +170,7 @@ using ehaikerv202010.Models;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(2390, 2078, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a911115", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a911191", async() => {
                 BeginContext(2396, 656, true);
                 WriteLiteral(@"
 <!------------------------------------------- 广告区域 ---------------------------->
@@ -198,7 +200,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("</a>\r\n              </p>\r\n            </div>\r\n        <select class=\"ui-choose\" id=\"uc_01\">\r\n            ");
                 EndContext();
                 BeginContext(3171, 53, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a912616", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a912692", async() => {
                     BeginContext(3208, 7, true);
                     WriteLiteral("5个T币/5元");
                     EndContext();
@@ -221,7 +223,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("\r\n            ");
                 EndContext();
                 BeginContext(3238, 53, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a914182", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a914258", async() => {
                     BeginContext(3273, 9, true);
                     WriteLiteral("10个T币/10元");
                     EndContext();
@@ -244,7 +246,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("\r\n            ");
                 EndContext();
                 BeginContext(3305, 53, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a915750", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a915826", async() => {
                     BeginContext(3340, 9, true);
                     WriteLiteral("22个T币/20元");
                     EndContext();
@@ -267,7 +269,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("\r\n            ");
                 EndContext();
                 BeginContext(3372, 53, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a917318", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a917394", async() => {
                     BeginContext(3407, 9, true);
                     WriteLiteral("33个T币/30元");
                     EndContext();
@@ -290,7 +292,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("\r\n            ");
                 EndContext();
                 BeginContext(3439, 53, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a918886", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a918962", async() => {
                     BeginContext(3474, 9, true);
                     WriteLiteral("44个T币/40元");
                     EndContext();
@@ -313,7 +315,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("\r\n            ");
                 EndContext();
                 BeginContext(3506, 53, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a920454", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a920530", async() => {
                     BeginContext(3541, 9, true);
                     WriteLiteral("55个T币/50元");
                     EndContext();
@@ -336,7 +338,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("\r\n            ");
                 EndContext();
                 BeginContext(3573, 56, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a922022", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a922098", async() => {
                     BeginContext(3609, 11, true);
                     WriteLiteral("110个T币/100元");
                     EndContext();
@@ -359,7 +361,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("\r\n            ");
                 EndContext();
                 BeginContext(3643, 56, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a923593", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a923669", async() => {
                     BeginContext(3679, 11, true);
                     WriteLiteral("220个T币/200元");
                     EndContext();
@@ -382,7 +384,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("\r\n            ");
                 EndContext();
                 BeginContext(3713, 56, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a925164", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a925240", async() => {
                     BeginContext(3749, 11, true);
                     WriteLiteral("330个T币/300元");
                     EndContext();
@@ -405,7 +407,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("\r\n            ");
                 EndContext();
                 BeginContext(3783, 56, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a926737", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a926813", async() => {
                     BeginContext(3819, 11, true);
                     WriteLiteral("440个T币/400元");
                     EndContext();
@@ -428,7 +430,7 @@ using ehaikerv202010.Models;
                 WriteLiteral("\r\n            ");
                 EndContext();
                 BeginContext(3853, 56, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a928310", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b43c43ffd1f7fd637222aeb771233365d62c07a928386", async() => {
                     BeginContext(3889, 11, true);
                     WriteLiteral("550个T币/500元");
                     EndContext();

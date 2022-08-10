@@ -99,7 +99,7 @@
                         if (data.ErrorCode != 0) {
                             clearTimeout(g_timerId_getmsg);
                         }
-                        alert(data.ErrorCode+1);
+                      //  alert(data.ErrorCode+1);
                     }
                 },
                 error: function (result) {
@@ -113,7 +113,7 @@
         var g_timerId_getmsg;
         $(function () {
             /* 定时刷新组件，读取数据库信息 */
-            g_timerId_getmsg = setInterval('getAllRecord()', 1000);
+            g_timerId_getmsg = setInterval('getAllRecord()', 3000);
             /* 定时刷新组件，读取时间 */
             $("#send").click(function () {
                 var content = $("#textId").val();
@@ -161,11 +161,22 @@
                 });
             });
         });
+        $(document).keydown(function () {
+            if ((event.keyCode == 116) || //屏蔽F5 
+                (event.ctrlkey && event.keycode == 82)) {//CTRL +R
+                event.keycode = 0;
+                event.returnValue = false;
+            }
+        });
         window.onbeforeunload = function () {
-            $.ajax({
-                url: "../CS/customerOffline",
-                type: "POST"
-            });
+            if (window.event.clientY < 0 || window.event.altkey) {
+                $.ajax({
+                    url: "../CS/customerOffline",
+                    type: "POST"
+                });
+            }
+            
+           
         }
     </script>
 </head>

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
-using ehaiker.Models;
+﻿using ehaiker.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ehaiker
 {
-    public class PaybillRepository: IRepository<PaybillModel>
+    public class PaybillRepository : IRepository<PaybillModel>
     {
         private EhaikerContext context;
         public PaybillRepository(EhaikerContext _context)
@@ -20,7 +18,7 @@ namespace ehaiker
         public void Add(PaybillModel note)
         {
             context.PayBillModels.Add(note);
-            
+
         }
         public PaybillModel GetById(int id)
         {
@@ -37,7 +35,7 @@ namespace ehaiker
         }
         public void Update(PaybillModel note)
         {
-            context.Entry(note).State =EntityState.Modified;
+            context.Entry(note).State = EntityState.Modified;
         }
         public Tuple<List<PaybillModel>, int> PageList(int pageindex, int pagesize)
         {
@@ -56,19 +54,19 @@ namespace ehaiker
             var _admin = GetById(administratorID);
             if (context.GameStrategs.Count() == 1)
             {
-                return ;
+                return;
             }
             else
             {
                 context.PayBillModels.Remove(_admin);
-                
+
             }
         }
         public int SaveChanges()
         {
             //try
-           // {
-                return context.SaveChanges();
+            // {
+            return context.SaveChanges();
             //}
             //catch (DbEntityValidationException exception)
             //{

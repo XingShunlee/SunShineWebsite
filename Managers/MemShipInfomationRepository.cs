@@ -1,10 +1,8 @@
-﻿using System;
+﻿using ehaiker.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
-using ehaiker.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ehaiker
 {
@@ -18,19 +16,18 @@ namespace ehaiker
         public void Add(MemberShipInfomation note)
         {
             context.MemberShipInfomation.Add(note);
-            
+
         }
         public MemberShipInfomation GetById(int indexId)
         {
             return context.MemberShipInfomation.FirstOrDefault(r => r.IndexId == indexId);
         }
-        public MemberShipInfomation GetByUserId(int userId)
+        public MemberShipInfomation GetByUserId(string userguid)
         {
-            return context.MemberShipInfomation.FirstOrDefault(r => r.UserId == userId);
+            return context.MemberShipInfomation.FirstOrDefault(r => r.UserGuid == userguid);
         }
         public List<MemberShipInfomation> List()
         {
-
             return context.MemberShipInfomation.ToList();
         }
         public DbSet<MemberShipInfomation> GetDbSet()
@@ -43,7 +40,7 @@ namespace ehaiker
         }
         public int SaveChanges()
         {
-           // try
+            // try
             {
                 return context.SaveChanges();
             }
@@ -77,14 +74,9 @@ namespace ehaiker
         public void Delete(int administratorID)
         {
             var _admin = GetById(administratorID);
-            if (context.GameStrategs.Count() == 1)
-            {
-                return ;
-            }
-            else
+            if (_admin != null)
             {
                 context.MemberShipInfomation.Remove(_admin);
-                
             }
         }
 

@@ -7,7 +7,7 @@
 <div class="container mainPage" id="app">
     <!--轮播行-->
     <div id="flashads" class="row">
-        <div class="col-md-12 col-xs-12 col-sm-12" style="padding:0; border:5px solid green;">
+        <div class="col-md-12 col-xs-12 col-sm-12" style="padding:0; border:0px">
             <div id="myCarousel" class="carousel slide col-md-12 col-lg-12" style="height:200px; padding:0;overflow:hidden;" data-ride="carousel" data-wrap="true" data-interval="2000">
                 <!-- 轮播（Carousel）指标 -->
                 <ol class="carousel-indicators">
@@ -43,28 +43,29 @@
 
     <div id="app3" class="row">
 
-        <div id="myTabContent1" class="col-md-12 col-xs-12 col-sm-12" style="min-height:300px; border:1px solid #e8e8e8; padding:0px;">
-            <table class="table table-hover table-success list-group col-md-12 col-xs-12 col-sm-12" style="border:5px solid black; padding:0px;">
-                <tbody class="col-md-12 col-xs-12 col-sm-12" style="border:5px solid green; padding:0px;">
+        <div id="myTabContent1" class="col-md-12 col-xs-12 col-sm-12" style="min-height:300px; border:0px; padding:0px;">
+            <table class="table table-hover table-success list-group col-md-12 col-xs-12 col-sm-12" style="border:0px; padding:0px;">
+                <tbody class="col-md-12 col-xs-12 col-sm-12" style="border:0px; padding:0px;">
                     <tr class="data-row col-md-12 col-xs-12 col-sm-12" style="border:1px dotted red;">
                         <td style="width:10%;" class="data-col">游戏名称</td>
-                        <td style="width:8%;" class="data-col">游戏ID</td>
+                        <td style="width:8%;" class="data-col">攻略ID</td>
                         <td style="width:8%;" class="data-col">游戏类型</td>
                         <td style="width:16%;" class="data-col">  </td>
                     </tr>
                     <tr v-for="(item,index) in facilities" class="data-row col-md-12 col-xs-12 col-sm-12">
-                        <td style="width:10%;border:2px solid green;" >
+                        <td style="width:10%;border:0px" >
                             <span class="grade-tag">{{item.ItemName}}</span>
                         </td>
-                        <td style="width:8%;border:2px solid green;" >
+                        <td style="width:8%;" >
                             <span class="grade-tag">{{item.GameID}}</span>
                         </td>
-                        <td style="width:8%;border:2px solid green;">
+                        <td style="width:8%;">
                             <span class="grade-tag">{{item.Gametype}}</span>
                         </td>
                        
-                        <td style="width:8%;border:2px solid green;">
-                            <a :href="'../GameStrategiesShow?Id='+item.GameID" class="sw-btn" target="_blank">查看详细</a>
+                        <td style="width:8%;">
+                            <a :href="'../GameStrategiesShow?Id='+item.GameID" class="sw-btn" target="_blank">查看详细</a>  
+                            <a v-on:click="OnCancelItem(item.IndexID)">取消收藏</a>
                         </td>
                     </tr>
                 </tbody>
@@ -92,7 +93,7 @@
 </div>
 <script>
     (function () {
-       
+
        //----------------------------
         var datas = [];
         var app = new Vue({
@@ -115,7 +116,7 @@
                     tabitems: [
                     ]
                 },
-                
+
             },
             methods: {
                 PrevPage: function () {
@@ -198,8 +199,31 @@
                         }
                     });
                 },
-               
-               
+                OnCancelItem: function (e) {
+                     $.ajax(
+                        {
+                            url: "/MyGameStrategies/CancelItem",
+                            type: "post",
+                            data: { gid:e  },
+                            dataType: "json",
+                            success: function (o) {
+                                if (o.SuccessCode == "0") {
+                                    alert("操作成功");
+                                    return;
+                                }
+                                else {
+                                    alert(o.msg);
+                                }
+
+                            }
+                            ,
+                            error: function (o) {
+                                alert(o.msg);
+                            }
+
+                        }); //ajax
+                },
+
             },
             mounted:function() {
                 $.ajax({

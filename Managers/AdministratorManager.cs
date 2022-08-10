@@ -1,16 +1,14 @@
-﻿using System;
+﻿using ehaiker.Models;
+using ehaikerv202010;
+using ehaikerv202010.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ehaiker;
-using ehaiker.Models;
-using System.Data;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using ehaikerv202010;
-using Microsoft.AspNetCore.Mvc;
-using ehaikerv202010.Models;
+using System.Web;
 
 namespace ehaiker
 {
@@ -33,7 +31,7 @@ namespace ehaiker
             {
                 // _resp.Code = 0;
                 // _resp.Message = "帐号已存在";
-                return ;
+                return;
             }
             else
             {
@@ -53,7 +51,7 @@ namespace ehaiker
         public List<Administrator> List(HttpContext _context)
         {
             string cookie;
-             _context.Request.Cookies.TryGetValue("AdminUser",out cookie);
+            _context.Request.Cookies.TryGetValue("AdminUser", out cookie);
             //从Cookie对象中取出Json串
             string jsonUserInfo = HttpUtility.UrlDecode(cookie, Encoding.GetEncoding("UTF-8"));
             MemberShip juser = JsonHelper.DeserializeJsonToObject<MemberShip>(jsonUserInfo);
@@ -83,8 +81,8 @@ namespace ehaiker
             var _admin = GetById(administratorID);
             if (_admin == null)
             {
-               return 0;
-               // _resp.Message = "该主键的管理员不存在";
+                return 0;
+                // _resp.Message = "该主键的管理员不存在";
             }
             else
             {
@@ -101,17 +99,17 @@ namespace ehaiker
         /// <returns></returns>
         public void Delete(int administratorID)
         {
-             var _admin = GetById(administratorID);
-             if (context.Admin.Count() == 1)
-             {
-                 return ;
-                 // _resp.Message = "不能删除唯一的管理员帐号";
-             }
-             else
-             {
-                 context.Admin.Remove(_admin);
-                 
-             }
+            var _admin = GetById(administratorID);
+            if (context.Admin.Count() == 1)
+            {
+                return;
+                // _resp.Message = "不能删除唯一的管理员帐号";
+            }
+            else
+            {
+                context.Admin.Remove(_admin);
+
+            }
         }
         public int SaveChanges()
         {
@@ -141,7 +139,7 @@ namespace ehaiker
         /// <returns></returns>
         public int DeleteArray(int[] administratorIDs)
         {
-           
+
             if (context.Admin.Count() == 1)
             {
                 return 0;
@@ -150,11 +148,11 @@ namespace ehaiker
             else
             {
                 var idlist = administratorIDs;
-               IQueryable<Object> queryEntity = context.Admin.Where(r => idlist.Contains(r.AdministratorID) );
-               foreach (Administrator item in queryEntity)
-               {
-                   context.Admin.Remove(item);
-               }
+                IQueryable<Object> queryEntity = context.Admin.Where(r => idlist.Contains(r.AdministratorID));
+                foreach (Administrator item in queryEntity)
+                {
+                    context.Admin.Remove(item);
+                }
                 return context.SaveChanges();
             }
         }
@@ -175,7 +173,7 @@ namespace ehaiker
         /// <returns></returns>
         public bool HasAccounts(string accounts)
         {
-            return context.Admin.FirstOrDefault(a => a.Account.ToUpper() == accounts.ToUpper())!= null;
+            return context.Admin.FirstOrDefault(a => a.Account.ToUpper() == accounts.ToUpper()) != null;
         }
 
         /// <summary>
@@ -213,23 +211,23 @@ namespace ehaiker
             if (_admin == null)
             {
                 return 2;
-               // _resp.Message = "帐号为:【" + accounts + "】的管理员不存在";
+                // _resp.Message = "帐号为:【" + accounts + "】的管理员不存在";
             }
             else if (_admin.Password == password)
             {
                 return 1;
-               // _resp.Message = "验证通过";
+                // _resp.Message = "验证通过";
             }
             else
             {
                 return 3;
-               // _resp.Message = "帐号密码错误";
+                // _resp.Message = "帐号密码错误";
             }
         }
         public Tuple<List<Administrator>, int> PageList(int pageindex, int pagesize)
         {
 
-            
+
             var query = context.Admin
                 .AsQueryable();
             var count = query.Count();
@@ -244,8 +242,8 @@ namespace ehaiker
         ///过滤自己
         public Tuple<List<Administrator>, int> PageList(Controller ctl, int pageindex, int pagesize)
         {
-            Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(ctl.HttpContext,"AdminUser");
-              
+            Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(ctl.HttpContext, "AdminUser");
+
             var query = context.Admin.Where(r => r.Account != admin.Account)
                 .AsQueryable();
             var count = query.Count();
@@ -257,5 +255,5 @@ namespace ehaiker
             return new Tuple<List<Administrator>, int>(notes, count);
         }
     }
-    
+
 }

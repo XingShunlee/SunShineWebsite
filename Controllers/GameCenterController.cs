@@ -1,10 +1,8 @@
-﻿using System;
+﻿using ehaiker.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using ehaiker.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ehaiker.Controllers
 {
@@ -20,15 +18,15 @@ namespace ehaiker.Controllers
             return View("bsIndex");
         }
         [HttpPost]//GameStrategies
-        public JsonResult GetGameListInfo(int page = 1, int rows = 10, int type = 1,string name="")
+        public JsonResult GetGameListInfo(int page = 1, int rows = 10, int type = 1, string name = "")
         {
             page = page > 0 ? page : 1;
             GameListManager GamelistManager = new GameListManager(DbContext);
             var query = new List<GameModel>();
             if (type >= 0)
             {
-               
-                if (type==0)
+
+                if (type == 0)
                 {
                     query = GamelistManager.GetDbSet().Where(r => r.IsIdentified > 0).ToList();
                 }
@@ -36,16 +34,16 @@ namespace ehaiker.Controllers
                 {
                     query = GamelistManager.GetDbSet().Where(r => r.Gametype == type && r.IsIdentified > 0).ToList();
                 }
-                
-               
+
+
             }
             else
             {
-                
+
                 query = (from c in GamelistManager.GetDbSet()
                          where c.ItemName.Contains(name) && c.IsIdentified > 0
                          select c).ToList();
-               
+
             }
             var count = query.Count();
             var pagecount = count % rows == 0 ? count / rows : count / rows + 1;

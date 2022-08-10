@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ehaikerv202010.Models
 {
@@ -23,6 +20,8 @@ namespace ehaikerv202010.Models
         public string Author { set; get; }
         [Display(Name = "原作者")]
         public string ReferAthor { set; get; }
+        [Display(Name = "原网址")]
+        public string ReferUri { set; get; }
         [Display(Name = "推荐等级")]
         public int Rank { set; get; }
         //Recommendation level
@@ -33,12 +32,13 @@ namespace ehaikerv202010.Models
         [Display(Name = "审核标志")]
         public int IsIdentified { set; get; }
         [Display(Name = "提交者ID")]
-        public int AuthorID { set; get; }
+        public string UserGuid { set; get; }
         [Display(Name = "查看等级")]
         public int VipLevel { set; get; }
         [Display(Name = "查看需要多少钱")]
         public int lookupvalue { set; get; }
-
+        [Display(Name = "隐藏标志")]
+        public int IsUnVisible { set; get; }
     }
 
     public class GameStrategiesModel
@@ -57,6 +57,8 @@ namespace ehaikerv202010.Models
         public string Author { set; get; }
         [Display(Name = "原作者")]
         public string ReferAthor { set; get; }
+        [Display(Name = "原网址")]
+        public string ReferUri { set; get; }
         [Display(Name = "推荐等级")]
         public int Rank { set; get; }
         //Recommendation level
@@ -67,7 +69,7 @@ namespace ehaikerv202010.Models
         [Display(Name = "审核标志")]
         public int IsIdentified { set; get; }
         [Display(Name = "提交者ID")]
-        public int AuthorID { set; get; }
+        public string UserGuid { set; get; }
         [Display(Name = "查看等级")]
         public int lookupLevel { set; get; }
         [Display(Name = "查看需要多少钱")]

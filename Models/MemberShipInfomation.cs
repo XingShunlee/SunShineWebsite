@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 /*
  * 用户详细信息类--与用户表想关联
  */
@@ -12,7 +8,7 @@ namespace ehaiker.Models
     {
         public MemberShipInfomation()
         {
-            
+
         }
         /// <summary>
         /// 索引ID
@@ -22,8 +18,8 @@ namespace ehaiker.Models
         /// <summary>
         /// 用户ID
         /// </summary>
-        [Display(Name = "用户ID")]
-        public int UserId { get; set; }
+        [Display(Name = "用户GUID")]
+        public string UserGuid { get; set; }
         /// <summary>
         /// 人民币
         /// </summary>
@@ -35,7 +31,7 @@ namespace ehaiker.Models
         /// </summary>
         [Display(Name = "平台币")]
         public decimal TMoney { set; get; }
-       
+
         /// <summary>
         /// 是否激活
         /// </summary>

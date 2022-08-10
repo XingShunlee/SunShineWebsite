@@ -1,20 +1,15 @@
 ﻿@{
-    Layout = null;
+    Layout = "_MemberShipLayout";
     ViewData["Title"] = "游戏攻略修改";
     var types = ViewBag.Types as IEnumerable<SelectListItem>;
 }
 @model ehaikerv202010.Models.GameStrategies
-<head>
-<link rel="stylesheet" href="../common/css/websitebase.css" /><!--基本样式应用-->
-<link rel="stylesheet" href="../common/css/common.min.css" /><!--菜单与悬浮样式应用-->
-<link rel="stylesheet" href="../common/css/icon.min.css" />
-<link rel="stylesheet" href="../common/css/personal/home-page.min.css" /> <!--主体样式应用-->
-<script src="../common/js/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/personal/home-page.min.css" /> <!--主体样式应用-->
 <script src="../Scripts/MyStrategies_showdetail.js"></script>
-<script src="../common/js/personal.js"></script>
+<script src="/js/personal.js"></script>
 <script src="../../plugins/tinymce/tinymce.min.js"></script>
-<link rel="stylesheet" href="../common/css/CommonDialog.css" />
-<script type="text/javascript" src="../common/js/CommonDialog.js"></script>
+<link rel="stylesheet" href="/css/CommonDialog.css" />
+<script type="text/javascript" src="/js/CommonDialog.js"></script>
 <script>
   tinymce.init({
 				selector: '#idContent',
@@ -32,16 +27,14 @@
 
   });
 </script>
-</head>
-<body>
 <div id="left-right-layout">
     <div class="block-main">
-    <!--左边操作-->
-    <div class="block-Left">
-        <div class="box-wrap">
+        <!--左边操作-->
+        <div class="block-Left">
+            <div class="box-wrap">
        
+            </div>
         </div>
-    </div>
     <div class="block-Right" id="Main" style="float:left;">
         <div class="box-wrap">
             <div class="login-input clear-fix focus-style">
@@ -61,8 +54,5 @@
         </div>
     </div>
     </div>
-    </div>
-    
-</body>
-</html>
+</div>
 

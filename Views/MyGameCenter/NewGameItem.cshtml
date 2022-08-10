@@ -4,7 +4,7 @@
     Layout = "_MemberShipLayout";
 }
 
-<link rel="stylesheet" type="text/css" href="../css/Gameitemlist/GamelistItemMgr.css" />
+<link rel="stylesheet" type="text/css" href="../css/gameitemlist/GamelistItemMgr.css" />
 <div class="container mainPage" id="app">
     <!--轮播行-->
     <div id="flashads" class="row">
@@ -187,7 +187,7 @@
                             else {
                                 that.gameHoverUri = $(this).children('.img').attr('src');
                             }
-                            // $(that.imgctrl).val($(this).children('.img').attr('src'));
+                            $(that.imgctrl).val($(this).children('.img').attr('src'));
                             //
                             $("#imgDlg").css('display', "none");
                         });
@@ -231,6 +231,7 @@
                             else {
                                 that.gameHoverUri = $(this).children('.img').attr('src');
                             }
+                            $(that.imgctrl).val($(this).children('.img').attr('src'));
                             //
                             $("#imgDlg").css('display', "none");
                         });
@@ -244,8 +245,8 @@
                     },
                     GetGameImages: function (e) {
                         $(".popImgWrap li").remove();
-                        var that = this;
                         this.imgctrl = '#' + e;
+                        var that = this;
                         $.ajax({
                             url: "../MyGameCenter/GetDescImgs",
                             type: "post",
@@ -275,6 +276,7 @@
                                         else {
                                             that.gameHoverUri = $(this).children('.img').attr('src');
                                         }
+                                         $(that.imgctrl).val($(this).children('.img').attr('src'));
                                         $("#imgDlg").css('display', "none");
                                     });
                                     that.isprevDisable.disabled = true;

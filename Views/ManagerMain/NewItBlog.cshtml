@@ -1,0 +1,287 @@
+﻿
+@{
+    ViewData["Title"] = "发布新文章";
+        Layout = "_ManagerTop";
+}
+@model ehaikerv202010.Models.ItBlogModel
+<header>
+    <link rel="stylesheet" href="../css/personal/home-page.min.css" /> <!--主体样式应用-->
+    <script src="../../plugins/tinymce/tinymce.min.js"></script>
+    <link rel="stylesheet" href="../css/CommonDialog.css" />
+    <script type="text/javascript" src="../js/CommonDialog.js"></script>
+    <script>
+        tinymce.init({
+            selector: '#idContent',
+            language: 'zh_CN',
+            directionality: 'ltr',
+            browser_spellcheck: true,
+            contextmenu: false,
+            plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table contextmenu paste imagetools wordcount",
+                "code"
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code",
+
+        });
+    </script>
+</header>
+<div style="margin-top:30px;margin-bottom:10px;" id="app">
+    <div class="box-wrap">
+        <div id="imgDlg" class="popImgDialog" style="display: none; position: absolute; z-index: 50000;">
+            <a href="javascript:void(0);" class="close-a"></a>
+            <ul class="popImgWrap"></ul>
+            <input type="button" name="imgprev" id="imgprev" v-on:click="PrevPage();" :class="isprevDisable" value="上一页" />
+            <input type="button" name="imgnext" id="imgnext" v-on:click="NextPage();" :class="isNextDisable" value="下一页" />
+        </div>
+        <table class="table table-hover table-success list-group col-md-12 col-xs-12 col-sm-12">
+            <tbody>
+                <tr class="data-row" style="border:1px dotted red;">
+                    <td style="border:2px dotted green;" class="data-col">文章标题:</td>
+                    <td class="data-col" colspan="3"> <input type="text" id="stragetitle" style="width:100%;" /></td>
+                </tr>
+                <tr class="data-row" style="border:1px dotted red;">
+                    <td class="data-col">著作原作者:</td>
+                    <td class="data-col" colspan="3"> <input type="text" id="stragereferauthor" style="width:100%;" /></td>
+                </tr>
+                <tr class="data-row" style="border:1px dotted red;">
+                    <td class="data-col">等级(0-10):</td>
+                    <td class="data-col" colspan="3"> <input type="text" v-model="stragerank" style="width:100%;" /></td>
+                </tr>
+                <tr class="data-row" style="border:1px dotted red;">
+                    <td class="data-col">推荐系数(1-100):</td>
+                    <td class="data-col" colspan="3"> <input type="text" v-model="stragetoplevel" style="width:100%;" /></td>
+                </tr>
+                <tr class="data-row" style="border:1px dotted red;">
+                    <td class="data-col">文章引用地址:</td>
+                    <td class="data-col" colspan="3"> <input type="text" v-model="ReferUri" style="width:100%;" /></td>
+                </tr>
+                <tr class="data-row" style="border:1px dotted red;">
+                    <td class="data-col">关键字:</td>
+                    <td class="data-col" colspan="2"> <input type="text" id="gamekeywords" style="width:100%;" /></td>
+                </tr>
+               
+                <tr class="data-row" style="border:1px dotted red;">
+                    <td class="data-col" colspan="2">详细介绍:</td>
+                </tr>
+                <tr class="data-row" style="border:1px dotted red;">
+                    <td style="width:100%;" class="data-col" colspan="4"> <textarea name="DIVCSS5" cols="3" rows="4" style="width:100%;" id="idContent"></textarea></td>
+                </tr>
+                <tr>
+                    <td><span class="Title">文章类型：</span>@Html.DropDownList("BlogTypes", ViewData["BlogTypes"] as SelectList, "--请选择--", new { @class = "SelectList" })</td>
+                    <td><span class="login-btn"><a id="personal-shiwan-add-btn" href="javascript:void(0)" title="" v-on:click="DoNewGameStrage();">新    增</a></span></td>
+
+                </tr>
+            </tbody>
+        </table>
+        
+        <hr />
+        
+    </div>
+</div>
+<script charset="utf-8">
+    (function () {
+        //----------------------------
+        var datas = [];
+        var app = new Vue({
+
+            el: '#app',
+            data: {
+                animating: false,
+                selectPageSize: 10,
+                current_index: 0,
+                totalitems: 0,
+                previous_index: 0,
+                imgdata: [],
+                isprevDisable: { disabled: true },
+                isNextDisable: { disabled: false },
+                imgctrl: '',
+                stragerank: '10',
+                stragetoplevel: '100',
+                ReferUri: '',
+                stragekeywords: '',
+                
+                posts: {
+                },
+
+            },
+            methods: {
+                PrevPage: function () {
+                    if (this.animating === true)
+                        return false;
+
+                    if (this.current_index - 4 <= 0) {
+                        this.isprevDisable.disabled = true;
+                        this.isNextDisable.disabled = false;
+                    }
+                    else {
+                        this.isNextDisable.disabled = false;
+
+                    }
+                    this.animating = true;
+                    var that = this;
+                    //取得下一页的开始索引
+                    this.current_index = this.current_index - 4;
+                    if (this.current_index < 0) {
+                        this.current_index = 0;
+                    }
+                    $(".popImgWrap li").remove();
+                    $.each(that.imgdata, function (i, item) {
+                        if (that.current_index <= i && i < that.current_index + 4) {
+                            var listr = '<li><a class="img-a" href="javascript:void(0);"><img class="img" src="' + item +
+                                '" alt=" " width=200px height=200px  /></a></li>';
+                            $(".popImgWrap").append(listr);  //动态取数据
+                        }
+                        else if (that.current_index + 4 <= i) {
+
+
+                            return false;
+                        }
+                    });
+                    //选择图片时
+                    $(".img-a").on("click", function (o) {
+                        o.stopPropagation();
+                      
+                         $(that.imgctrl).val($(this).children('.img').attr('src'));
+                        //
+                        $("#imgDlg").css('display', "none");
+                    });
+                    if (this.current_index < 0) {
+                        this.current_index = 0;
+                        this.isprevDisable.disabled = true;
+                        this.isNextDisable.disabled = false;
+                    }
+                    this.animating = false;
+                },
+                NextPage: function () {
+
+                    if (this.animating === true)
+                        return false;
+
+                    this.animating = true;
+                    var that = this;
+                    $(".popImgWrap li").remove();
+                    //取得下一页的开始索引
+                    this.current_index = this.current_index + 4;
+                    if (this.current_index > this.totalitems) {
+                        this.current_index = this.current_index - 4;
+                    }
+                    $.each(that.imgdata, function (i, item) {
+                        if (that.current_index <= i && i < that.current_index + 4) {
+                            var listr = '<li><a class="img-a" href="javascript:void(0);"><img class="img" src="' + item +
+                                '" alt=" " width=200px height=200px  /></a></li>';
+                            $(".popImgWrap").append(listr);  //动态取数据
+                        }
+                        else if (i >= that.current_index + 4) {
+
+                            return false;
+                        }
+                    });
+                    //选择图片时
+                    $(".img-a").on("click", function (o) {
+                        o.stopPropagation();
+                        $(that.imgctrl).val($(this).children('.img').attr('src'));
+                        //
+                        $("#imgDlg").css('display', "none");
+                    });
+                    this.animating = false;
+                    this.isprevDisable.disabled = false;
+                    if (this.current_index >= this.totalitems) {
+
+                        this.isNextDisable.disabled = true;
+                        return;
+                    }
+                },
+                GetGameImages: function (e) {
+                    $(".popImgWrap li").remove();
+                    var that = this;
+                    this.imgctrl = '#' + e;
+                    $.ajax({
+                        url: "../ManagerMain/GetDescImgs",
+                        type: "post",
+                        dataType: "json",
+                        success: function (arrdata) {
+                            if (arrdata != null) {
+                                that.totalitems = arrdata.total;
+                                that.imgdata = arrdata.data;
+                                that.current_index = 0;
+                                that.animating = false;
+                                $.each(that.imgdata, function (i, item) {
+                                    if (i > that.current_index + 3)
+                                        return false;
+                                    var listr = '<li><a class="img-a" href="javascript:void(0);"><img class="img" src="' + item +
+                                        '" alt=" " width=200px height=200px  /></a></li>';
+                                    $(".popImgWrap").append(listr);  //动态取数据
+                                });
+                                //修改弹出位置
+                                $(".popImgDialog").css('display', "block");
+                                //选择图片时
+                                $(".img-a").on("click", function (o) {
+                                    o.stopPropagation();
+
+                                    $(that.imgctrl).val($(this).children('.img').attr('src'));
+                                    $("#imgDlg").css('display', "none");
+                                });
+                                that.isprevDisable.disabled = true;
+                                that.isNextDisable.disabled = false;
+
+                                if (that.current_index + 4 <= that.totalitems) {
+                                    that.isNextDisable.disabled = true;
+
+                                }
+                            }
+
+                        }
+                    });
+                },
+                DoNewGameStrage: function () {
+                    $.ajax(
+                        {
+                            url: "/ManagerMain/AddNewItBlog",
+                            type: "post",
+                            data: {
+                                Item_parameter: JSON.stringify(
+                                    {
+                                        Title: $("#stragetitle").val().replace(/(?!<(img|p|span).*?>)<.*?>/g, ""),
+                                        ReferAthor: $("#stragereferauthor").val(),
+                                        ReferUri: this.ReferUri,
+                                        Rank: this.stragerank,
+                                        toplevel: this.stragetoplevel,
+                                        Content: tinyMCE.activeEditor.getContent().replace(/(?!<(img|p|span).*?>)<.*?>/g, ""),
+                                        blogtype: $("#BlogTypes").val(),
+
+                                    })
+                            },
+                            dataType: "json",
+                            success: function (o) {
+                                if (o.ErrorCode == "0") {
+                                    alert("添加成功");
+
+                                }
+                                else {
+                                    alert("添加失败");
+                                }
+                            }
+                            ,
+                            error: function (o) {
+                                alert("添加失败1");
+                            }
+
+                        }); //ajax
+                },
+            },
+            mounted: function () {
+
+                $(".close-a").on("click", function (o) {
+                    o.stopPropagation();
+                    $("#imgDlg").css('display', "none");
+                });
+
+
+            }
+        })
+
+    })()
+</script>
+

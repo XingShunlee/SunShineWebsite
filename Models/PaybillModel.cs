@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 
 namespace ehaiker.Models
@@ -10,7 +7,7 @@ namespace ehaiker.Models
     {
         [Key]
         [Display(Name = "账单ID")]
-        public int PayBillID{set;get;}
+        public int PayBillID { set; get; }
         [Display(Name = "会员ID")]
         public int UserId { get; set; }
         [Display(Name = "支付内容")]
@@ -27,8 +24,8 @@ namespace ehaiker.Models
         public DateTime PayForDateTime { get; set; }
         [Display(Name = "删除标志")]
         public int PayDeleteMask { get; set; }
-        [Display(Name="创建时间")]
-        public DateTime CreateTime{set;get;}
+        [Display(Name = "创建时间")]
+        public DateTime CreateTime { set; get; }
     }
     public class PaybillApproveModel
     {

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ehaiker;
+﻿using ehaiker;
 using ehaiker.Managers;
 using ehaiker.Models;
 using ehaikerv202010.Filters;
 using ehaikerv202010.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ehaikerv202010.Controllers
 {
@@ -67,7 +66,7 @@ namespace ehaikerv202010.Controllers
             return Json(tt);
 
         }
-        //PayForBills---未实现
+
         [HttpPost]
         [AdminLoginStateRequiredAttribute]
         [PermissionControlAttribute(1, "删除评论", "删除评论", 0, 0, 1)]
@@ -89,7 +88,7 @@ namespace ehaikerv202010.Controllers
         [HttpPost]
         [LoginStateRequiredAttribute]
         [PermissionControlAttribute(2, "修改评论", "修改评论", 0, 0, 1)]
-        public JsonResult commentSave(int uid,string customerContent)
+        public JsonResult commentSave(int uid, string customerContent)
         {
             GameCommentManager cmmtmgr = new GameCommentManager(DbContext);
             GameStrategiesRepository GamelistManager = new GameStrategiesRepository(DbContext);
@@ -104,7 +103,7 @@ namespace ehaikerv202010.Controllers
                     sh.GameID = gitem.GameId;
                     sh.GameName = gitem.Title;
                     sh.UserId = cookie.UserId;
-                    sh.UserName =cookie.UserName;
+                    sh.UserName = cookie.UserName;
                     sh.comment = customerContent;
                     sh.CreateTime = DateTime.Now;
                     sh.IsChecked = 0;

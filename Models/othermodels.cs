@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 /*
  * 
  * 游戏攻略类
  * */
 namespace ehaiker
 {
-    
-   
+
+
     /// <summary>
     /// 登录模型
     /// </summary>

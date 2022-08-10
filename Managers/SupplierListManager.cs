@@ -1,11 +1,8 @@
-﻿using System;
+﻿using ehaiker.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ehaiker;
-using ehaiker.Models;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace ehaiker
 {
@@ -28,7 +25,7 @@ namespace ehaiker
             {
                 // _resp.Code = 0;
                 // _resp.Message = "帐号已存在";
-                return ;
+                return;
             }
             else
             {
@@ -51,7 +48,7 @@ namespace ehaiker
         {
             return context.SupplierItems;
         }
-      
+
         /// <summary>
         /// 删除
         /// </summary>
@@ -62,12 +59,12 @@ namespace ehaiker
             var _admin = GetById(administratorID);
             if (context.SupplierItems.Count() == 1)
             {
-                return ;
+                return;
             }
             else
             {
                 context.SupplierItems.Remove(_admin);
-               
+
             }
         }
         /// <summary>
@@ -78,7 +75,7 @@ namespace ehaiker
         public int DeleteArray(int[] administratorIDs)
         {
 
-            if (context.SupplierItems.Count() <=0 )
+            if (context.SupplierItems.Count() <= 0)
             {
                 return 0;
             }
@@ -129,15 +126,15 @@ namespace ehaiker
             }
             else
             {
-              //  _admin.LoginIP = ip;
-              //  _admin.LoginTime = time;
+                //  _admin.LoginIP = ip;
+                //  _admin.LoginTime = time;
                 Update(_admin);
                 return SaveChanges();
             }
         }
         public int SaveChanges()
         {
-           // try
+            // try
             {
                 return context.SaveChanges();
             }
@@ -170,5 +167,5 @@ namespace ehaiker
             return new Tuple<List<SupplierModel>, int>(notes, count);
         }
     }
-   
+
 }

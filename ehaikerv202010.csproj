@@ -6,19 +6,63 @@
     <UserSecretsId>d851b4fe-1919-4cf8-b4fc-63706ebc2c1d</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="ehaiker11111111\**" />
     <Compile Remove="ehaiker\**" />
+    <Compile Remove="Repositories\**" />
+    <Compile Remove="wwwroot\js\新文件夹\**" />
     <Content Remove="ehaiker11111111\**" />
     <Content Remove="ehaiker\**" />
+    <Content Remove="Repositories\**" />
+    <Content Remove="wwwroot\js\新文件夹\**" />
     <EmbeddedResource Remove="ehaiker11111111\**" />
     <EmbeddedResource Remove="ehaiker\**" />
+    <EmbeddedResource Remove="Repositories\**" />
+    <EmbeddedResource Remove="wwwroot\js\新文件夹\**" />
     <None Remove="ehaiker11111111\**" />
     <None Remove="ehaiker\**" />
+    <None Remove="Repositories\**" />
+    <None Remove="wwwroot\js\新文件夹\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Managers\PermissionRepository.cs" />
+    <Compile Remove="Migrations\20201017052459_mvcb.cs" />
+    <Compile Remove="Migrations\20201017052459_mvcb.Designer.cs" />
+    <Compile Remove="Migrations\20201206051206_noapi.cs" />
+    <Compile Remove="Migrations\20201206051206_noapi.Designer.cs" />
+    <Compile Remove="Migrations\20201210153439_ne.cs" />
+    <Compile Remove="Migrations\20201210153439_ne.Designer.cs" />
+    <Compile Remove="Migrations\20201210162041_mygamestrages.cs" />
+    <Compile Remove="Migrations\20201210162041_mygamestrages.Designer.cs" />
+    <Compile Remove="Migrations\20201219145752_loginstate.cs" />
+    <Compile Remove="Migrations\20201219145752_loginstate.Designer.cs" />
+    <Compile Remove="Migrations\20201220031532_commandstate.cs" />
+    <Compile Remove="Migrations\20201220031532_commandstate.Designer.cs" />
+    <Compile Remove="Migrations\20201221042026_commandvale.cs" />
+    <Compile Remove="Migrations\20201221042026_commandvale.Designer.cs" />
+    <Compile Remove="Migrations\20201227071148_gamelists.cs" />
+    <Compile Remove="Migrations\20201227071148_gamelists.Designer.cs" />
+    <Compile Remove="Migrations\20201231024434_gamelists1.cs" />
+    <Compile Remove="Migrations\20201231024434_gamelists1.Designer.cs" />
+    <Compile Remove="Migrations\20201231180330_gamelists1123.cs" />
+    <Compile Remove="Migrations\20201231180330_gamelists1123.Designer.cs" />
+    <Compile Remove="Migrations\20210108160920_commentadd.cs" />
+    <Compile Remove="Migrations\20210108160920_commentadd.Designer.cs" />
+    <Compile Remove="Migrations\20210123175437_classadd.cs" />
+    <Compile Remove="Migrations\20210123175437_classadd.Designer.cs" />
+    <Compile Remove="Migrations\20210125045801_classadf.cs" />
+    <Compile Remove="Migrations\20210125045801_classadf.Designer.cs" />
+    <Compile Remove="Migrations\20220129065756_modif_newsmodel.cs" />
+    <Compile Remove="Migrations\20220129065756_modif_newsmodel.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +70,7 @@
     <Content Remove="Views\Ehaiker\memshiplogin1.cshtml" />
     <Content Remove="Views\Ehaiker\memshipView.cshtml" />
     <Content Remove="Views\Ehaiker\Newindex.cshtml" />
+    <Content Remove="wwwroot\css\websitebase.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +83,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Mysql.Data.EntityFrameworkCore" Version="8.0.19" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\myaff\" />
   </ItemGroup>
 
 </Project>

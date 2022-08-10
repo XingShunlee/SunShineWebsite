@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="keywords" content="Game,游戏分享平台,数据分享平台,ehaiker" />
-    <meta name="description" content="gameshared是一个网络游戏分享平台，通过对游戏进行多维度的数据分析，让用户能在充分了解游戏过程中的难点与收益时效，为用户的“投资决策”提供必要的数据解决方案." />
-    <title>@ViewData["Title"] - www.esometea.xyz</title>
+    <meta name="keywords" content="Game,游戏分享平台,数据分享平台,softlife" />
+    <meta name="description" content="一个网络游戏分享平台，通过对游戏进行多维度的数据分析，让用户能在充分了解游戏过程中的难点与收益时效，为用户的“投资决策”提供必要的数据解决方案." />
+    <title>@ViewData["Title"] - www.softlife.tk</title>
     <!--主要對游戲進行分類，提供游戲數據分析，幫助用戶選擇好玩的游戲，對游戲廠家提高用戶的體驗度，以游戲增值服務：注冊、充值、個人喜好訂閲，游戲直播分享-->
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -18,12 +18,7 @@
         <!--vue-->
         <script src="~/lib/vue/vue.js" asp-append-version="true"></script>
     </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+    
     <environment include="Production">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
@@ -35,32 +30,22 @@
         <!--jquery-->
         <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
         <!--vue-->
-        <script src="~/lib/vue/vue.js" asp-append-version="true"></script>
+        <script src="~/lib/vue/vue.min.js" asp-append-version="true"></script>
     </environment>
-    <style>
-        .body-content {
-            margin-top: 30px;
-        }
-    </style>
-    
-   
-
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <nav class="softlife-navbar">
+            <div class="softlife-navbar-header">
+                <button type="button" class="softlife-navbar-toggle">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @*<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">netcoreweb</a>*@
-                @Html.ActionLink("www.esometea.xyz", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("www.softlife.tk", "Index", "Home", new { area = "" }, new { @class = "softlife-navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+            <div class="softlife-navbar-content">
+                <ul class="softlife-navbar-ualink">
                     <li>@Html.ActionLink("主页", "Index", "EHaiker")</li>
                     <li>@Html.ActionLink("游戏攻略", "Index", "GameStrategies")</li>
                     <li>@Html.ActionLink("游戏集萃", "Index", "GameCenter")</li>
@@ -69,20 +54,16 @@
                     <li>@Html.ActionLink("客服中心", "Index", "Servicescenter")</li>
                     <li>@Html.ActionLink("个人中心", "Index", "Personal")</li>
                     <li>@Html.ActionLink("下载中心", "Index", "Downloadcenter")</li>
-                    <li>
-                        <div class="guanzhumenu" id="guanzhumenu">
-                            关注微信
-                            <div class="guanzhuBox" id="guanzhuBox">
-                                <i class="sj">
-                                    <i class="c-sj"></i>
-                                </i>
-                                <img src="/public/wx_gzhu.jpg" alt="">
-                            </div>
+                    <li>@Html.ActionLink("Q&Solutions", "Index", "ItBlog")</li>
+                    <li>@Html.ActionLink("Orders", "Index", "EHaiker")</li>
+                    <li class="guanzhumenu" id="guanzhumenu">
+                        关注微信
+                        <div class="guanzhuBox" id="guanzhuBox">
+                            <img src="/public/wx_gzhu.jpg" alt="关注我">
                         </div>
                     </li>
                 </ul>
             </div>
-        </div>
     </nav>
 
     <partial name="_CookieConsentPartial" />
@@ -91,14 +72,12 @@
         @RenderBody()
         <hr />
         <div class="footer-box">
-                
-                <p class="p-link">
-                    <a href="@Url.Content("/AboutMe/forjob.html")" target="_blank" rel="nofollow">关于站长</a>
-                    <a href="@Url.Content("/AboutMe/forjob.html")" target="_blank">联系站长</a>
-                    <a href="#" target="_blank" rel="nofollow">广告合作</a>
-                    <a href="https://my.racknerd.com/aff.php?aff=1992" target="_blank" rel="nofollow">国外便宜VPS主机</a>
-                </p>
-                
+            <p class="p-link">
+                <a href="@Url.Content("/AboutMe/forjob.html")" target="_blank" rel="nofollow">关于站长</a>
+                <a href="@Url.Content("/AboutMe/forjob.html")" target="_blank">联系站长</a>
+                <a href="#" target="_blank" rel="nofollow">广告合作</a>
+                <a href="@Url.Content("/myaff/racknerdvps.html")" target="_blank" rel="nofollow">国外便宜VPS主机</a>
+            </p>  
         </div>
         <!--统计页底-->
         <div style="display:none;">
@@ -106,47 +85,6 @@
             <script type="text/javascript" src="//js.users.51.la/19883215.js"></script>
         </div>
     </div>
-    
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/lib/vue/vue.js" asp-append-version="true"></script>
-        <script charset=utf-8 language=javascript src="~/js/common.nav.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script src="~/lib/vue/vue.min.js" asp-append-version="true"></script>
-    </environment>
-    <environment include="Production">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script src="~/lib/vue/vue.min.js" asp-append-version="true"></script>
-        <script charset=utf-8 language=javascript src="~/js/common.nav.js"></script>
-    </environment>
 
     @RenderSection("Scripts", required: false)
 </body>

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Security.Cryptography;
 using System.Text;
-using ehaiker.Models;
 
 namespace ehaiker
 {
@@ -49,7 +45,7 @@ namespace ehaiker
             for (int i = 0; i < verificationText.Length; i++)
             {
                 matrix.Reset();
-                matrix.Rotate( _random.Next(0,18));
+                matrix.Rotate(_random.Next(0, 18));
                 _g.Transform = matrix;
                 _brush = new LinearGradientBrush(new Point(0, 0), new Point(1, 1), Color.FromArgb(_random.Next(255), _random.Next(255), _random.Next(255)), Color.FromArgb(_random.Next(255), _random.Next(255), _random.Next(255)));
                 _g.DrawString(verificationText[i].ToString(), _font, _brush, _startPointF);

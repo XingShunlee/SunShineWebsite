@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
-using ehaiker;
+﻿using ehaiker;
 using ehaiker.Models;
 using ehaikerv202010.Filters;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ehaikerv202010.Controllers
 {
-    
+
     public class VIPBillController : Controller
     {
         private EhaikerContext DbContext;
@@ -81,29 +77,29 @@ namespace ehaikerv202010.Controllers
                     msg.msg = "充值成功";
                 }
             }
-            
+
             return Json(msg);
         }
         [HttpPost]
         [LoginStateRequiredAttribute]
-        public JsonResult MyBill(int pageindex = 1, int pagesize = 10,int type=10000)
+        public JsonResult MyBill(int pageindex = 1, int pagesize = 10, int type = 10000)
         {
             var query = new List<PaybillApproveModel>();
-            IRepository<PaybillApproveModel> _noteRepository = new PaybillApproveRepository(DbContext); 
-            if(type==10000)
+            IRepository<PaybillApproveModel> _noteRepository = new PaybillApproveRepository(DbContext);
+            if (type == 10000)
             {
                 query = _noteRepository.List();
             }
             else
             {
-                query = _noteRepository.GetDbSet().Where(r=>r.PayState==type).ToList();
+                query = _noteRepository.GetDbSet().Where(r => r.PayState == type).ToList();
             }
-            
+
             int nCount = _noteRepository.List().Count();
             //
             if (nCount > 0)
             {
-                
+
                 var count = query.Count();
                 var pagecount = count % pagesize == 0 ? count / pagesize : count / pagesize + 1;
                 var findItems = query.OrderByDescending(r => r.CreateTime)
@@ -122,9 +118,9 @@ namespace ehaikerv202010.Controllers
             ViewBag.PageIndex = 1;//当前页
             ViewBag.PageSize = pagesize;//页面显示
             ViewBag.PageUri = "../VIPBill/Index";
-            var tt = new { Total =0, data = "" };
+            var tt = new { Total = 0, data = "" };
             return Json(tt);
         }
-       
+
     }
 }

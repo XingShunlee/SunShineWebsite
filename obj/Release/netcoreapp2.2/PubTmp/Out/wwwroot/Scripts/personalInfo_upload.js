@@ -76,7 +76,7 @@ $(function () {
         getImageWidthAndHeight('fileToUpload', function (obj) {
             if (obj.width != 200 || obj.height != 200) {
                 new $Msg({
-                    content: "图片格式必须是54*54px\r\n",
+                    content: "图片格式必须是200*200px\r\n",
                     title: "提示",
                     type: "success",
                     footer: true,

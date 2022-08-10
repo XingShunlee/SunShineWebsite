@@ -3,11 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace ehaiker.Managers
 {
-    public class GameCommentManager: IRepository<CommentModel>
+    public class GameCommentManager : IRepository<CommentModel>
     {
         private EhaikerContext context;
         public GameCommentManager(EhaikerContext _context)
@@ -53,12 +52,12 @@ namespace ehaiker.Managers
         {
             return context.CommentTable;
         }
-       
+
         public void Delete(int GamecommentID)
         {
             var _admin = GetBycommentId(GamecommentID);
-             context.CommentTable.Remove(_admin);
-            
+            context.CommentTable.Remove(_admin);
+
         }
         /// <summary>
         /// 删除
@@ -104,7 +103,7 @@ namespace ehaiker.Managers
         }
 
         /// <summary>
-       
+
 
 
         //根据用户页面大小，起始，返回相应的内容
@@ -122,9 +121,9 @@ namespace ehaiker.Managers
         }
         public int SaveChanges()
         {
-           // try
-           // {
-                return context.SaveChanges();
+            // try
+            // {
+            return context.SaveChanges();
             //}
             //catch (DbEntityValidationException exception)
             //{

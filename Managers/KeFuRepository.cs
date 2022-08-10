@@ -1,11 +1,8 @@
-﻿using System;
+﻿using ehaiker.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ehaiker.Models;
-using System.Web.Http;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace ehaiker.Managers
 {
@@ -16,7 +13,7 @@ namespace ehaiker.Managers
         {
             context = _context;
         }
-        
+
         public void Add(KefuServiceStatus note)
         {
             context.kefu_StatusService.Add(note);
@@ -36,8 +33,8 @@ namespace ehaiker.Managers
         }
         public void Update(KefuServiceStatus note)
         {
-            context.Entry(note).State =EntityState.Modified;
-           
+            context.Entry(note).State = EntityState.Modified;
+
         }
         public Tuple<List<KefuServiceStatus>, int> PageList(int pageindex, int pagesize)
         {
@@ -51,11 +48,11 @@ namespace ehaiker.Managers
                 .ToList();
             return new Tuple<List<KefuServiceStatus>, int>(notes, count);
         }
-        public void  Delete(int administratorID)
+        public void Delete(int administratorID)
         {
             var _admin = GetById(administratorID);
-            
-                context.kefu_StatusService.Remove(_admin);
+
+            context.kefu_StatusService.Remove(_admin);
         }
         public KefuServiceStatus Find(string accounts)
         {
@@ -63,7 +60,7 @@ namespace ehaiker.Managers
         }
         public int SaveChanges()
         {
-           // try
+            // try
             {
                 return context.SaveChanges();
             }
@@ -82,6 +79,6 @@ namespace ehaiker.Managers
             //    throw new DbEntityValidationException(exceptionMessage, exception.EntityValidationErrors);
             //}
         }
-        
+
     }
 }

@@ -1,34 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ehaiker.Models;
-using System.Text;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using ehaiker.Models;
 using ehaikerv202010;
-using ehaikerv202010.helpers;
 using ehaikerv202010.Filters;
 using ehaikerv202010.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace ehaiker.Controllers
 {
-     //[ehaiker.Auth.Description(No = 5, Name = "新闻中心", ShowInMgrbar = true)]
+    //[ehaiker.Auth.Description(No = 5, Name = "新闻中心", ShowInMgrbar = true)]
     public class NewsCenterController : Controller
     {
         private EhaikerContext DbContext;
-        public NewsCenterController(EhaikerContext _cont)
+        private INoteCountInterface _WebCount;
+        private readonly Microsoft.Extensions.Logging.ILogger _logger;
+        public NewsCenterController(EhaikerContext _cont, INoteCountInterface _IWebCount,
+            ILogger<NewsCenterController> logger)
         {
             DbContext = _cont;
+            _WebCount = _IWebCount;
+            _logger = logger;
         }
         //
         // GET: /NewsCenter/
         public ActionResult Index(int page = 1, int pagesize = 10)
         {
-           page= page>0?page:1;
+            page = page > 0 ? page : 1;
             List<NewsModel> tlst = new List<NewsModel>();
-            return View("bsIndex",tlst);
+            return View("bsIndex", tlst);
 
         }
         //按页获取数据
@@ -37,10 +40,10 @@ namespace ehaiker.Controllers
         {
             page = page > 0 ? page : 1;
             NewsesRepository newsManager = new NewsesRepository(DbContext);
-            if (page >=1)
+            if (page >= 1)
             {
-            
-                var notes = newsManager.PageList(page,rows);//可能会增加标志位
+
+                var notes = newsManager.PageList(page, rows);//可能会增加标志位
 
                 ViewBag.PageIndex = page;//当前页
                 var tt = new { Total = notes.Item2, data = notes.Item1 };
@@ -54,29 +57,32 @@ namespace ehaiker.Controllers
         //外部查看，不用登录
         public ActionResult showDetail(int newsID = 1)
         {
-            //
-            
+            //记录浏览人数
+            if (_WebCount != null)
+            {
+                _WebCount.accessMethod(HttpContext, DbContext);
+            }
             IRepository<GameType> _noteTypeRepository;
             _noteTypeRepository = new GameTypeRepository(DbContext);
             var types = _noteTypeRepository.List();
 
-                //从Cookie对象中取出Json串
+            //从Cookie对象中取出Json串
 
-                IRepository<NewsModel> _noteRepository = new NewsesRepository(DbContext);
-                var notes = _noteRepository.GetDbSet().Where(r => r.Id == newsID ).FirstOrDefault();
-                if (notes != null)
-                {
-                    ViewBag.Types = types.Select(r => new SelectListItem { Text = r.Name, Value = r.GameId.ToString(), Selected = (r.GameId == notes.NewsTypeId) });
-                    NewsModel item = notes as NewsModel;
-                item.Content =Regex.Unescape(item.Content);
+            IRepository<NewsModel> _noteRepository = new NewsesRepository(DbContext);
+            var notes = _noteRepository.GetDbSet().Where(r => r.Id == newsID).FirstOrDefault();
+            if (notes != null)
+            {
+                ViewBag.Types = types.Select(r => new SelectListItem { Text = r.Name, Value = r.GameId.ToString(), Selected = (r.GameId == notes.NewsTypeId) });
+                NewsModel item = notes as NewsModel;
+                item.Content = Regex.Unescape(item.Content);
                 return View(item);
-                }
-                else
-                {
-                    ViewBag.Types = types.Select(r => new SelectListItem { Text = r.Name, Value = r.GameId.ToString() });
-                    NewsModel item = new NewsModel { Announcer = " " };
-                    return View(item);
-                }
+            }
+            else
+            {
+                ViewBag.Types = types.Select(r => new SelectListItem { Text = r.Name, Value = r.GameId.ToString() });
+                NewsModel item = new NewsModel { Announcer = " " };
+                return View(item);
+            }
         }
         //火爆推荐
         [HttpPost]
@@ -84,7 +90,7 @@ namespace ehaiker.Controllers
         {
             IRepository<NewsModel> _noteRepository;
             _noteRepository = new NewsesRepository(DbContext);
-            var tt = _noteRepository.GetDbSet().OrderByDescending(r => r.LastEditTime).Take(10).ToList();
+            var tt = _noteRepository.GetDbSet().Where(r => r.IsUnVisible <= 0).OrderByDescending(r => r.LastEditTime).Take(10).ToList();
             return Json(tt);
         }
         [AdminLoginStateRequired]
@@ -103,8 +109,8 @@ namespace ehaiker.Controllers
             _noteTypeRepository = new GameTypeRepository(DbContext);
             int nCount = _noteRepository.List().Count();
             //
-            
-            if ( nCount > 0)
+
+            if (nCount > 0)
             {
                 //从Cookie对象中取出Json串
                 var query = _noteRepository.GetDbSet().AsQueryable();
@@ -131,7 +137,7 @@ namespace ehaiker.Controllers
             return Json(tt);
 
         }
-        
+
         [LoginStateRequiredAttribute]
         // [ehaiker.Auth.Description(No = 1, Name = "会员新闻管理", ShowInMgrbar = true)]
         public ActionResult ShowNews(int page = 1, int pagesize = 10)
@@ -143,7 +149,7 @@ namespace ehaiker.Controllers
             _noteTypeRepository = new GameTypeRepository(DbContext);
             int nCount = _noteRepository.List().Count();
             //
-            Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext,"AdminUser");
+            Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
             if (admin != null && nCount > 0)
             {
                 //从Cookie对象中取出Json串
@@ -171,8 +177,8 @@ namespace ehaiker.Controllers
 
         }
         //[AuthAuthorizeAttribute]
-      //  [ehaiker.Auth.Description(No = 2, Name = "新闻发布", ShowInMgrbar = true)]
-       
+        //  [ehaiker.Auth.Description(No = 2, Name = "新闻发布", ShowInMgrbar = true)]
+
         //
         [HttpPost]
         [AdminLoginStateRequiredAttribute]
@@ -182,7 +188,7 @@ namespace ehaiker.Controllers
             string errMsg = "操作失败！";
             if (ModelState.IsValid)
             {
-                Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext,"AdminUser");
+                Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
                 if (admin != null)
                 {
                     //从Cookie对象中取出Json串
@@ -195,16 +201,16 @@ namespace ehaiker.Controllers
                     juser.Announcer = admin.Account;
                     juser.ReleaseTime = DateTime.Now;
                     juser.LastEditTime = DateTime.Now;
-                    
+
                     //juser.Content = JSCoderHelper.unescape(juser.Content);
                     if (!string.IsNullOrEmpty(juser.Content))
                     {
                         //只保留几个标签
                         juser.Content = System.Text.RegularExpressions.Regex.Replace(juser.Content, "/(?!<(img|p|span).*?>)<.*?>/g", "");
                         //
-                        juser.Content =Regex.Escape(juser.Content);
+                        juser.Content = Regex.Escape(juser.Content);
                     }
-                     _noteRepository.Add(juser);
+                    _noteRepository.Add(juser);
                     ret = _noteRepository.SaveChanges().ToString();
                     errMsg = "操作成功！";
                 }
@@ -223,7 +229,7 @@ namespace ehaiker.Controllers
             int errorCode = 0;
             if (ModelState.IsValid)
             {
-                Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext,"AdminUser");
+                Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
                 if (admin != null)
                 {
                     //从Cookie对象中取出Json串
@@ -264,22 +270,102 @@ namespace ehaiker.Controllers
                 }
 
             }
-            var retjson = new { ErrorCode = errorCode, iSuccessCode= ret, msg = errMsg };
+            var retjson = new { ErrorCode = errorCode, iSuccessCode = ret, msg = errMsg };
             return Json(retjson);
+        }
+        //删除公告
+        [AdminLoginStateRequiredAttribute]
+        public JsonResult NewsDel(int uid)
+        {
+            if (ModelState.IsValid)
+            {
+                Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
+                if (admin != null)
+                {
+                    IRepository<NewsModel> cmmtmgr = new NewsesRepository(DbContext);
+                    if (uid != 0)
+                    {
+                        NewsModel sh = cmmtmgr.GetById(uid);
+                        if (sh != null)
+                        {
+                            cmmtmgr.Delete(uid);
+                            cmmtmgr.SaveChanges();
+                            var ttok = new { Total = 0, data = 0 };
+                            return Json(ttok);
+                        }
+                    }
+                }
+            }
+            var tt = new { Total = 0, data = 0 };
+            return Json(tt);
+        }
+        //隐藏公告
+        [AdminLoginStateRequiredAttribute]
+        public JsonResult NewsHidden(int uid)
+        {
+            if (ModelState.IsValid)
+            {
+                Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
+                if (admin != null)
+                {
+                    IRepository<NewsModel> cmmtmgr = new NewsesRepository(DbContext);
+                    if (uid != 0)
+                    {
+                        NewsModel sh = cmmtmgr.GetById(uid);
+                        if (sh != null)
+                        {
+                            sh.IsUnVisible = 1;
+                            cmmtmgr.Update(sh);
+                            cmmtmgr.SaveChanges();
+                            var ttok = new { Total = 0, data = 0 };
+                            return Json(ttok);
+                        }
+                    }
+                }
+            }
+            var tt = new { Total = 0, data = 0 };
+            return Json(tt);
+        }
+        //恢复公告
+        [AdminLoginStateRequiredAttribute]
+        public JsonResult NewsRecover(int uid)
+        {
+            if (ModelState.IsValid)
+            {
+                Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
+                if (admin != null)
+                {
+                    IRepository<NewsModel> cmmtmgr = new NewsesRepository(DbContext);
+                    if (uid != 0)
+                    {
+                        NewsModel sh = cmmtmgr.GetById(uid);
+                        if (sh != null)
+                        {
+                            sh.IsUnVisible = 0;
+                            cmmtmgr.Update(sh);
+                            cmmtmgr.SaveChanges();
+                            var ttok = new { Total = 0, data = 0 };
+                            return Json(ttok);
+                        }
+                    }
+                }
+            }
+            var tt = new { Total = 0, data = 0 };
+            return Json(tt);
         }
         [AdminLoginStateRequiredAttribute]
         public ActionResult ShowDetailEx(int newsID = 1)
         {
             //
-            
+
             IRepository<GameType> _noteTypeRepository;
             _noteTypeRepository = new GameTypeRepository(DbContext);
             var types = _noteTypeRepository.List();
-            Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext,"AdminUser");
+            Administrator admin = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
             if (admin != null)
             {
                 //从Cookie对象中取出Json串
-                
+
 
                 IRepository<NewsModel> _noteRepository = new NewsesRepository(DbContext);
                 var notes = _noteRepository.GetDbSet().Where(r => r.Id == newsID &&

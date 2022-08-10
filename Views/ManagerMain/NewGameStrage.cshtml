@@ -6,9 +6,6 @@
 }
 @model ehaikerv202010.Models.GameStrategiesModel
 <header>
-    <link rel="stylesheet" href="../css/websitebase.css" /><!--基本样式应用-->
-    <link rel="stylesheet" href="../css/common.min.css" /><!--菜单与悬浮样式应用-->
-    <link rel="stylesheet" href="../css/icon.min.css" />
     <link rel="stylesheet" href="../css/personal/home-page.min.css" /> <!--主体样式应用-->
     <script src="../../plugins/tinymce/tinymce.min.js"></script>
     <link rel="stylesheet" href="../css/CommonDialog.css" />
@@ -59,7 +56,7 @@
                 </tr>
                 <tr class="data-row" style="border:1px dotted red;">
                     <td class="data-col">文章引用地址:</td>
-                    <td class="data-col" colspan="3"> <input type="text" v-model="strageresourcefrom" style="width:100%;" /></td>
+                    <td class="data-col" colspan="3"> <input type="text" v-model="ReferUri" style="width:100%;" /></td>
                 </tr>
                 <tr class="data-row" style="border:1px dotted red;">
                     <td class="data-col">游戏关键字:</td>
@@ -101,9 +98,9 @@
                 isprevDisable: { disabled: true },
                 isNextDisable: { disabled: false },
                 imgctrl: '',
-                stragerank: '',
-                stragetoplevel: '',
-                strageresourcefrom: '',
+                stragerank: '10',
+                stragetoplevel: '100',
+                ReferUri: '',
                 stragekeywords: '',
                 
                 posts: {
@@ -249,6 +246,7 @@
                                     {
                                         Title: $("#stragetitle").val().replace(/(?!<(img|p|span).*?>)<.*?>/g, ""),
                                         ReferAthor: $("#stragereferauthor").val(),
+                                        ReferUri: this.ReferUri,
                                         Rank: this.stragerank,
                                         toplevel: this.stragetoplevel,
                                         Content: tinyMCE.activeEditor.getContent().replace(/(?!<(img|p|span).*?>)<.*?>/g, ""),

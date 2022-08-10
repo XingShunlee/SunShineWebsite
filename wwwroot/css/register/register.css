@@ -1,0 +1,232 @@
+﻿
+ #left-right-layout .block-main{position:relative;z-index:10}
+.error-tooltip {
+    height: 30px;
+    display: block;
+    text-align: left;
+    line-height: 44px;
+    color: #ff4c4c;
+}
+.register-block {
+    /*width: 70%;*/
+    height: 306px;
+    padding: 15px 26px 0;
+    position: absolute;
+    left: 10%;
+    top: 36px;
+    margin: 0 0 0 100px;
+    z-index: 200
+}
+.register-block .mobile-block {
+    display:block;
+    width:328px;
+    height:36px;
+    background:#31c37c;
+    color:#fff;
+    font-size:16px;
+    border-radius:4px;
+    text-align:center;
+    line-height:36px
+}
+.register-block .mail-block {
+        display: block;
+        width: 328px;
+        height: 36px;
+        background: #31c37c;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 36px
+    }
+
+    .register-block .register-typebtn {
+        display: block;
+        width: 100%;
+        height: 36px;
+        background: #fff;
+        float: left;
+        z-index: 200;
+        position: relative;
+    }
+    .register-typebtn .register-btn {
+        display: block;
+        width: 120px;
+        height: 36px;
+        background: 0 0;
+        color: #576077;
+        font-size: 14px;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 36px;
+        float: left;
+        margin-right:25px;
+    }
+    .register-typebtn .register-btnselect {
+        background: #31c37c;
+        text-decoration: none;
+        display: block;
+        width: 120px;
+        height: 36px;
+        font-size: 14px;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 36px;
+        float: left;
+        margin-right: 5px;
+    }
+ .register-typebtn .register-btn:hover{
+     background:#31c37c;
+     text-decoration:none;
+
+ }
+.mobile-block .unlogin-box, .mail-block .unlogin-box {
+    position: relative;
+    z-index: 100
+}
+.unlogin-box .login-input {
+display: block;
+height: 40px;
+border-bottom: 1px solid #e8e8e8;
+position: relative;
+clear: both;
+}
+.unlogin-box .focus-style {
+border-color: #31c37c
+}
+.unlogin-box .login-input .left-pic {
+    display: block;
+    width: 14px;
+    height: 17px;
+    background: url(/public/index_login.png) no-repeat 0 0;
+    margin: 14px 0 0;
+    float: left
+}
+.unlogin-box .login-input .left-pic-01 {
+    background-position: 0 0
+}
+.unlogin-box .focus-style .left-pic-01 {
+    background-position: 0 -17px
+}
+.unlogin-box .login-input .left-pic-02 {
+    background-position: 0 -34px
+}
+.unlogin-box .focus-style .left-pic-02 {
+    background-position: 0 -51px
+}
+.unlogin-box .login-input .left-pic-03 {
+    background-position: 0 -68px
+}
+.unlogin-box .focus-style .left-pic-03 {
+    background-position: 0 -85px
+}
+.unlogin-box .login-input .input-text {
+    display: block;
+    height: 17px;
+    width: 170px;
+    float: left;
+    margin: 14px 0 0 22px;
+    border: 0;
+    background: 0 0;
+    outline: 0;
+    position: relative;
+    z-index: 20;
+    line-height: 17px;
+    color: #576077
+}
+.unlogin-box .login-input .width-yzm {
+    width: 40px
+}
+.unlogin-box .login-input .width-20 {
+    width: 100px
+}
+.unlogin-box .register-btn-block {
+    display: block;
+    height: 36px;
+    width: 170px;
+    float: left;
+    margin: 14px 0 0 22px;
+    border: 0;
+    background: 0 0;
+    outline: 0;
+    position: relative;
+    z-index: 20;
+    line-height: 17px;
+    color: #576077
+}
+
+.register-btn-block .submit-btn {
+    display: block;
+    width: 228px;
+    height: 36px;
+    background: #31c37c;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 36px
+}
+
+.register-btn-block .submit-btn:hover {
+    background: #43cb83;
+    text-decoration: none
+}
+.unlogin-box .term-warning-block {
+    display: block;
+    height: 17px;
+    float: left;
+    margin: 14px 0 0 22px;
+    border: 0;
+    background: 0 0;
+    outline: 0;
+    position: relative;
+    z-index: 20;
+    line-height: 17px;
+    color: #576077
+}
+
+.term-warning-block .deal {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 12px;
+}
+.unlogin-box .register-other {
+    display: block;
+    height: 17px;
+    float: left;
+    z-index: 20;
+}
+.register-other .register-help {
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 20px;
+}
+.register-other .go-login {
+    text-decoration: none;
+    display: block;
+    float: right;
+    color: #c73e56;
+}
+.unlogin-box .error-text {
+    display: block;
+    text-align: left;
+    line-height: 44px;
+    color: #ff4c4c;
+    position: absolute;
+    left: 36px;
+    top: -18px
+}
+ .unlogin-box .login-input .yzm-pic{display:block;width:88px;height:32px;position:absolute;right:0;top:1px}
+ .unlogin-box .login-input .error-text02{display:block;width:65px;text-align:right;line-height:44px;color:#ff4c4c;position:absolute;right:90px;top:0}
+ 
+
+
+ .unlogin-box .code-btn{display:block;width:80px;height:36px;background:#31c37c;color:#fff;font-size:14px;border-radius:4px;text-align:center;line-height:36px ;float:left;}
+ .unlogin-box .code-btn-disabled{display:block;width:80px;height:36px;background:gray;color:#fff;font-size:14px;border-radius:4px;text-align:center;line-height:36px ;float:left;}
+ .unlogin-box .code-btn:hover{background:#43cb83;text-decoration:none}
+
+ 
+
+ 

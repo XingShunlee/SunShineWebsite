@@ -4,11 +4,7 @@
     ViewBag.Title = Model.Title;
     var comments = ViewBag.Comments as List<ehaiker.Models.CommentModel>;
 }
-
-<link rel="stylesheet" href="../css/websitebase.css" />
 <link rel="stylesheet" href="../css/showdetail/home-page.min.css" />
-<link rel="stylesheet" href="../css/common.min.css" />
-<link rel="stylesheet" href="../css/icon.min.css" />
 
     <div class="page-body">
         <div id="left-right-layout">
@@ -27,7 +23,7 @@
 
                 </article>
                 <div class="article-copyright clear-fix">
-                    <p>本文 @Model.Author 原创，转载保留链接</p>
+                    <p class="ReferUri">参考自:@Model.ReferUri </p>                 <p class="Author">本文由 @Model.Author 编辑，转载保留链接</p>
                 </div>
                 <!--討論-->
                 <div class="article-commentBlcok" id="articlecomment">
@@ -56,12 +52,12 @@
                 function (o) {
                     o.stopPropagation();
                     
-                    //ajax提交
+                    
                     $.ajax(
                         {
                             url: "/MyGameStrategies/MyStrategies",
                             type: "post",
-                            data: { uid:@Model.Id  },
+                            data: { gid:@Model.Id  },
                             dataType: "json",
                             success: function (o) {
                                 if (o.SuccessCode == "0") {
@@ -78,14 +74,14 @@
                                 alert("请登录后再收藏");
                             }
 
-                        }); //ajax
+                        }); 
                 });
             //SpeakComment 
             $("#SpeakComment").on("click",
                 function (o) {
                     o.stopPropagation();
                     var content = $("#speakContent").val();
-                    //ajax提交
+                    
                     $.ajax(
                         {
                             url: "/CommentStrate/commentSave",

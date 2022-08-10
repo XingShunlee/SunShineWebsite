@@ -1,10 +1,7 @@
-﻿using System;
+﻿using ehaiker.Managers;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ehaiker.Models;
-using ehaiker.Managers;
-using Microsoft.EntityFrameworkCore;
 
 namespace ehaiker.kefu
 {
@@ -39,7 +36,7 @@ namespace ehaiker.kefu
         public List<KefuServiceStatus> getAllUserState()
         {
             KeFuRepository kefu = new KeFuRepository(DbContext);
-            return kefu.GetDbSet().Where(r => r.isOnline>=1).ToList(); ;
+            return kefu.GetDbSet().Where(r => r.isOnline >= 1).ToList(); ;
 
         }
         public void updateCurrentPeople(KefuServiceStatus user)
@@ -48,18 +45,18 @@ namespace ehaiker.kefu
             kefu.Update(user);
         }
         //id 為當前的客服ID也就是自己
-        public KefuServiceStatus GetService(int excludeId=0)
+        public KefuServiceStatus GetService(int excludeId = 0)
         {
             KeFuRepository kefu = new KeFuRepository(DbContext);
             //获取所有在线客服每个人正在接待的用户人数
-            List<KefuServiceStatus> userList = kefu.GetDbSet().Where(r => r.isOnline >= 1 ).ToList();
-            if (userList==null||
-                userList.Count<1)
+            List<KefuServiceStatus> userList = kefu.GetDbSet().Where(r => r.isOnline >= 1).ToList();
+            if (userList == null ||
+                userList.Count < 1)
             {
                 return null;
             }
             //只有一個客服的情況，直接返回
-            if(userList.Count==1)
+            if (userList.Count == 1)
             {
                 return userList[0];
             }
@@ -76,13 +73,13 @@ namespace ehaiker.kefu
                 //跳過自己 2020-9-6
                 if (excludeId == user.kfUserId)
                     continue;
-                if (user.CurrentPeople < temp )
+                if (user.CurrentPeople < temp)
                 {
                     temp = user.CurrentPeople;
                     userTemp = user;
                 }
             }
-            if(userTemp != null)
+            if (userTemp != null)
             {
                 userTemp.CurrentPeople += 1;
                 kefu.Update(userTemp);
@@ -92,8 +89,8 @@ namespace ehaiker.kefu
         }
         public KefuServiceStatus GetServiceUser(int id)
         {
-             KeFuRepository kefu = new KeFuRepository(DbContext);
-             return kefu.GetById(id); 
+            KeFuRepository kefu = new KeFuRepository(DbContext);
+            return kefu.GetById(id);
         }
         //登录
         public bool LoginService(KefuServiceStatus kefu)
@@ -122,7 +119,7 @@ namespace ehaiker.kefu
             }
             else
             {
-                
+
                 kefuSer.Update(kefu);
             }
             return false;

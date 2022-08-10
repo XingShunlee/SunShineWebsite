@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 namespace ehaiker
 {
@@ -107,11 +104,11 @@ namespace ehaiker
 
                 int numPosition = rand.Next(0, numLength - (numLength >= 2 ? 2 : 1));
                 int temint = Int32.Parse(numStr.Substring(numPosition, numLength >= 2 ? 2 : 1));//截取最多2位
-                if (temint > _dictionary.Length-1) --i;
+                if (temint > _dictionary.Length - 1) --i;
                 else
-                 validateNums[i] = temint;
+                    validateNums[i] = temint;
             }
-           
+
             //生成验证码
             for (int i = 0; i < length; i++)
             {
@@ -127,7 +124,7 @@ namespace ehaiker
         public byte[] CreateValidateGraphic(string validateCode)
         {
             Font font = new Font("Arial", 12, (FontStyle.Bold | FontStyle.Italic));
-            Bitmap image = new Bitmap((int)Math.Ceiling(validateCode.Length * 12.0*2), 22);
+            Bitmap image = new Bitmap((int)Math.Ceiling(validateCode.Length * 12.0 * 2), 22);
             Graphics g = Graphics.FromImage(image);
             try
             {
@@ -144,11 +141,11 @@ namespace ehaiker
                     int y2 = random.Next(image.Height);
                     g.DrawLine(new Pen(Color.Silver), x1, y1, x2, y2);
                 }
-               
+
                 //LinearGradientBrush brush = new LinearGradientBrush(new Rectangle(0, 0, image.Width, image.Height),
                 // Color.Blue, Color.DarkRed, 1.2f, true);
-               Brush brush= new LinearGradientBrush(new Point(0, 0), new Point(1, 1),
-                    Color.Blue, Color.DarkRed);
+                Brush brush = new LinearGradientBrush(new Point(0, 0), new Point(1, 1),
+                     Color.Blue, Color.DarkRed);
                 Matrix matrix0 = g.Transform; ;
                 //随机角度画字符
                 SizeF _totalSizeF = g.MeasureString(validateCode, font);
@@ -161,14 +158,14 @@ namespace ehaiker
                     matrix.Reset();
                     g.Transform = matrix;
                     _curCharSizeF = g.MeasureString(validateCode[i].ToString(), font);
-                    matrix.Rotate(random.Next(0,8));
+                    matrix.Rotate(random.Next(0, 8));
                     g.Transform = matrix;
 
                     g.DrawString(validateCode[i].ToString(), font, brush, _startPointF);
                     _startPointF.X += _curCharSizeF.Width;
                 }
                 g.Transform = matrix0;
-               
+
 
                 //画图片的前景干扰点
                 for (int i = 0; i < 100; i++)

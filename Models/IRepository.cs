@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ehaiker;
-using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ehaiker.Models
 {

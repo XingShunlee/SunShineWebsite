@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ehaikerv202010.Models
 {
@@ -30,5 +27,7 @@ namespace ehaikerv202010.Models
         public int toplevel { set; get; }
         [Display(Name = "浏览量")]
         public int readers { set; get; }
+        [Display(Name = "隐藏标志")]
+        public int IsUnVisible { set; get; }
     }
 }

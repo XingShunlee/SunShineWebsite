@@ -1,34 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ehaiker.Models;
-using System.Text;
-using System.Net.Mail;
-using System.Net;
-using System.IO;
-using Microsoft.AspNetCore.Mvc;
+﻿using ehaiker.Models;
 using ehaikerv202010;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
-using System.Threading.Tasks;
 using ehaikerv202010.Filters;
-using ehaiker.Managers;
 using ehaikerv202010.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ehaiker.Controllers
 {
 
     //[MemberShipAuthorizeAttribute]
-   // [Description(No = 2, Name = "个人中心")]
+    // [Description(No = 2, Name = "个人中心")]
     public class ManagerMainController : Controller
     {
 
         // GET: /personal/
         private EhaikerContext DbContext;
         private IHostingEnvironment _env;
-        public ManagerMainController(EhaikerContext _cont,IHostingEnvironment env)
+        public ManagerMainController(EhaikerContext _cont, IHostingEnvironment env)
         {
             DbContext = _cont;
             _env = env;
@@ -48,8 +43,8 @@ namespace ehaiker.Controllers
                 return RedirectToRoute(new { Controller = "AdminLogin", Action = "Index" });
             }
         }
-       
-       // [Description(No = 1, Name = "用户信息")]
+
+        // [Description(No = 1, Name = "用户信息")]
         public ActionResult UserInfo()
         {
 
@@ -82,7 +77,12 @@ namespace ehaiker.Controllers
             return View("CommentManageView");
         }
         [AdminLoginStateRequiredAttribute]
-        public ActionResult GroupPermissionDispatch(int?id)
+        public ActionResult ItBlogManage()
+        {
+            return View("ItBlogManage");
+        }
+        [AdminLoginStateRequiredAttribute]
+        public ActionResult GroupPermissionDispatch(int? id)
         {
             AdministratorManager adminManager = new AdministratorManager(DbContext);
             if (id == null)
@@ -96,7 +96,7 @@ namespace ehaiker.Controllers
             //获取权限数组
             var arr = _admin.sPermission.Split(',');
             int[] inumarr;
-            if(arr !=null && !string.IsNullOrEmpty(_admin.sPermission))
+            if (arr != null && !string.IsNullOrEmpty(_admin.sPermission))
             {
                 inumarr = Array.ConvertAll<string, int>(arr, s => int.Parse(s));
             }
@@ -105,10 +105,10 @@ namespace ehaiker.Controllers
                 inumarr = new int[1];
             }
             var permissions = from ps in DbContext.PermissionTable
-                        where (inumarr.Contains(ps.Id))
-                        select ps;
+                              where (inumarr.Contains(ps.Id))
+                              select ps;
             ViewBag.myPermissions = permissions.ToList();
-            return View("GroupAdminDispatchView",_admin);
+            return View("GroupAdminDispatchView", _admin);
         }
         //BillManage
         [AdminLoginStateRequiredAttribute]
@@ -119,7 +119,7 @@ namespace ehaiker.Controllers
         [AdminLoginStateRequiredAttribute]
         public ActionResult GameItemModify(int ItemId)
         {
-            if(ItemId <=0)
+            if (ItemId <= 0)
                 return RedirectToRoute(new { Controller = "ManagerMain", Action = "GameManage" });
             GameListManager GamelistManager = new GameListManager(DbContext);
             var query = GamelistManager.GetDbSet().Where(r => r.ItemID == ItemId).FirstOrDefault();
@@ -129,7 +129,7 @@ namespace ehaiker.Controllers
                 _noteTypeRepository = new GameTypeRepository(DbContext);
                 var types = _noteTypeRepository.List();
                 ViewBag.GameTypes = types.Select(r => new SelectListItem { Text = r.Name, Value = r.GameId.ToString() });
-                return View("GameItem",query);
+                return View("GameItem", query);
             }
             else
             {
@@ -146,7 +146,7 @@ namespace ehaiker.Controllers
             var types = _noteTypeRepository.List();
             NewsModel n = new NewsModel { Title = "请输入" };
             ViewBag.Types = types.Select(r => new SelectListItem { Text = r.Name, Value = r.GameId.ToString() });
-            return View("AddNews",n);
+            return View("AddNews", n);
         }
         [AdminLoginStateRequiredAttribute]
         public ActionResult NewGameItem()
@@ -166,6 +166,15 @@ namespace ehaiker.Controllers
             ViewBag.GameTypes = types.Select(r => new SelectListItem { Text = r.Name, Value = r.GameId.ToString() });
             return View("NewGameStrage");
         }
+        [AdminLoginStateRequiredAttribute]
+        public ActionResult NewItBlog()
+        {
+            IRepository<GameType> _noteTypeRepository;
+           //// _noteTypeRepository = new GameTypeRepository(DbContext);
+            //var types = _noteTypeRepository.List();
+            ViewBag.BlogTypes = new List<SelectListItem> { new SelectListItem { Text = "技术博客", Value = "0", Selected = true } };//types.Select(r => new SelectListItem { Text = r.Name, Value = r.GameId.ToString() });
+            return View("NewItBlog");
+        }
         [HttpPost]
         [AdminLoginStateRequiredAttribute]
         // [Description(No = 12, Name = "上传头像", isGet = false)]
@@ -175,22 +184,22 @@ namespace ehaiker.Controllers
             msg.msg = "未知错误";
             msg.SuccessCode = "-1000";
             Administrator loginUser = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
-            
+
             var files = Request.Form.Files;
 
             string error = string.Empty;
             string res = string.Empty;
-             long filelen=files[0].Length;
+            long filelen = files[0].Length;
             //~/UploadFiles/Icon/UserName/
             string fileroot = string.Format("~/UploadFiles/Icon/{0}/", loginUser.Account);
-            string filePath = _env.WebRootPath+(fileroot) ;
+            string filePath = _env.WebRootPath + (fileroot);
             if (!Directory.Exists(filePath))
             {
                 Directory.CreateDirectory(filePath);
             }
             //获取文件信息：防止改名字的文件上传
             string fileName = files[0].FileName;
-           // loginUser.Icon = fileroot + fileName;
+            // loginUser.Icon = fileroot + fileName;
 
             try
             {
@@ -216,11 +225,11 @@ namespace ehaiker.Controllers
             }
 
             IRepository<Administrator> memshipMgr = new AdministratorManager(DbContext);
-           // loginUser.Icon = string.Format("../UploadFiles/Icon/{0}/{1}", loginUser.Account, fileName);
+            // loginUser.Icon = string.Format("../UploadFiles/Icon/{0}/{1}", loginUser.Account, fileName);
             memshipMgr.Update(loginUser);
             MemUserDataManager.UpdateSessionData(HttpContext, "AdminUser", loginUser);
-           // msg.msg = loginUser.Icon;
-                msg.SuccessCode = "0";
+            // msg.msg = loginUser.Icon;
+            msg.SuccessCode = "0";
             return Json(msg);
         }
         /////////////////////////////////////////////////
@@ -306,7 +315,7 @@ namespace ehaiker.Controllers
             _noteRepository = new GameStrategiesRepository(DbContext);
             var query = new List<GameStrategies>();
             query = _noteRepository.List();
-            
+
             var count = query.Count();
             var pagecount = count % rows == 0 ? count / rows : count / rows + 1;
             var findItems = query.OrderByDescending(r => r.LastEditTime)
@@ -322,7 +331,7 @@ namespace ehaiker.Controllers
         }
         [HttpPost]
         [AdminLoginStateRequiredAttribute]
-        public JsonResult DeleteMember(int uid,int page = 1, int rows = 10)
+        public JsonResult DeleteMember(int uid, int page = 1, int rows = 10)
         {
             page = page > 0 ? page : 1;
             MemberShipManager membershipmgr = new MemberShipManager(DbContext);
@@ -393,8 +402,8 @@ namespace ehaiker.Controllers
                     ValidateCode generater = new ValidateCode();
                     password_valid = generater.CreateValidateCode(12);
                     HttpContext.Session.SetString("ValidPassword_user_ehaiker", password_valid);
-                    sh.Password=Security.Sha256(password_valid);
-                    
+                    sh.Password = Security.Sha256(password_valid);
+
                     membershipmgr.Update(sh);
                     membershipmgr.SaveChanges();
                     //给用户邮箱发邮件
@@ -410,7 +419,7 @@ namespace ehaiker.Controllers
             return Json(tt);
 
         }
-       
+
         [HttpPost]
         [AdminLoginStateRequiredAttribute]
         public JsonResult GetchargeBills(int page = 1, int rows = 10)
@@ -419,7 +428,7 @@ namespace ehaiker.Controllers
             var query = new List<PaybillApproveModel>();
             IRepository<PaybillApproveModel> _noteRepository = new PaybillApproveRepository(DbContext);
 
-            query = _noteRepository.GetDbSet().Where(r=>r.PayState==0)?.ToList();
+            query = _noteRepository.GetDbSet().Where(r => r.PayState == 0)?.ToList();
             try
             {
                 var count = query.Count();
@@ -439,7 +448,7 @@ namespace ehaiker.Controllers
                 var tt = new { Total = 0, data = "" };
                 return Json(tt);
             }
-           
+
         }
         //PageBackBills
         [HttpPost]
@@ -457,7 +466,7 @@ namespace ehaiker.Controllers
                     _noteRepository.SaveChanges();
                 }
             }
-            var tt = new { Total = 0, data =0 };
+            var tt = new { Total = 0, data = 0 };
             return Json(tt);
         }
         //PayForBills
@@ -480,8 +489,8 @@ namespace ehaiker.Controllers
             return Json(tt);
         }
         //ValidPass
-        //PageBackBills---未实现
-       
+
+
         [AdminLoginStateRequiredAttribute]
         public JsonResult GameStragePass(int uid)
         {
@@ -500,7 +509,24 @@ namespace ehaiker.Controllers
             return Json(tt);
 
         }
-        //PayForBills---未实现
+        [AdminLoginStateRequiredAttribute]
+        public JsonResult GameStrageForbidden(int uid)
+        {
+            GameStrategiesRepository cmmtmgr = new GameStrategiesRepository(DbContext);
+            if (uid != 0)
+            {
+                GameStrategies sh = cmmtmgr.GetById(uid);
+                if (sh != null)
+                {
+                    sh.IsIdentified = 0;
+                    cmmtmgr.Update(sh);
+                    cmmtmgr.SaveChanges();
+                }
+            }
+            var tt = new { Total = 0, data = 0 };
+            return Json(tt);
+
+        }
         [AdminLoginStateRequiredAttribute]
         public JsonResult GameStrageDel(int uid)
         {
@@ -508,6 +534,112 @@ namespace ehaiker.Controllers
             if (uid != 0)
             {
                 GameStrategies sh = cmmtmgr.GetById(uid);
+                if (sh != null)
+                {
+                    cmmtmgr.Delete(uid);
+                    cmmtmgr.SaveChanges();
+                }
+            }
+            var tt = new { Total = 0, data = 0 };
+            return Json(tt);
+        }
+
+        [AdminLoginStateRequiredAttribute]
+        public JsonResult GameItemPass(int uid)
+        {
+            GameListManager cmmtmgr = new GameListManager(DbContext);
+            if (uid != 0)
+            {
+                GameModel sh = cmmtmgr.GetById(uid);
+                if (sh != null)
+                {
+                    sh.IsIdentified = 1;
+                    cmmtmgr.Update(sh);
+                    cmmtmgr.SaveChanges();
+                }
+            }
+            var tt = new { Total = 0, data = 0 };
+            return Json(tt);
+
+        }
+        [AdminLoginStateRequiredAttribute]
+        public JsonResult GameItemForbidden(int uid)
+        {
+            GameListManager cmmtmgr = new GameListManager(DbContext);
+            if (uid != 0)
+            {
+                GameModel sh = cmmtmgr.GetById(uid);
+                if (sh != null)
+                {
+                    sh.IsIdentified = 0;
+                    cmmtmgr.Update(sh);
+                    cmmtmgr.SaveChanges();
+                }
+            }
+            var tt = new { Total = 0, data = 0 };
+            return Json(tt);
+
+        }
+        [AdminLoginStateRequiredAttribute]
+        public JsonResult GameItemDel(int uid)
+        {
+            GameListManager cmmtmgr = new GameListManager(DbContext);
+            if (uid != 0)
+            {
+                GameModel sh = cmmtmgr.GetById(uid);
+                if (sh != null)
+                {
+                    cmmtmgr.Delete(uid);
+                    cmmtmgr.SaveChanges();
+                }
+            }
+            var tt = new { Total = 0, data = 0 };
+            return Json(tt);
+        }
+
+        [AdminLoginStateRequiredAttribute]
+        public JsonResult ItBlogPass(int uid)
+        {
+            ItBlogRepository cmmtmgr = new ItBlogRepository(DbContext);
+            if (uid != 0)
+            {
+                ItBlogModel sh = cmmtmgr.GetById(uid);
+                if (sh != null)
+                {
+                    sh.IsIdentified = 1;
+                    cmmtmgr.Update(sh);
+                    cmmtmgr.SaveChanges();
+                }
+            }
+            var tt = new { Total = 0, data = 0 };
+            return Json(tt);
+
+        }
+        [AdminLoginStateRequiredAttribute]
+        public JsonResult ItBlogForbidden(int uid)
+        {
+            ItBlogRepository cmmtmgr = new ItBlogRepository(DbContext);
+            if (uid != 0)
+            {
+                ItBlogModel sh = cmmtmgr.GetById(uid);
+                if (sh != null)
+                {
+                    sh.IsIdentified = 0;
+                    cmmtmgr.Update(sh);
+                    cmmtmgr.SaveChanges();
+                }
+            }
+            var tt = new { Total = 0, data = 0 };
+            return Json(tt);
+
+        }
+        [AdminLoginStateRequiredAttribute]
+        public JsonResult ItBlogDel(int uid)
+        {
+            ItBlogRepository cmmtmgr = new ItBlogRepository(DbContext);
+            if (uid != 0)
+            {
+                ItBlogModel sh = cmmtmgr.GetById(uid);
                 if (sh != null)
                 {
                     cmmtmgr.Delete(uid);
@@ -526,7 +658,7 @@ namespace ehaiker.Controllers
         public JsonResult GetDescImgs()
         {
             //枚举图片文件
-            string imgurl = _env.WebRootPath+("/public/games");
+            string imgurl = _env.WebRootPath + ("/public/games");
             var imgs = FileUploadHelper.FindImg(imgurl, "../public/games/");
             var tt = new { total = imgs.Count(), data = imgs.ToList() };
             return Json(tt); ;
@@ -537,10 +669,10 @@ namespace ehaiker.Controllers
         public JsonResult SaveGameItem(string Item_parameter)
         {
             GameModel gameItem = JsonHelper.DeserializeJsonToObject<GameModel>(Item_parameter);
-            if(gameItem != null)
+            if (gameItem != null)
             {
-                if(!string.IsNullOrEmpty(gameItem.gameDescription))
-                 gameItem.gameDescription = System.Text.RegularExpressions.Regex.Replace(gameItem.gameDescription, "/(?!<(img|p|span).*?>)<.*?>/g", "");
+                if (!string.IsNullOrEmpty(gameItem.gameDescription))
+                    gameItem.gameDescription = System.Text.RegularExpressions.Regex.Replace(gameItem.gameDescription, "/(?!<(img|p|span).*?>)<.*?>/g", "");
                 if (!string.IsNullOrEmpty(gameItem.ItemName))
                     gameItem.ItemName = System.Text.RegularExpressions.Regex.Replace(gameItem.ItemName, "/(?!<(img|p|span).*?>)<.*?>/g", "");
                 if (!string.IsNullOrEmpty(gameItem.Keywords))
@@ -571,6 +703,7 @@ namespace ehaiker.Controllers
                     sh.targetUri = gameItem.targetUri;
                     sh.gameDescription = gameItem.gameDescription;
                     sh.Gametype = gameItem.Gametype;
+                    sh.IsIdentified = 1;
                     GamelistManager.Update(sh);
                     GamelistManager.SaveChanges();
                     var t0 = new { code = 0, data = "更新成功" };
@@ -602,7 +735,7 @@ namespace ehaiker.Controllers
                 if (!string.IsNullOrEmpty(gameItem.ImgDescUri))
                     gameItem.ImgDescUri = System.Text.RegularExpressions.Regex.Replace(gameItem.ImgDescUri, "/(?!<(img|p|span).*?>)<.*?>/g", "");
                 Administrator cookie = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
-                
+
                 GameListManager GamelistManager = new GameListManager(DbContext);
                 //
                 gameItem.MineTime = DateTime.Now;
@@ -628,11 +761,12 @@ namespace ehaiker.Controllers
             if (gameItem != null)
             {
                 //防止脚本注入
-                if(!string.IsNullOrEmpty(gameItem.Title))
-                gameItem.Title = System.Text.RegularExpressions.Regex.Replace(gameItem.Title, "/(?!<(img|p|span).*?>)<.*?>/g", "");
-                if(!string.IsNullOrEmpty(gameItem.Content))
-                gameItem.Content = System.Text.RegularExpressions.Regex.Replace(gameItem.Content, "/(?!<(img|p|span).*?>)<.*?>/g", "");
-
+                if (!string.IsNullOrEmpty(gameItem.Title))
+                    gameItem.Title = System.Text.RegularExpressions.Regex.Replace(gameItem.Title, "/(?!<(img|p|span).*?>)<.*?>/g", "");
+                if (!string.IsNullOrEmpty(gameItem.Content))
+                    gameItem.Content = System.Text.RegularExpressions.Regex.Replace(gameItem.Content, "/(?!<(img|p|span).*?>)<.*?>/g", "");
+                if (!string.IsNullOrEmpty(gameItem.ReferUri))
+                    gameItem.ReferUri = System.Text.RegularExpressions.Regex.Replace(gameItem.ReferUri, "/(?!<(img|p|span).*?>)<.*?>/g", "");
                 Administrator cookie = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
 
                 GameStrategiesRepository GamelistManager = new GameStrategiesRepository(DbContext);
@@ -642,8 +776,9 @@ namespace ehaiker.Controllers
                 gameItem.readers = 1;
 
                 //作者
-                gameItem.Author = cookie.Account;
-                gameItem.AuthorID = cookie.AdministratorID;
+                gameItem.Author = cookie.nickname;
+
+                gameItem.UserGuid = cookie.UserGuid;
                 gameItem.IsIdentified = 1;
                 GamelistManager.Add(gameItem);
                 GamelistManager.SaveChanges();
@@ -655,19 +790,58 @@ namespace ehaiker.Controllers
         }
         [HttpPost]
         [AdminLoginStateRequiredAttribute]
+        public JsonResult AddNewItBlog(string Item_parameter)
+        {
+            int errorCode = 0;
+            string errMsg = "操作失败！";
+            if (ModelState.IsValid)
+            {
+                ItBlogModel gameItem = JsonHelper.DeserializeJsonToObject<ItBlogModel>(Item_parameter);
+                if (gameItem != null)
+                {
+                    Administrator cookie = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "AdminUser");
+
+                    ItBlogRepository ItBlogMgr = new ItBlogRepository(DbContext);
+                    //
+                    gameItem.CreateTime = DateTime.Now;
+                    gameItem.LastEditTime = DateTime.Now;
+                    gameItem.readers = 1;
+                    //防止脚本注入
+                    if (!string.IsNullOrEmpty(gameItem.Title))
+                        gameItem.Title = System.Text.RegularExpressions.Regex.Replace(gameItem.Title, "/(?!<(img|p|span).*?>)<.*?>/g", "");
+                    if (!string.IsNullOrEmpty(gameItem.Content))
+                        gameItem.Content = System.Text.RegularExpressions.Regex.Replace(gameItem.Content, "/(?!<(img|p|span).*?>)<.*?>/g", "");
+                    if (!string.IsNullOrEmpty(gameItem.ReferUri))
+                        gameItem.ReferUri = System.Text.RegularExpressions.Regex.Replace(gameItem.ReferUri, "/(?!<(img|p|span).*?>)<.*?>/g", "");
+                    //作者
+                    gameItem.Author = cookie.nickname;
+                    gameItem.UserGuid = cookie.UserGuid;
+                    gameItem.IsIdentified = 1;
+                    ItBlogMgr.Add(gameItem);
+                    ItBlogMgr.SaveChanges();
+                    errMsg = "操作成功";
+                    var retjson = new { ErrorCode = errorCode, iSuccessCode = 0, msg = errMsg };
+                    return Json(retjson);
+                }
+            }
+            var tt = new { ErrorCode = 10000, msg = "未知错误" };
+            return Json(tt);
+        }
+        [HttpPost]
+        [AdminLoginStateRequiredAttribute]
         public JsonResult GroupPermissionDispatch(string Item_parameter)
         {
-           
+
             GameModel gameItem = JsonHelper.DeserializeJsonToObject<GameModel>(Item_parameter);
             var tt = new { total = 0, data = 0 };
-            return Json(tt); 
+            return Json(tt);
         }
         [HttpPost]
         [AdminLoginStateRequired]
         public async Task<JsonResult> GetAPermissions(int? id)
         {
             var groupPermissionBinder = await DbContext.GroupBinderTable.FindAsync(id);
-            if (groupPermissionBinder == null|| id==0)
+            if (groupPermissionBinder == null || id == 0)
             {
                 var tt0 = new { total = 0, data = 0 };
                 return Json(tt0);
@@ -685,8 +859,8 @@ namespace ehaiker.Controllers
             var permissions = from ps in DbContext.PermissionTable
                               where (inumarr.Contains(ps.Id))
                               select ps;
-           // ViewBag.myPermissions = permissions.ToList();
-            var tt = new { total = 1, data = groupPermissionBinder.OwnPermissions,data1 = permissions.ToList() };
+            // ViewBag.myPermissions = permissions.ToList();
+            var tt = new { total = 1, data = groupPermissionBinder.OwnPermissions, data1 = permissions.ToList() };
             return Json(tt);
         }
 
@@ -771,6 +945,52 @@ namespace ehaiker.Controllers
                 .Take(rows)
                 .ToList();
             var notes = new Tuple<List<Administrator>, int>(findItems, pagecount);
+
+            ViewBag.PageIndex = page;//当前页
+            var tt = new { Total = notes.Item2, data = notes.Item1 };
+            return Json(tt);
+
+        }
+        [HttpPost]
+        [AdminLoginStateRequiredAttribute]
+        public async Task<JsonResult> GetItBlogInfo(int page = 1, int rows = 10, int type = -1, string name = null)
+        {
+            page = page > 0 ? page : 1;
+            ItBlogRepository GamelistManager = new ItBlogRepository(DbContext);
+            var query = new List<ItBlogModel>();
+            if (type >= 0)
+            {
+
+                if (type == 0)
+                {
+                    query = GamelistManager.List();
+                }
+                else
+                {
+                    query = GamelistManager.GetDbSet().Where(r => r.blogtype == type).ToList();
+                }
+
+
+            }
+            else if (name != null)
+            {
+
+                query = (from c in GamelistManager.GetDbSet()
+                         where c.Title.Contains(name)
+                         select c).ToList();
+
+            }
+            else
+            {
+                query = GamelistManager.List();
+            }
+            var count = query.Count();
+            var pagecount = count % rows == 0 ? count / rows : count / rows + 1;
+            var findItems = query.OrderByDescending(r => r.toplevel)
+                .Skip((page - 1) * rows)
+                .Take(rows)
+                .ToList();
+            var notes = new Tuple<List<ItBlogModel>, int>(findItems, pagecount);
 
             ViewBag.PageIndex = page;//当前页
             var tt = new { Total = notes.Item2, data = notes.Item1 };

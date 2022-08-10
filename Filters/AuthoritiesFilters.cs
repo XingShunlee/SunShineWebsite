@@ -1,6 +1,4 @@
-﻿using ehaiker;
-using ehaiker.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -9,37 +7,35 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using static Microsoft.IdentityModel.Protocols.WsFederation.WsFederationConstants;
 
 namespace ehaikerv202010.Filters
 {
-    public class AuthoritiesFilters:AuthorizeFilter,IAllowAnonymousFilter
+    public class AuthoritiesFilters : AuthorizeFilter, IAllowAnonymousFilter
     {
     }
-    public class LoginAuthorize:AuthorizeFilter
+    public class LoginAuthorize : AuthorizeFilter
     {
         public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            if(IsHaveAllow(context.Filters))
+            if (IsHaveAllow(context.Filters))
             {
                 return;
             }
             var url = context.HttpContext.Request.Path.Value;
-            if(string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url))
             {
                 return;
             }
             var list = url.Split("/");
-            if(list.Length<=0 || url=="/")
+            if (list.Length <= 0 || url == "/")
             {
                 return;
             }
             var controllerName = list[1].ToString().Trim();
             var actionName = list[2].ToString().Trim();
             var flag = PowerIsTrue.IsHavePower(controllerName, actionName);
-            if( flag.Item1 !=0)
+            if (flag.Item1 != 0)
             {
                 context.Result = new RedirectResult("/Home/Index");
             }
@@ -48,7 +44,7 @@ namespace ehaikerv202010.Filters
 
         private bool IsHaveAllow(IList<IFilterMetadata> filters)
         {
-            for(int i=0;i<filters.Count;i++)
+            for (int i = 0; i < filters.Count; i++)
             {
                 if (filters[i] is IAllowAnonymousFilter)
                     return true;
@@ -59,7 +55,7 @@ namespace ehaikerv202010.Filters
 
     internal class PowerIsTrue
     {
-        internal static (int,string) IsHavePower(object controllerName, object actionName)
+        internal static (int, string) IsHavePower(object controllerName, object actionName)
         {
             return (0, "通過");
         }
@@ -89,7 +85,7 @@ namespace ehaikerv202010.Filters
     //        }
     //    }
 
-       
+
     //}
     //can use for phone remote varified!
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
@@ -180,16 +176,16 @@ namespace ehaikerv202010.Filters
                 isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true)
                    .Any(a => a.GetType().Equals(typeof(NoPermissionRequiredAttribute)));
                 //包含有匿名
-                isDefined |= controllerActionDescriptor.MethodInfo.GetCustomAttributes(true ).Any(a => a.GetType().Equals(typeof(AllowAnonymousAttribute)));
+                isDefined |= controllerActionDescriptor.MethodInfo.GetCustomAttributes(true).Any(a => a.GetType().Equals(typeof(AllowAnonymousAttribute)));
             }
-            if (isDefined ||!isNeedVarified)//如果不需要驗證，直接返回
-                return;  
-           
+            if (isDefined || !isNeedVarified)//如果不需要驗證，直接返回
+                return;
+
             base.OnActionExecuting(filterContext);
         }
 
     }
-   
+
     //登录状态验证
     public class AdminLoginStateRequiredAttribute : ActionFilterAttribute
     {
@@ -222,7 +218,7 @@ namespace ehaikerv202010.Filters
         }
 
     }
-   
+
     //不需要权限验证
 
     public class NoPermissionRequiredAttribute : ActionFilterAttribute
@@ -233,7 +229,7 @@ namespace ehaikerv202010.Filters
         }
 
     }
-   
+
 
     //在不需要的方法上面打上标记
 
@@ -242,13 +238,13 @@ namespace ehaikerv202010.Filters
 
     //{
     //}
-    [AttributeUsage(AttributeTargets.Class|AttributeTargets.Method,AllowMultiple =true,Inherited =true)]
-    public class PermissionControlAttribute: Attribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    public class PermissionControlAttribute : Attribute
     {
-        public string Description{ set; get; }
-       // public int ActionNo { set; get; }
+        public string Description { set; get; }
+        // public int ActionNo { set; get; }
         public virtual int GlobalNo { set; get; }
-        
+
 
         /// <summary>
         /// Permission Action Name
@@ -260,7 +256,7 @@ namespace ehaikerv202010.Filters
         public int VisitLevel { set; get; }
 
 
-        public PermissionControlAttribute(int GlobalNo,  string actionName,string description, 
+        public PermissionControlAttribute(int GlobalNo, string actionName, string description,
             int VisitLevel, int isGet, int ShowInManagerBar)
         {
             this.GlobalNo = GlobalNo;

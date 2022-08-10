@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ehaiker.Auth;
+using ehaiker.Models;
+using ehaikerv202010.helpers;
 using ehaikerv202010.Models;
 using Microsoft.EntityFrameworkCore;
-using ehaiker.Models;
-using ehaiker.Auth;
-using ehaikerv202010.helpers;
+using System;
 
 namespace ehaiker
 {
@@ -15,7 +12,7 @@ namespace ehaiker
         public EhaikerContext(DbContextOptions<EhaikerContext> options)
             : base(options)
         {
-           
+
             if (Database.EnsureCreated())
             {
                 //增加默认类型和管理员
@@ -24,6 +21,7 @@ namespace ehaiker
                 loginViewModel.Account = "Admin";
                 loginViewModel.Password = Security.Sha256("www.ehaiker.com");
                 loginViewModel.CreateTime = DateTime.Now;
+                loginViewModel.nickname = "Admin";
                 var _response = adminManager.Find(loginViewModel.Account);
                 if (_response == null)
                 {
@@ -48,11 +46,16 @@ namespace ehaiker
                 gamemedia.Name = "PC";
                 GametypeMgr.Add(gamemedia);
                 GametypeMgr.SaveChanges();
+                gamemedia = null;
+                gamemedia = new GameType();
+                gamemedia.Name = "H5";
+                GametypeMgr.Add(gamemedia);
+                GametypeMgr.SaveChanges();
                 //auto generator the permissions from actions for the first time
                 permissionHelper.InitPermissionOnce(this);
 
             }
-           
+
         }
         //每个DbSet代表一张表
         public DbSet<GameStrategies> GameStrategs { set; get; }//游戏攻略
@@ -79,9 +82,11 @@ namespace ehaiker
         public DbSet<CommentModel> CommentTable { set; get; }
         public DbSet<MyGameLibs> MyGames { set; get; }
         public DbSet<MyGameStrage> MyGameStrages { set; get; }
-        public DbSet<T> GetView<T>() where T:class
+        public DbSet<ItBlogModel> ItBlogSets { set; get; }
+        public DbSet<MyItBlogModel> MyItBlogs { set; get; }
+        public DbSet<T> GetView<T>() where T : class
         {
-            switch(typeof(T).Name)
+            switch (typeof(T).Name)
             {
                 case "GameStrategies":
                     return GameStrategs as DbSet<T>;
@@ -125,11 +130,15 @@ namespace ehaiker
                     return RoleBinderTable as DbSet<T>;
                 case "Group":
                     return GroupTable as DbSet<T>;
+                case "ItBlogModel":
+                    return ItBlogSets as DbSet<T>;
+                case "MyItBlogModel":
+                    return MyItBlogs as DbSet<T>;
                 default:
                     return null;
             }
-            }
+        }
     }
-   
-   
+
+
 }

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ehaikerv202010
 {
@@ -32,7 +29,7 @@ namespace ehaikerv202010
                 client.Port = 25;
                 NetworkCredential credetial = new NetworkCredential();
                 credetial.UserName = "lixingshunnick";
-                credetial.Password = "ehaiker126";
+                credetial.Password = "UTXGEJFQTCJNDAHQ";
                 client.Credentials = credetial;
                 client.Send(mailmsg);
                 return true;

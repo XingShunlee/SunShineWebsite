@@ -39,6 +39,9 @@
                         <span class="grade-tag">星级:{{item.grade}}</span>
                         <p> {{item.ItemName}}</p>
                         <p>运营商:<span class="yunying-tag">{{item.supporter}}</span></p>
+                        <P class="shoucang-tag">
+                            <a href="javascript:void(0);" v-on:click="CancelMygame(item.ItemID)">取消</a>
+                        </P>
                     </div>
                 </li>
             </ul>
@@ -232,6 +235,30 @@
 
                     }
                 });
+            },
+            CancelMygame: function (e) {
+                $.ajax(
+                    {
+                        url: "/MyGameCenter/CancelMyGameItem",
+                        type: "post",
+                        data: { gid: e },
+                        dataType: "json",
+                        success: function (o) {
+                            if (o.SuccessCode == "0") {
+                                window.location.href = "../MyGameCenter/Index";
+                                return;
+                            }
+                            else {
+                                alert(o.msg);
+                            }
+
+                        }
+                        ,
+                        error: function (o) {
+                            alert(o.msg);
+                        }
+
+                    }); //ajax
             },
         },
 

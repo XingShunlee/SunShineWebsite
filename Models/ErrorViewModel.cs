@@ -1,5 +1,3 @@
-using System;
-
 namespace ehaikerv202010.Models
 {
     public class ErrorViewModel

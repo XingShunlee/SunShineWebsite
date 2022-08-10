@@ -2,11 +2,8 @@
 using ehaiker.Auth;
 using ehaikerv202010.Filters;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace ehaikerv202010.helpers
 {
@@ -21,14 +18,14 @@ namespace ehaikerv202010.helpers
         .ToList()
         .ForEach(d =>
         {
-            var memberactions = d.GetMethods(BindingFlags.DeclaredOnly|BindingFlags.Public|
-                BindingFlags.Instance|BindingFlags.NonPublic);
-           
+            var memberactions = d.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public |
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
             foreach (var item in memberactions) //get all the memberfuctions
             {
                 //get customer properties
                 var customAttributes = item.GetCustomAttributes<PermissionControlAttribute>();
-                
+
                 foreach (var attr in customAttributes)
                 {
                     Permission ps = new Permission();
@@ -42,10 +39,10 @@ namespace ehaikerv202010.helpers
                     ps.VisitLevel = attr.VisitLevel;
                     _cont.PermissionTable.Add(ps);
                 }
-                
+
             }
         });
-            _cont.SaveChanges(); 
+            _cont.SaveChanges();
         }
     }
 }

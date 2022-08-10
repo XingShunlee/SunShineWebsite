@@ -1,26 +1,24 @@
-﻿using System;
+﻿using ehaiker.Models;
+using ehaikerv202010.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
-using ehaiker.Models;
-using Microsoft.EntityFrameworkCore;
-using ehaikerv202010.Models;
 
 namespace ehaiker
 {
-    public class NewsesRepository: IRepository<NewsModel>
+    public class NewsesRepository : IRepository<NewsModel>
     {
         private EhaikerContext context;
         public NewsesRepository(EhaikerContext _context)
         {
             context = _context;
         }
-        
+
         public void Add(NewsModel note)
         {
             context.WebNewses.Add(note);
-            
+
         }
         public NewsModel GetById(int id)
         {
@@ -43,8 +41,8 @@ namespace ehaiker
         {
             //try
             //{
-                return context.SaveChanges();
-           // }
+            return context.SaveChanges();
+            // }
             //catch (DbEntityValidationException exception)
             //{
             //    var errorMessages =
@@ -62,7 +60,7 @@ namespace ehaiker
         }
         public Tuple<List<NewsModel>, int> PageList(int pageindex, int pagesize)
         {
-            var query = context.WebNewses
+            var query = context.WebNewses.Where(r => r.IsUnVisible == 0)
                 .AsQueryable();
             var count = query.Count();
             var pagecount = count % pagesize == 0 ? count / pagesize : count / pagesize + 1;
@@ -72,17 +70,13 @@ namespace ehaiker
                 .ToList();
             return new Tuple<List<NewsModel>, int>(notes, pagecount);
         }
-        public void Delete(int administratorID)
+        public void Delete(int newsID)
         {
-            var _admin = GetById(administratorID);
-            if (context.GameStrategs.Count() == 1)
-            {
-                return ;
-            }
-            else
+            var _admin = GetById(newsID);
+            if (_admin != null)
             {
                 context.WebNewses.Remove(_admin);
-               
+
             }
         }
 

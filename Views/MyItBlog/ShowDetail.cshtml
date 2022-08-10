@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "_MemberShipLayout";
+    ViewData["Title"] = "文章修改";
+    var types = ViewBag.Types as IEnumerable<SelectListItem>;
+}
+@model ehaikerv202010.Models.ItBlogModel
+<link rel="stylesheet" href="/css/personal/home-page.min.css" /> <!--主体样式应用-->
+<script src="../Scripts/MyItBlog_showdetail.js"></script>
+<script src="/js/personal.js"></script>
+<script src="../../plugins/tinymce/tinymce.min.js"></script>
+<link rel="stylesheet" href="/css/CommonDialog.css" />
+<script type="text/javascript" src="/js/CommonDialog.js"></script>
+<script>
+  tinymce.init({
+				selector: '#idContent',
+				language: 'zh_CN',
+				directionality: 'ltr',
+				browser_spellcheck: true,
+				contextmenu: false,
+				plugins: [
+					"advlist autolink lists link image charmap print preview anchor",
+					"searchreplace visualblocks code fullscreen",
+					"insertdatetime media table contextmenu paste imagetools wordcount",
+					"code"
+				],
+				toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code",
+
+  });
+</script>
+<div id="left-right-layout">
+    <div class="block-main">
+        <!--左边操作-->
+        <div class="block-Left">
+            <div class="box-wrap">
+       
+            </div>
+        </div>
+    <div class="block-Right" id="Main" style="float:left;">
+        <div class="box-wrap">
+            <div class="login-input clear-fix focus-style">
+			<span class="Title">标题：</span>
+			<input id="idTitle" name="idTitle" class="input-text" type="text" placeholder="请输入标题，不超过255个字符" style="width:100%;" value=@Model.Title />
+			<input id="wenzhangID" type="hidden" value=@Model.Id />
+            </div>
+            <div class=" form-group">
+               <span style="font-size:24px;">请在下面输入内容(1024)：</span><br />
+                <textarea id="idContent" cols="10" rows="50">@Model.Content</textarea>
+            </div>
+            <div class=" form-group">
+                @Html.DropDownList("Types", ViewData["Types"] as SelectList, "--请选择--", new { @class = "SelectList" })
+            </div>
+            <hr />
+             <div class="login-btn"><a id="personal-shiwan-add-btn" href="javascript:void(0)" title="">立即提交</a></div>
+        </div>
+    </div>
+    </div>
+</div>
+

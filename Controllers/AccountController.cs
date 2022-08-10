@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using ehaiker;
+﻿using ehaiker;
 using ehaiker.Models;
 using ehaikerv202010.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ehaikerv202010.Controllers
 {
@@ -27,10 +23,10 @@ namespace ehaikerv202010.Controllers
         //    return View();
         //}
         [LoginStateRequiredAttribute]
-        public async  Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            IActionResult t =  await Task.Run(() => 
-            { return View(); } );
+            IActionResult t = await Task.Run(() =>
+           { return View(); });
             return t;
         }
         [NoPermissionRequiredAttribute]
@@ -45,7 +41,7 @@ namespace ehaikerv202010.Controllers
             }
             else
             {
-                MemberShip user = new MemberShip() { UserName = "游客", UserId = 0, Password = "0" };
+                MemberShip user = new MemberShip() { UserName = "游客", UserId = 0, Password = "0", UserGuid = Guid.NewGuid().ToString() };
 
                 return View("Login", user);
             }
@@ -61,7 +57,7 @@ namespace ehaikerv202010.Controllers
                 MemberShipManager ship = new MemberShipManager(DbContext);
 
                 var _admin = ship.Find(sessionUser.Account);
-                _admin.LoginGuid = Guid.Empty;
+                _admin.LoginGuid = Guid.Empty.ToString();
                 ship.Update(_admin);
             }
             //没有登录
@@ -72,7 +68,7 @@ namespace ehaikerv202010.Controllers
             MemberShip user = new MemberShip() { UserName = "游客", UserId = 0, Password = "0" };
             //Forms验证
             // FormsAuthentication.SignOut();
-            return View("Index", user);
+            return View("Login", user);
 
         }
         /// <summary>
@@ -183,8 +179,8 @@ namespace ehaikerv202010.Controllers
         public JsonResult Login(string ehaiker_parameter)
         {
             membershiplogin juser = JsonHelper.DeserializeJsonToObject<membershiplogin>(ehaiker_parameter);
-        LoginMessage msg = new LoginMessage();
-        msg.msg = "未知错误";
+            LoginMessage msg = new LoginMessage();
+            msg.msg = "未知错误";
             msg.SuccessCode = "-1000";
             msg.UserLogUrl = "/Account/Login";
             if (ModelState.IsValid)
@@ -194,29 +190,29 @@ namespace ehaikerv202010.Controllers
                 {
                     ModelState.AddModelError("code", "validate code is error");
                     msg.msg = "验证码错误";
-                    msg.SuccessCode = "10000:"+ HttpContext.Session.GetString("ValidateCode");
+                    msg.SuccessCode = "10000:" + HttpContext.Session.GetString("ValidateCode");
                     msg.Account = juser.Account;
                     return Json(msg);
                 }
                 string _passowrd = Security.Sha256(juser.Password);
-               MemberShipManager ship = new MemberShipManager(DbContext);
+                MemberShipManager ship = new MemberShipManager(DbContext);
                 var _response = ship.Verify(juser.Account, _passowrd);
                 if (_response == 1)
                 {
                     var _admin = ship.Find(juser.Account);
                     //判断是否为重复登录
-                    if (_admin.LoginGuid!=Guid.Empty)
+                    if (_admin.LoginGuid != Guid.Empty.ToString())
                     {
                         //已经登录，清空session，重新登录
                         MemUserDataManager.RemoveSessionData(HttpContext, "memshipUserInfo");
                         HttpContext.Session.Clear();
                     }
-                    
+
 
                     _admin.LoginTime = DateTime.Now;
                     // _admin.LoginIP = HttpContext.Connection.RemoteIpAddress.MapToIPv4()?.ToString();
                     _admin.LoginIP = HttpContext.Request.Headers["X-Real-IP"].FirstOrDefault();
-                    _admin.LoginGuid = Guid.NewGuid();
+                    _admin.LoginGuid = Guid.NewGuid().ToString();
                     ship.Update(_admin);
                     ship.SaveChanges();
                     //创建一个用户对象
@@ -229,7 +225,7 @@ namespace ehaikerv202010.Controllers
                     //写入session
                     MemUserDataManager.AddSessionData(HttpContext, "memshipUserInfo", jsonUserInfo);
                     MemberShipInfomationRepository UserInfoMgr = new MemberShipInfomationRepository(DbContext);
-                    MemberShipInfomation UserInfo = UserInfoMgr.GetById(_admin.UserId);
+                    MemberShipInfomation UserInfo = UserInfoMgr.GetByUserId(_admin.UserGuid);
                     //write the user information
                     MemUserDataManager.AddSessionData(HttpContext, "memshipInfomation", UserInfo);
                     //设置信息
@@ -238,7 +234,7 @@ namespace ehaikerv202010.Controllers
                     msg.Account = juser.Account;
                     msg.UserInfoUrl = "/Personal/Index";
                     msg.UserLogUrl = "/Account/logout";
-                   // msg.UserName = _admin.UserName;
+                    // msg.UserName = _admin.UserName;
                     //使用Form验证
                     /*UserInfo userData = new UserInfo();
                     userData.UserId = _admin.AdministratorID;
@@ -246,12 +242,12 @@ namespace ehaikerv202010.Controllers
                     userData.UserName = _admin.Account;
                     userData.perItem = string.Format("userPermissionMenu_{0}", userData.GroupId);
                     userData.perskey = string.Format("userPermission_{0}", userData.GroupId);*/
-                   // msg.VIPLevel = _admin.VIPLevel;
+                    // msg.VIPLevel = _admin.VIPLevel;
                     // 登录状态10分钟内有效
-                  //  MyFormsPrincipal<UserInfo>.SignIn(_admin.Account, userData, 100, juser.is_auto);
+                    //  MyFormsPrincipal<UserInfo>.SignIn(_admin.Account, userData, 100, juser.is_auto);
                     //读取权限
-                  //  RoleService sSVR = new RoleService();
-                  //  List<Permission> lp = null;
+                    //  RoleService sSVR = new RoleService();
+                    //  List<Permission> lp = null;
                     /*if(userData.GroupId==1)
                     {
                         lp = sSVR.GetPermissions();

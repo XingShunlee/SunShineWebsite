@@ -139,7 +139,7 @@
     <div id="app2" class="row">
         <div id="leftblock" style="float:left;border:1px solid #e8e8e8;padding-right:0;height:300px;overflow:hidden;" class="news-box col-md-3 col-xs-3 col-sm-3">
             <div class="news-box">
-                <h3><i class="glyphicon glyphicon-user"></i>用户信息<a href="../Person/UserInfo" class="more-a"></a></h3>
+                <h3><i class="glyphicon glyphicon-user"></i>用户信息<a href="../Personal/UserInfo" class="more-a"></a></h3>
                 <ul class="list-group">
                     <li class="list-group-item" style="border:none;">
                         <strong>用户名：</strong>@if (Model.UserId == 0)
@@ -163,6 +163,9 @@
                     <li class="list-group-item" style="border:none;">
                         <strong>最新发表：</strong>@Model.UserName
                     </li>
+                    <li class="list-group-item" style="border:none;">
+                        <strong><a href="../Account/Logout">退出登录</a></strong>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -175,8 +178,8 @@
                     <tbody>
                         <tr v-for="(facility,index) in facilities">
                             <td>
-                                <a :href="'../GameStrategiesShow?Id='+facility.Id" style="display:block;">
-                                    {{facility.Title}}
+                                <a :href="'../GameStrategiesShow?Id='+facility.GameID" style="display:block;">
+                                    {{facility.ItemName}}
                                 </a>
                             </td>
                         </tr>
@@ -305,8 +308,8 @@
                 facilities1: [],
                 CenterNews: [],
                 posts: {
-                    containerId: '456',
-                    tabid:'7777',
+                    containerId: '1456',
+                    tabid:'7771',
 
                     tabitems: [
                         {

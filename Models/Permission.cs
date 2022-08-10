@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ehaiker.Auth
 {
@@ -14,7 +10,7 @@ namespace ehaiker.Auth
         [Key]
         public int Id { set; get; }
         public virtual int GlobalNo { set; get; }
-        
+
         /// <summary>
         /// Permission Action Name
         /// </summary>

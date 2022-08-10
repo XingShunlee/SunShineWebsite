@@ -1,33 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using ehaiker;
-using ehaiker.Models;
-using System.Web;
-using System.Text;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+﻿using ehaiker.Models;
 using ehaikerv202010;
-using Microsoft.AspNetCore.Http;
 using ehaikerv202010.Filters;
 using ehaikerv202010.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace ehaiker.Controllers
 {
     public class AdminLoginController : Controller
     {
-        
+
         private EhaikerContext DbContext;
         public AdminLoginController(EhaikerContext _cont)
         {
             DbContext = _cont;
-            
+
         }
-       // [AllowAnonymous]
+        // [AllowAnonymous]
         //[ValidateAntiForgeryToken]
         [HttpPost]
-        [PermissionControlAttribute(1, "删除评论", "删除评论", 0, 0, 1)]
+        [PermissionControlAttribute(1, "管理员登录", "管理员登录", 0, 0, 1)]
         public JsonResult Login(string ehaiker_parameter)
         {
             membershiplogin juser = JsonHelper.DeserializeJsonToObject<membershiplogin>(ehaiker_parameter);
@@ -55,9 +50,9 @@ namespace ehaiker.Controllers
                     _admin.LoginTime = DateTime.Now;
                     //  _admin.LoginIP = HttpContext.Connection.RemoteIpAddress.MapToIPv4()?.ToString(); ;
                     _admin.LoginIP = HttpContext.Request.Headers["X-Real-IP"].FirstOrDefault();
-                    if (_admin.LoginGuid != Guid.Empty)
+                    if (_admin.LoginGuid != Guid.Empty.ToString())
                     {
-                        _admin.LoginGuid = Guid.NewGuid();
+                        _admin.LoginGuid = Guid.NewGuid().ToString();
                         MemUserDataManager.RemoveSessionData(HttpContext, "AdminUser");
                     }
                     adminManager.Update(_admin);
@@ -70,7 +65,7 @@ namespace ehaiker.Controllers
                     //将序列化之后的Json串以UTF-8编码，再存入Cookie
 
                     //写入session
-                    MemUserDataManager.AddSessionData(HttpContext,"AdminUser", jsonUserInfo);
+                    MemUserDataManager.AddSessionData(HttpContext, "AdminUser", jsonUserInfo);
                     //设置信息
                     msg.msg = "欢迎您";
                     msg.SuccessCode = "0";
@@ -85,12 +80,12 @@ namespace ehaiker.Controllers
                     userData.UserName = _admin.Account;
                     userData.perItem = string.Format("userPermissionMenu_{0}", userData.GroupId);
                     userData.perskey = string.Format("userPermission_{0}", userData.GroupId);*/
-                   // msg.VIPLevel = _admin.VIPLevel;
+                    // msg.VIPLevel = _admin.VIPLevel;
                     // 登录状态10分钟内有效
-                  //  MyFormsPrincipal<UserInfo>.SignIn(_admin.Account, userData, 100, juser.is_auto);
+                    //  MyFormsPrincipal<UserInfo>.SignIn(_admin.Account, userData, 100, juser.is_auto);
                     //读取权限
-                  //  RoleService sSVR = new RoleService();
-                  //  List<Permission> lp = null;
+                    //  RoleService sSVR = new RoleService();
+                    //  List<Permission> lp = null;
                     /*if(userData.GroupId==1)
                     {
                         lp = sSVR.GetPermissions();
@@ -122,7 +117,7 @@ namespace ehaiker.Controllers
             }
             return Json(msg);
         }
-         [AllowAnonymous]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             Administrator sessionUser = MemUserDataManager.GetMemSessionData<Administrator>(HttpContext, "Adminuser");
@@ -130,7 +125,7 @@ namespace ehaiker.Controllers
             {
                 return RedirectToRoute(new { Controller = "ManagerMain", Action = "Index" });
             }
-                LoginViewModel user = new LoginViewModel() { Accounts = "游客", Password = "0" };
+            LoginViewModel user = new LoginViewModel() { Accounts = "游客", Password = "0" };
 
             return View(user);
         }
@@ -145,7 +140,7 @@ namespace ehaiker.Controllers
                 AdministratorManager ship = new AdministratorManager(DbContext);
 
                 var _admin = ship.Find(sessionUser.Account);
-                _admin.LoginGuid = Guid.Empty;
+                _admin.LoginGuid = Guid.Empty.ToString();
                 ship.Update(_admin);
             }
             //没有登录

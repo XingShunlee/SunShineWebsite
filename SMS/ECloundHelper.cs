@@ -1,35 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using System.Text;
-using System.Net;
-using System.IO;
 using System.Collections.Specialized;
+using System.IO;
+using System.Net;
 using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 
 namespace ehaiker.SMS
 {
     public class ECloundHelper
     {
-    	
-    	
-    	/// ========================================程序配置参数区开始
-    	
+
+
+        /// ========================================程序配置参数区开始
+
         //接口生产地址(应用上线后正式环境必须使用该地址)
         //private  static String url = "http://www.etuocloud.com/gateway.action";
-        
+
         //接口测试地址（未上线前测试环境使用）
         private static String url = "http://www.etuocloud.com/gatetest.action";
-        
+
         //应用 app_key
         private static String APP_KEY = "dBCe12qCrYPZghbXicDjaCznZrOMfEPr";
         //应用 app_secret
         private static String APP_SECRET = "OO8VigeSADYSfn1Z3a3FG5m6YC6FyPvaNjG1f5w7mGzENmILqTGsWdO8TzaZt9l8";
-        
+
         //接口响应格式 json或xml
         private static String FORMAT = "json";
-        
+
         /// ========================================程序配置参数区结束
 
 

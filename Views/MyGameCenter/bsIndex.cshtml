@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "我收藏的游戏";
+    ViewBag.Title = "游戏管理";
     Layout = "_MemberShipLayout";
 }
 
@@ -39,6 +39,9 @@
                         <span class="grade-tag">星级:{{item.grade}}</span>
                         <p> {{item.ItemName}}</p>
                         <p>运营商:<span class="yunying-tag">{{item.supporter}}</span></p>
+                        <P class="shoucang-tag">
+                            <a :href="'../MyGameCenter/GameItemModify?ItemId='+item.ItemID" class=" sw-btn" target="_blank">修改</a>
+                        </P>
                     </div>
                 </li>
             </ul>
@@ -69,7 +72,7 @@
             <div v-bind:id=post.containerId>
             <ul v-bind:id=post.tabid class= "nav nav-tabs">
             <li role="presentation" v-for="item in post.tabitems" v-bind:key="item.id" v-bind:class="{ active: item.isActive }"  v-show="post.tabitems.length!=0" >
-            <a v-bind:href=item.targetid  data-toggle="tab" v-on:click="OnChange(item)">{{item.text}}</a></li></ul>
+            <a v-bind:href=item.targetid  data-toggle="tab" v-on:click="OnChange(item)">{{item.text}}</a></li><li role="presentation"><a href="../MyGameCenter/NewGameItem">发表新游戏</a></li></ul>
             </div>`,
         methods: {
             OnChange: function (e) {
@@ -233,6 +236,7 @@
                     }
                 });
             },
+           
         },
 
     });

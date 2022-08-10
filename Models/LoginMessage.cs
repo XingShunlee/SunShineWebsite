@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace ehaiker.Models
+﻿namespace ehaiker.Models
 {
     public class LoginMessage
     {
@@ -20,5 +15,5 @@ namespace ehaiker.Models
         public decimal UMoney { set; get; }
         public decimal TMoney { set; get; }
     }
-    
+
 }

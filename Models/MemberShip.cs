@@ -9,8 +9,9 @@ namespace ehaiker.Models
             MobilePhone = "0";
             SignCount = 0;
             LastSignTime = null;
-            Icon = "/public/avatar/08.jpg";
-            LoginGuid = Guid.Empty;
+            Icon = "/avatar/08.jpg";
+            LoginGuid = Guid.Empty.ToString();
+            UserGuid = Guid.Empty.ToString();
         }
         public MemberShip(MemberShip rhs)
         {
@@ -26,7 +27,8 @@ namespace ehaiker.Models
             SignCount = rhs.SignCount;
             LastSignTime = rhs.LastSignTime;
             Icon = rhs.Icon;
-            LoginGuid = Guid.Empty;
+            LoginGuid = rhs.LoginGuid;
+            UserGuid = rhs.UserGuid;
 
         }
         [Key]
@@ -55,7 +57,7 @@ namespace ehaiker.Models
         [Display(Name = "登录IP")]
         public string LoginIP { get; set; }
         [Display(Name = "登录验证")]
-        public Nullable<Guid> LoginGuid { get; set; }
+        public string LoginGuid { get; set; }
 
         /// <summary>
         /// 登录时间
@@ -83,29 +85,30 @@ namespace ehaiker.Models
         /// <summary>
         /// 用户昵称
         /// </summary>
-         [Display(Name = "显示昵称")]
+        [Display(Name = "显示昵称")]
         public string UserName { set; get; }
-         /// <summary>
-         /// 用户手机
-         /// </summary>
-         [StringLength(11, MinimumLength = 0, ErrorMessage = "{0}长度为{2}-{1}个字符")]
-         [Display(Name = "手机号码")]
-         public string MobilePhone { set; get; }
-         [Display(Name = "签到天数")]
-         public int SignCount { set; get; }
-         [Display(Name = "最后签到时间")]
-         public Nullable<DateTime> LastSignTime { get; set; }
-         /// <summary>
-         /// 用户昵称
-         /// </summary>
-         [Display(Name = "权限")]
-         public string sPermission { set; get; }
-         [Display(Name = "组ID")]
-         public int GroupId { set; get; }
+        /// <summary>
+        /// 用户手机
+        /// </summary>
+        [StringLength(11, MinimumLength = 0, ErrorMessage = "{0}长度为{2}-{1}个字符")]
+        [Display(Name = "手机号码")]
+        public string MobilePhone { set; get; }
+        [Display(Name = "签到天数")]
+        public int SignCount { set; get; }
+        [Display(Name = "最后签到时间")]
+        public Nullable<DateTime> LastSignTime { get; set; }
+        /// <summary>
+        /// 用户昵称
+        /// </summary>
+        [Display(Name = "权限")]
+        public string sPermission { set; get; }
+        [Display(Name = "组ID")]
+        public int GroupId { set; get; }
         [Display(Name = "账号状态")]
         public int nStatus { set; get; }
-        
+        [Display(Name = "唯一ID")]
+        public string UserGuid { get; set; }
 
     }
-    
+
 }

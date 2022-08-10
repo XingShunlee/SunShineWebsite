@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ehaiker;
+﻿using ehaiker;
 using ehaiker.Models;
+using ehaikerv202010.Filters;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace ehaikerv202010.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [LoginStateRequiredAttribute]
     public class PhotoUpController : ControllerBase
     {
         private EhaikerContext DbContext;
@@ -79,5 +78,5 @@ namespace ehaikerv202010.Controllers
             return new JsonResult(msg);
         }
     }
-    
+
 }

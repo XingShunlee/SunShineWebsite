@@ -1,10 +1,8 @@
-﻿using System;
+﻿using ehaiker.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ehaiker.Models;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace ehaiker.Managers
 {
@@ -14,7 +12,7 @@ namespace ehaiker.Managers
         public KeFuChatRecordRepository(EhaikerContext _context)
         {
             context = _context;
-            
+
         }
         public void Add(ChatRecord note)
         {
@@ -40,7 +38,7 @@ namespace ehaiker.Managers
         }
         public int SaveChanges()
         {
-           // try
+            // try
             {
                 return context.SaveChanges();
             }
@@ -78,12 +76,12 @@ namespace ehaiker.Managers
         }
         public int Deletebat(int cumstomerId)
         {
-            var cums = context.chatRecords.Where(r=>r.customerId==cumstomerId);
+            var cums = context.chatRecords.Where(r => r.customerId == cumstomerId);
             foreach (var t in cums)
             {
                 context.chatRecords.Remove(t);
             }
-           return  SaveChanges();
+            return SaveChanges();
         }
     }
 }

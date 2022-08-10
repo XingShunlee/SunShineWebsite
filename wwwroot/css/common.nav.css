@@ -13,16 +13,186 @@
 
 
 /*头部导航*/
-.guanzhumenu{display:block;line-height:20px;color:red;padding:15px 6px 15px 15px;position:relative;text-decoration:none}
-.guanzhumenu+.guanzhumenu{border-left:1px solid #e0e0e0}
+
+/*大导航开始*/
+.softlife-navbar {
+    display: block;
+    background-color: #d9edf7;
+    border-color: #e7e7e7;
+    height:60px;
+}
+
+.softlife-navbar .softlife-navbar-header {
+    float: left;
+    display: inline-block;
+    padding: 0;
+    border: 0;
+}
+
+.softlife-navbar-header .softlife-navbar-brand {
+    float: left;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    text-align: center;
+    text-decoration: none;
+    outline: 0;
+}
+
+.softlife-navbar-header .softlife-navbar-toggle {
+    float: right;
+    padding: 9px 10px;
+    margin-right: 15px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    background-color: #333;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+}
+
+.softlife-navbar-toggle .icon-bar {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    width: 22px;
+    height: 2px;
+    border-radius: 1px;
+    background-color: #fff;
+}
+
+.softlife-navbar-toggle .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: 4px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+    background-color: #fff;
+}
+
+.softlife-navbar-content {
+    float: left;
+    display: inline-block;
+}
+
+.softlife-navbar-content .softlife-navbar-ualink {
+    display: block;
+    z-index:9999;
+}
+/*一般状态*/
+.softlife-navbar-ualink > li {
+    position: relative;
+    display: inline-block;
+    width: 80px;
+
+}
+/*a标签状态*/
+.softlife-navbar-ualink > li > a {
+    line-height: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    outline: 0;
+    color: #777;
+}
+
+.softlife-navbar-ualink > li > a:hover {
+    background-color: white;
+    color: black;
+}
+
+@media screen and (max-width:800px) {
+    .softlife-navbar-content {
+        width: 100%;
+        display: block;
+    }
+
+    .softlife-navbar-header .softlife-navbar-toggle {
+        display: none;
+    }
+    .softlife-navbar-ualink > li {
+        position: relative;
+        display: inline-block;
+        width: 80px;
+    }
+    .softlife-navbar-ualink > li > a {
+        line-height: 20px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        outline: 0;
+        color: #777;
+    }
+
+    .softlife-navbar-ualink > li > a:hover {
+        background-color: white;
+        color: black;
+    }
+}
+
+@media screen and (max-width:770px) {
+    .softlife-navbar-header {
+        float: left;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .softlife-navbar-content {
+        display: none;
+        max-height: 300px;
+        overflow: auto;
+    }
+
+    .softlife-navbar-header .softlife-navbar-toggle {
+        display: inline-block;
+    }
+
+    .softlife-navbar-ualink > li {
+        display: block;
+        width: 100%;
+        z-index: 9999;
+    }
+}
+/*大导航结束*/
+.guanzhumenu {
+    display: block;
+    line-height: 20px;
+    color: red;
+    padding: 15px 6px 15px 15px;
+    position: relative;
+    text-decoration: none;
+}
+/*作为中间项*/
+.guanzhumenu + .guanzhumenu {
+    border-left: 1px solid #e0e0e0
+}
 /*菜单鼠标移入*/
-.guanzhumenu.on,.guanzhumenu:hover{color:#31c37c}
-/*关注外层*/
-.guanzhumenu .guanzhuBox{display:none;width:148px;height:148px;
-                                            border:1px solid #e5e5e5;position:absolute;top:25px;}
+.guanzhumenu.on, .guanzhumenu:hover {
+    color: #31c37c
+}
+/*关注弹窗*/
+.guanzhuBox {
+    display: none;
+    width: 148px;
+    height: 148px;
+    border: 1px solid #e5e5e5;
+    position: absolute;
+    top: 25px;
+    margin-right:15px;
+    z-index: 99999;
+    overflow: auto;
+}
 /*图片样式*/
-.guanzhuBox img{width:100%;height:100%}
-.guanzhuBox .sj,.guanzhuBox .sj .c-sj{display:block;width:0;height:0; border-bottom:5px solid #e5e5e5;
-                    border-left:3px solid transparent;border-right:3px solid transparent;position:absolute;top:-5px;left:116px}
-.guanzhuBox .sj .c-sj{border-bottom:4px solid #fff;top:2px;left:-3px}
-/*大导航*/
+.guanzhuBox img {
+    width: 100%;
+    height: 100%
+}

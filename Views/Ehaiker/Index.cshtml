@@ -32,67 +32,67 @@
             margin: 0 0 0 0
         }
 
-            .news-box h3 .icon {
-                float: left;
-                width: 3px;
-                height: 17px;
-                background: #31c37c;
-                margin: 13px 8px 0 0
-            }
+    .news-box h3 .icon {
+        float: left;
+        width: 3px;
+        height: 17px;
+        background: #31c37c;
+        margin: 13px 8px 0 0
+    }
 
-            .news-box h3 .more-a {
-                display: block;
-                width: 42px;
-                height: 42px;
-                background: url(/public/more.png) no-repeat 0 0;
-                position: absolute;
-                top: 0;
-                right: 0
-            }
+    .news-box h3 .more-a {
+        display: block;
+        width: 42px;
+        height: 42px;
+        background: url(/public/more.png) no-repeat 0 0;
+        position: absolute;
+        top: 0;
+        right: 0
+    }
 
-                .news-box h3 .more-a:hover {
-                    color: #31c37c;
-                    text-decoration: none;
-                    background-position: 0 -42px
-                }
+    .news-box h3 .more-a:hover {
+        color: #31c37c;
+        text-decoration: none;
+        background-position: 0 -42px
+    }
 
-        .news-box ul {
-            margin: 8px 0 0 2px;
-            border: none;
-        }
+    .news-box ul {
+        margin: 8px 0 0 2px;
+        border: none;
+    }
 
-        .news-box li {
-            border: none;
-            line-height: 30px;
-            height: 34px;
-            font-size: 14px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: block;
-        }
+    .news-box li {
+        border: none;
+        line-height: 30px;
+        height: 34px;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+    }
 
-            .news-box li .news-href {
-                color: #576077
-            }
+    .news-box li .news-href {
+        color: #576077
+    }
 
-                .news-box li .news-href:hover {
-                    color: #2da867;
-                    text-decoration: none
-                }
+    .news-box li .news-href:hover {
+        color: #2da867;
+        text-decoration: none
+    }
 
-                    .news-box li .news-href:hover .spot {
-                        background: #2da867
-                    }
+    .news-box li .news-href:hover .spot {
+        background: #2da867
+    }
 
-        .news-box .news-href .spot {
-            display: inline-block;
-            width: 3px;
-            height: 3px;
-            background: #999;
-            vertical-align: middle;
-            margin: -1px 6px 0 0
-        }
+    .news-box .news-href .spot {
+        display: inline-block;
+        width: 3px;
+        height: 3px;
+        background: #999;
+        vertical-align: middle;
+        margin: -1px 6px 0 0
+    }
 
 
 </style>
@@ -154,7 +154,8 @@
                 <table class="table table-hover table-success">
                     <tbody>
                         <tr v-for="(facility,index) in facilities">
-                            <td><a :href="'../GameStrategiesShow?Id='+facility.Id" style="display:block;">{{facility.Title}}</a></td>
+                            <td v-if="productshowtargetId!='#itblog'"><a :href="'../GameStrategiesShow?Id='+facility.Id" style="display:block;">{{facility.Title}}</a></td>
+                            <td v-else><a :href="'../ITBlogShow?Id='+facility.Id" style="display:block;">{{facility.Title}}</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -167,11 +168,11 @@
     <div id="app3" class="row">
 
         <div id="myTabContent1" class="tab-content col-md-12 col-xs-12 col-sm-12" style="min-height:300px; border:1px solid #e8e8e8;">
-            <Image-show-comp v-bind:post="posts1">
+            <Image-show-comp v-bind:post="postgamedata">
 
             </Image-show-comp>
             <ul class="list-group col-md-12 col-xs-12 col-sm-12">
-                <li v-for="(item,index) in facilities1" class="list-group-item" style="float:left;">
+                <li v-for="(item,index) in gameimagedata" class="list-group-item" style="float:left;">
                     <div class="Item-img">
                         <img :src="item.ImgDescUri" alt=" ">
                         <div class="cover">
@@ -183,8 +184,8 @@
                         </div>
                     </div>
                     <div class="Item-content">
-                        <span class="grade-tag">星级:{{item.grade}}*</span>
-                        <p> {{item.ItemName}}</p>
+                        <span class="grade-tag">星级:{{item.grade}}</span>
+                        <p class="title-tag"> {{item.ItemName}}</p>
                         <p>运营商:<span class="yunying-tag">{{item.supporter}}</span></p>
                     </div>
                 </li>
@@ -207,7 +208,7 @@
             <div v-bind:id=post.containerId>
             <ul v-bind:id=post.tabid class= "nav nav-tabs">
             <li role="presentation" v-for="item in post.tabitems" v-bind:key="item.id" v-bind:class="{ active: item.isActive }"  v-show="post.tabitems.length!=0" >
-            <a v-bind:href=item.targetid  data-toggle="tab" v-on:click="OnChange(item)">{{item.text}}</a></li></ul><a href="../GameStrategies" class="more-a"></a>
+            <a v-bind:href=item.targetid  data-toggle="tab" v-on:click="OnChange(item)">{{item.text}}</a></li></ul><a ref="more_a" href="../GameStrategies" class="more-a"></a>
             </div>`,
             methods: {
                 OnChange: function (e) {
@@ -218,18 +219,37 @@
                             return false;
                         }
                     });
-                    $.ajax({
-                        url: "../EHaiker/GetGameStrategies",
-                        type: "post",
-                        dataType: "json",
-                        data: { type: ntype },
-                        success: (arrdata) =>{
-                            if (arrdata != null) {
-                                this.$parent.facilities = arrdata;
+                    this.$parent.facilities = [];
+                    this.$parent.productshowtargetId = e.targetid;
+                    if (e.targetid === "#itblog") {
+                        this.$refs.more_a.href="../ItBlog";
+                        $.ajax({
+                            url: "../ITBlog/GetBlogs",
+                            type: "post",
+                            dataType: "json",
+                            data: { type: ntype },
+                            success: (arrdata) => {
+                                if (arrdata != null) {
+                                    this.$parent.facilities = arrdata.data;
+                                }
                             }
+                        });
+                    }
+                    else {
+                        this.$refs.more_a.href="../GameStrategies";
+                        $.ajax({
+                            url: "../EHaiker/GetGameStrategies",
+                            type: "post",
+                            dataType: "json",
+                            data: { type: ntype },
+                            success: (arrdata) => {
+                                if (arrdata != null) {
+                                    this.$parent.facilities = arrdata;
+                                }
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
 
             }
@@ -253,18 +273,21 @@
                             return false;
                         }
                     });
+                   
+                    this.$parent.gameimagedata = [];
                     $.ajax({
                         url: "../EHaiker/GameTopMost",
                         type: "post",
                         dataType: "json",
                         data: { type: ntype },
-                        success: (arrdata)=> {
+                        success: (arrdata) => {
                             if (arrdata != null) {
-                                this.$parent.facilities1 = arrdata;
+                                this.$parent.gameimagedata = arrdata;
                             }
 
                         }
                     });
+                    
                 }
 
             }
@@ -278,11 +301,12 @@
                 checkAll: false,
                 checkedRows: [],
                 facilities: datas,
-                facilities1: [],
+                gameimagedata: [],
                 CenterNews: [],
+                productshowtargetId:'',
                 posts: {
-                    containerId: '456',
-                    tabid:'7777',
+                    containerId: 'id_showitems',
+                    tabid:'id_showitems_table',
 
                     tabitems: [
                         {
@@ -303,11 +327,17 @@
                             text: 'App攻略',
                             isActive: false,
                         },
+                        {
+                            id: 'id_itblog',
+                            targetid: '#itblog',
+                            text: 'IT&Solutions',
+                            isActive: false,
+                        },
                     ]
                 },
-                posts1: {
-                    containerId: '456',
-                    tabid: '7777',
+                postgamedata: {
+                    containerId: 'id_showitems_image',
+                    tabid: 'id_imagetable',
 
                     tabitems: [
                         {
@@ -386,7 +416,7 @@
                     data: { ntype: 0 },
                     success: (arrdata)=> {
                         if (arrdata != null) {
-                            this.facilities1 = arrdata;
+                            this.gameimagedata = arrdata;
                         }
 
                     }

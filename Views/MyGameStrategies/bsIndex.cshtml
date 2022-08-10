@@ -4,10 +4,6 @@
 }
 
   <!--homepage-->
-  <link rel="stylesheet" href="/css/websitebase.css" />
-  <link rel="stylesheet" href="/css/common.min.css" />
-  <link rel="stylesheet" href="/css/icon.min.css" />
-  <link rel="stylesheet" href="/css/fuceng.min.css" />
   <link rel="stylesheet" href="/css/GameStrategiesCenter/home-page.min.css" />
  
 <!--过渡图片-->
@@ -59,7 +55,7 @@
             <div v-bind:id=post.containerId>
             <ul v-bind:id=post.tabid class= "nav nav-tabs">
             <li role="presentation" v-for="item in post.tabitems" v-bind:key="item.id" v-bind:class="{ active: item.isActive }"  v-show="post.tabitems.length!=0" >
-            <a v-bind:href=item.targetid  data-toggle="tab" v-on:click="OnChange(item)">{{item.text}}</a></li></ul>
+            <a v-bind:href=item.targetid  data-toggle="tab" v-on:click="OnChange(item)">{{item.text}}</a></li><li role="presentation"><a href="../MyGameStrategies/NewGameStrage">发表新攻略</a></li></ul>
             </div>`,
         methods: {
             OnChange: function (e) {

@@ -5,9 +5,7 @@ using ehaikerv202010.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ehaikerv202010.Controllers
 {
@@ -22,7 +20,7 @@ namespace ehaikerv202010.Controllers
             DbContext = _cont;
             _httpContextAccessor = httpContextAccessor;
         }
-       [HttpPost]
+        [HttpPost]
         public JsonResult Login(string ehaiker_parameter)
         {
             string value = HttpContext.Request.Form["ehaiker_parameter"];
@@ -31,7 +29,7 @@ namespace ehaikerv202010.Controllers
             msg.msg = "未知错误";
             msg.SuccessCode = "-1000";
             msg.UserLogUrl = HttpContext.Session.GetString("ValidateCode");
-              if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
 
                 if (HttpContext.Session.GetString("ValidateCode") != juser.verificat_code)
@@ -49,7 +47,7 @@ namespace ehaikerv202010.Controllers
                 {
                     var _admin = ship.Find(juser.Account);
                     //判断是否为重复登录
-                    if (_admin.LoginGuid != Guid.Empty)
+                    if (_admin.LoginGuid != Guid.Empty.ToString())
                     {
                         //已经登录，清空session，重新登录
                         MemUserDataManager.RemoveSessionData(HttpContext, "memshipUserInfo");
@@ -60,7 +58,7 @@ namespace ehaikerv202010.Controllers
                     _admin.LoginTime = DateTime.Now;
                     // _admin.LoginIP = HttpContext.Connection.RemoteIpAddress.MapToIPv4()?.ToString();
                     _admin.LoginIP = HttpContext.Request.Headers["X-Real-IP"].FirstOrDefault();
-                    _admin.LoginGuid = Guid.NewGuid();
+                    _admin.LoginGuid = Guid.NewGuid().ToString();
                     ship.Update(_admin);
                     ship.SaveChanges();
                     //创建一个用户对象
@@ -73,7 +71,7 @@ namespace ehaikerv202010.Controllers
                     //写入session
                     MemUserDataManager.AddSessionData(HttpContext, "memshipUserInfo", jsonUserInfo);
                     MemberShipInfomationRepository UserInfoMgr = new MemberShipInfomationRepository(DbContext);
-                    MemberShipInfomation UserInfo = UserInfoMgr.GetById(_admin.UserId);
+                    MemberShipInfomation UserInfo = UserInfoMgr.GetByUserId(_admin.UserGuid);
                     //write the user information
                     MemUserDataManager.AddSessionData(HttpContext, "memshipInfomation", UserInfo);
                     //设置信息
@@ -112,17 +110,17 @@ namespace ehaikerv202010.Controllers
                 {
                     msg.msg = "用户不存在";
                     msg.SuccessCode = "10001";
-                   ModelState.AddModelError("account", "用户不存在");
+                    ModelState.AddModelError("account", "用户不存在");
                 }
                 else if (_response == 3)
                 {
                     msg.msg = "密码错误";
                     msg.SuccessCode = "10002";
-                  ModelState.AddModelError("password", "密码错误");
+                    ModelState.AddModelError("password", "密码错误");
                 }
                 else
                 {
-                   ModelState.AddModelError("", "未知错误");
+                    ModelState.AddModelError("", "未知错误");
                 }
             }
             return new JsonResult(msg);
@@ -168,7 +166,7 @@ namespace ehaikerv202010.Controllers
                         gameItem.Content = System.Text.RegularExpressions.Regex.Replace(gameItem.Content, "/(?!<(img|p|span).*?>)<.*?>/g", "");
                     //作者
                     gameItem.Author = cookie.Account;
-                    gameItem.AuthorID = cookie.UserId;
+                    gameItem.UserGuid = cookie.UserGuid;
                     gameItem.IsIdentified = 0;
                     GamelistManager.Add(gameItem);
                     GamelistManager.SaveChanges();
@@ -188,6 +186,34 @@ namespace ehaikerv202010.Controllers
             msg.SuccessCode = HttpContext.Session.GetString("ValidateCode");
             msg.UserLogUrl = "";
             return new JsonResult(msg);
+        }
+        [HttpPost]
+        [LoginStateRequiredAttribute]
+        public JsonResult Logout()
+        {
+            int errorCode = 0;
+            string errMsg = "操作失败！";
+            //更新数据库
+            MemberShip sessionUser = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
+            if (sessionUser != null)
+            {
+                MemberShipManager ship = new MemberShipManager(DbContext);
+
+                var _admin = ship.Find(sessionUser.Account);
+                _admin.LoginGuid = Guid.Empty.ToString();
+                ship.Update(_admin);
+            }
+            //没有登录
+            MemUserDataManager.RemoveSessionData(HttpContext, "memshipUserInfo");
+            //clear all the user information
+            MemUserDataManager.RemoveSessionData(HttpContext, "memshipInfomation");
+            HttpContext.Session.Clear();
+            //Forms验证
+            // FormsAuthentication.SignOut();
+            errMsg = "操作成功";
+            var retjson = new { ErrorCode = errorCode, iSuccessCode = 0, msg = errMsg };
+            return new JsonResult(retjson);
+
         }
     }
 }

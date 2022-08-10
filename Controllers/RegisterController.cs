@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ehaiker.Models;
-using System.Text;
-using ehaiker;
+﻿using ehaiker.Models;
 using ehaiker.SMS;
-using Microsoft.AspNetCore.Mvc;
 using ehaikerv202010;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
+using System.Web;
 
 namespace ehaiker.Controllers
 {
@@ -31,7 +30,7 @@ namespace ehaiker.Controllers
                 //从Cookie对象中取出Json串
                 string jsonUserInfo = HttpUtility.UrlDecode(cookie.ToString(), Encoding.GetEncoding("UTF-8"));
                 MemberShip juser = JsonHelper.DeserializeJsonToObject<MemberShip>(jsonUserInfo);
-                return RedirectToAction("Index","EHaiker");
+                return RedirectToAction("Index", "EHaiker");
             }
             else
             {
@@ -48,7 +47,23 @@ namespace ehaiker.Controllers
             ValidateCode vCode = new ValidateCode();
             string code = vCode.CreateValidateCode(6);
             string ret = ECloundHelper.sendSmsCode(juser.Account, 1, code);
-            HttpContext.Session.SetString("ValidateSMSCode",  code);
+            HttpContext.Session.SetString("ValidateSMSCode", code);
+            return Json(ret);
+        }
+        [HttpPost]
+        public JsonResult SmsSendEmail(string ehaiker_parameter)
+        {
+            SMSCode juser = JsonHelper.DeserializeJsonToObject<SMSCode>(ehaiker_parameter);
+            //验证发送的短信验证码：
+            ValidateCode vCode = new ValidateCode();
+            string code = vCode.CreateValidateCode(6);
+            string ret = "";
+            bool bsend = SendEmail(juser.Account, code);
+            if (bsend)
+            {
+                ret = "0";
+            }
+            HttpContext.Session.SetString("ValidateEmailCode", code);
             return Json(ret);
         }
         [HttpPost]
@@ -64,8 +79,8 @@ namespace ehaiker.Controllers
             msg.UserLogUrl = "/Account/Index";
             if (ModelState.IsValid)
             {
-                
-                if (HttpContext.Session.GetString("ValidateCode")== null || HttpContext.Session.GetString("ValidateCode") != juser.verificat_code)
+
+                if (HttpContext.Session.GetString("ValidateCode") == null || HttpContext.Session.GetString("ValidateCode") != juser.verificat_code)
                 {
                     ModelState.AddModelError("code", "validate code is error");
                     msg.msg = "验证码错误";
@@ -81,7 +96,7 @@ namespace ehaiker.Controllers
                     return Json(msg);
                 }
                 string _passowrd = Security.Sha256(juser.Password);
-                if (memberManager.HasAccounts(juser.Account) == false  )
+                if (memberManager.HasAccounts(juser.Account) == false)
                 {
                     //创建一个用户对象
                     MemberShip newUserInfo = new MemberShip();
@@ -94,24 +109,25 @@ namespace ehaiker.Controllers
                     newUserInfo.UserName = juser.Account;
                     newUserInfo.VIPLevel = 0;
                     newUserInfo.LastSignTime = DateTime.Now;
-                   //保存到数据库
+                    newUserInfo.UserGuid = Guid.NewGuid().ToString();
+                    //保存到数据库
                     memberManager.Add(newUserInfo);
-                    if (memberManager.SaveChanges()>0)
+                    if (memberManager.SaveChanges() > 0)
                     {
                         //插入用户信息
                         MemberShipInfomation userinfomation = new MemberShipInfomation();
-                        userinfomation.UserId = newUserInfo.UserId;
+                        userinfomation.UserGuid = newUserInfo.UserGuid;
                         userinfomation.isValid = 0;
                         MemberShipInfomationRepository _ptrInfos = new MemberShipInfomationRepository(DbContext);
                         _ptrInfos.Add(userinfomation);
-                        _ptrInfos.SaveChanges(); 
+                        _ptrInfos.SaveChanges();
                         //增加session
                         string sessionuserInfomation = HttpUtility.UrlEncode(JsonHelper.SerializeObject(userinfomation),
                       Encoding.GetEncoding("UTF-8"));
                         HttpContext.Session.SetString("memshipUserInfomation", sessionuserInfomation);
                     }
                     //创建Cookie对象
-                    MemUserDataManager.AddSessionData(HttpContext,"memshipUserInfo", newUserInfo);
+                    MemUserDataManager.AddSessionData(HttpContext, "memshipUserInfo", newUserInfo);
                     //设置信息
                     msg.msg = "欢迎您";
                     msg.SuccessCode = "0";
@@ -122,13 +138,13 @@ namespace ehaiker.Controllers
                     msg.VIPLevel = newUserInfo.VIPLevel;
                     msg.MobilePhone = newUserInfo.MobilePhone;
                 }
-                else 
+                else
                 {
                     msg.msg = "用户已经存在";
                     msg.SuccessCode = "10001";
                     ModelState.AddModelError("account", "用户不存在");
                 }
-                
+
             }
             return Json(msg);
         }
@@ -153,7 +169,14 @@ namespace ehaiker.Controllers
                     msg.SuccessCode = "10000";
                     return Json(msg);
                 }
-               
+                //Emailcode ValidateEmailCode
+                if (HttpContext.Session.GetString("ValidateEmailCode") == null || HttpContext.Session.GetString("ValidateEmailCode") != juser.verificat_smscode)
+                {
+                    ModelState.AddModelError("code", "validate code is error");
+                    msg.msg = "邮箱验证码错误";
+                    msg.SuccessCode = "10000";
+                    return Json(msg);
+                }
                 if (memberManager.HasAccounts(juser.Account) == false)
                 {
                     string _passowrd = Security.Sha256(juser.Password);
@@ -166,15 +189,16 @@ namespace ehaiker.Controllers
                     newUserInfo.Password = _passowrd;
                     newUserInfo.UserName = juser.Account;
                     newUserInfo.VIPLevel = 0;
-                    newUserInfo.MobilePhone ="13418185408";
+                    newUserInfo.MobilePhone = "13418185408";
                     newUserInfo.LastSignTime = DateTime.Now;
+                    newUserInfo.UserGuid = Guid.NewGuid().ToString();
                     //保存到数据库
                     memberManager.Add(newUserInfo);
                     if (memberManager.SaveChanges() > 0)
                     {
                         //插入用户信息
                         MemberShipInfomation userinfomation = new MemberShipInfomation();
-                        userinfomation.UserId = newUserInfo.UserId;
+                        userinfomation.UserGuid = newUserInfo.UserGuid;
                         userinfomation.isValid = 0;
                         MemberShipInfomationRepository _ptrInfos = new MemberShipInfomationRepository(DbContext);
                         _ptrInfos.Add(userinfomation);
@@ -184,7 +208,7 @@ namespace ehaiker.Controllers
                       Encoding.GetEncoding("UTF-8"));
                         MemUserDataManager.AddSessionData(HttpContext, "memshipUserInfomation", sessionuserInfomation);
                     }
-                    
+
                     //将写入到客户端
                     MemUserDataManager.AddSessionData(HttpContext, "memshipUserInfo", newUserInfo);
                     //设置信息
@@ -207,6 +231,38 @@ namespace ehaiker.Controllers
             }
             return Json(msg);
         }
+        private bool SendEmail(string email, string activeCode)
+        {
+            MailMessage mailmsg = new MailMessage();
+            mailmsg.From = new MailAddress("lixingshunnick@126.com");
+            mailmsg.To.Add(email);
+            mailmsg.Subject = "欢迎注册本站用户";
+            StringBuilder contentBuilder = new StringBuilder();
+            contentBuilder.Append("欢迎注册本站用户");
+            string url = string.Format(@"你的验证码为:{0}", activeCode);
+            contentBuilder.Append(url);
+            // HtmlEncode();
+
+            mailmsg.Body = contentBuilder.ToString();
+            mailmsg.IsBodyHtml = false;
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.126.com";
+            client.Port = 25;
+            NetworkCredential credetial = new NetworkCredential();
+            credetial.UserName = "lixingshunnick";
+            credetial.Password = "UTXGEJFQTCJNDAHQ";
+            client.Credentials = credetial;
+            try
+            {
+                client.Send(mailmsg);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
     }
-    
+
 }

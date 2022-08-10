@@ -103,6 +103,7 @@ E:\CodeStore\ehaikerv202010\bin\Release\netcoreapp2.2\ehaikerv202010.dll
 E:\CodeStore\ehaikerv202010\bin\Release\netcoreapp2.2\ehaikerv202010.pdb
 E:\CodeStore\ehaikerv202010\bin\Release\netcoreapp2.2\ehaikerv202010.Views.dll
 E:\CodeStore\ehaikerv202010\bin\Release\netcoreapp2.2\ehaikerv202010.Views.pdb
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\ehaikerv202010.GeneratedMSBuildEditorConfig.editorconfig
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\ehaikerv202010.AssemblyInfoInputs.cache
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\ehaikerv202010.AssemblyInfo.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\ehaikerv202010.csproj.CoreCompileInputs.cache
@@ -139,6 +140,8 @@ E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\Home\About.csh
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\Home\Contact.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\Home\Index.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\Home\Privacy.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ItBlogShow\Index.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ItBlog\bsIndex.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\AddNews.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\AdminManage.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\BillManageView.cshtml.g.cs
@@ -147,10 +150,13 @@ E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\Ga
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\GameStragesList.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\GroupAdminDispatchView.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\Index.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\ItBlogManage.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\memberShipManage.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\NewGameItem.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\NewGameStrage.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\ManagerMain\NewItBlog.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyGameCenter\bsIndex.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyGameCenter\EditGameItem.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyGameCenter\myGameIndex.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyGameCenter\NewGameItem.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyGameStrategies\Add.cshtml.g.cs
@@ -158,6 +164,11 @@ E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyGameStrategi
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyGameStrategies\GameStragesList.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyGameStrategies\NewGameStrage.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyGameStrategies\ShowDetail.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyItBlog\Add.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyItBlog\bsIndex.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyItBlog\NewItBlog.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyItBlog\ShowDetail.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\MyItBlog\ShowMyItBlogs.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\NewsCenter\bsIndex.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\NewsCenter\ShowDetail.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\Razor\Views\NewsCenter\ShowDetailEx.cshtml.g.cs
@@ -192,4 +203,4 @@ E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\ehaikerv202010.dll
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\ehaikerv202010.pdb
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\ehaikerv202010.genruntimeconfig.cache
 E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\ehaikerv202010.csproj.CopyComplete
-E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\ehaikerv202010.csprojAssemblyReference.cache
+E:\CodeStore\ehaikerv202010\obj\Release\netcoreapp2.2\ehaikerv202010.csproj.AssemblyReference.cache

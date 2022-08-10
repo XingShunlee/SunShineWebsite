@@ -1,20 +1,18 @@
-﻿using System;
+﻿using ehaiker.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ehaiker.Models;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace ehaiker.Managers
 {
     public class KeFuCustomerRepository : IRepository<Customer>
     {
-     private EhaikerContext context;
-     public KeFuCustomerRepository(EhaikerContext _context)
+        private EhaikerContext context;
+        public KeFuCustomerRepository(EhaikerContext _context)
         {
             context = _context;
-            
+
         }
         public void Add(Customer note)
         {
@@ -52,8 +50,8 @@ namespace ehaiker.Managers
         public void Delete(int administratorID)
         {
             var _admin = GetById(administratorID);
-                context.kefu_customers.Remove(_admin);
-         }
+            context.kefu_customers.Remove(_admin);
+        }
         public int Deletebat(int cumstomerId)
         {
             var cums = context.kefu_customers.Where(r => r.customerId == cumstomerId).ToList();
@@ -67,7 +65,7 @@ namespace ehaiker.Managers
         {
             //try
             //{
-                return context.SaveChanges();
+            return context.SaveChanges();
             //}
             //catch (DbEntityValidationException exception)
             //{

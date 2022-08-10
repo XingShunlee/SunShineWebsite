@@ -1,10 +1,7 @@
-﻿using System;
+﻿using ehaiker.Managers;
+using ehaikerv202010.helpers;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ehaiker.Models;
-using ehaiker.Managers;
-using ehaikerv202010.helpers;
 
 namespace ehaiker.kefu
 {
@@ -17,7 +14,8 @@ namespace ehaiker.kefu
         {
             DbContext = _cont;
         }
-        public void saveCustomerChatRecord(ChatRecord csChatRecord){
+        public void saveCustomerChatRecord(ChatRecord csChatRecord)
+        {
             KeFuChatRecordRepository rds = new KeFuChatRecordRepository(DbContext);
             rds.Add(csChatRecord);
         }
@@ -36,21 +34,22 @@ namespace ehaiker.kefu
             KeFuChatRecordRepository kefu_chat = new KeFuChatRecordRepository(DbContext);
             return kefu_chat.SaveChanges();
         }
-        public void updateHeadImgState(Customer customer) {
-            
+        public void updateHeadImgState(Customer customer)
+        {
+
             KeFuCustomerRepository kefu_cs = new KeFuCustomerRepository(DbContext);
             var custom = kefu_cs.GetById(customer.customerId);
-            if(custom != null)
+            if (custom != null)
             {
                 custom.headImg = customer.headImg;
                 kefu_cs.Update(custom);
             }
-           
+
         }
-       public void  clearCustomers(int customerId)
+        public void clearCustomers(int customerId)
         {
-             KeFuCustomerRepository kefu_cs = new KeFuCustomerRepository(DbContext);
-             kefu_cs.Deletebat(customerId);
+            KeFuCustomerRepository kefu_cs = new KeFuCustomerRepository(DbContext);
+            kefu_cs.Deletebat(customerId);
         }
         public int SaveChangeInCustomer()
         {
@@ -60,8 +59,8 @@ namespace ehaiker.kefu
         public List<ChatRecord> getAllChatRecord(ChatRecord csChatRecord)
         {
             KeFuChatRecordRepository rds = new KeFuChatRecordRepository(DbContext);
-            var a  =  rds.GetDbSet().Where(r => r.kfUserId == csChatRecord.kfUserId && r.customerId==csChatRecord.customerId && r.RecordId> csChatRecord.RecordId).ToList();
-           
+            var a = rds.GetDbSet().Where(r => r.kfUserId == csChatRecord.kfUserId && r.customerId == csChatRecord.customerId && r.RecordId > csChatRecord.RecordId).ToList();
+
             return a;
         }
         public List<ChatRecord> CgetAllChatRecord(ChatRecord csChatRecord)
@@ -95,19 +94,19 @@ namespace ehaiker.kefu
         {
             KeFuCustomerRepository kefu_cs = new KeFuCustomerRepository(DbContext);
             var custom = kefu_cs.GetById(customer.customerId);
-            if(custom !=null)
+            if (custom != null)
             {
                 custom.isOnline = customer.isOnline;
                 kefu_cs.Update(custom);
             }
-           
+
         }
         //获得所有与客服id有关的记录
-        public List<Customer>  getCustomerList(int kefuId)
+        public List<Customer> getCustomerList(int kefuId)
         {
             KeFuCustomerRepository kefu_cs = new KeFuCustomerRepository(DbContext);
             return kefu_cs.GetDbSet().Where(r => r.kfUserId == kefuId).ToList(); ;
-           // return cms;
+            // return cms;
         }
         public void updateKefu(Customer customer)
         {

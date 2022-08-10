@@ -103,6 +103,7 @@ E:\CodeStore\ehaikerv202010\bin\Debug\netcoreapp2.2\ehaikerv202010.dll
 E:\CodeStore\ehaikerv202010\bin\Debug\netcoreapp2.2\ehaikerv202010.pdb
 E:\CodeStore\ehaikerv202010\bin\Debug\netcoreapp2.2\ehaikerv202010.Views.dll
 E:\CodeStore\ehaikerv202010\bin\Debug\netcoreapp2.2\ehaikerv202010.Views.pdb
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\ehaikerv202010.GeneratedMSBuildEditorConfig.editorconfig
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\ehaikerv202010.AssemblyInfoInputs.cache
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\ehaikerv202010.AssemblyInfo.cs
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\ehaikerv202010.csproj.CoreCompileInputs.cache
@@ -151,6 +152,7 @@ E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\ManagerMain\memb
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\ManagerMain\NewGameItem.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\ManagerMain\NewGameStrage.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\MyGameCenter\bsIndex.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\MyGameCenter\EditGameItem.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\MyGameCenter\myGameIndex.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\MyGameCenter\NewGameItem.cshtml.g.cs
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\MyGameStrategies\Add.cshtml.g.cs
@@ -192,4 +194,13 @@ E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\ehaikerv202010.dll
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\ehaikerv202010.pdb
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\ehaikerv202010.genruntimeconfig.cache
 E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\ehaikerv202010.csproj.CopyComplete
-E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\ehaikerv202010.csprojAssemblyReference.cache
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\ehaikerv202010.csproj.AssemblyReference.cache
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\ItBlog\bsIndex.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\MyItBlog\Add.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\MyItBlog\bsIndex.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\MyItBlog\ShowDetail.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\ItBlogShow\Index.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\MyItBlog\NewItBlog.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\MyItBlog\ShowMyItBlogs.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\ManagerMain\ItBlogManage.cshtml.g.cs
+E:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp2.2\Razor\Views\ManagerMain\NewItBlog.cshtml.g.cs

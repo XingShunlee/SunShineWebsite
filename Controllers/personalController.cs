@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ehaiker.Models;
-using System.Text;
-using System.Net.Mail;
-using System.Net;
-using System.IO;
-using Microsoft.AspNetCore.Mvc;
+﻿using ehaiker.Models;
 using ehaikerv202010;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
-using System.Threading.Tasks;
+using ehaikerv202010.Filters;
 using ehaikerv202010.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ehaiker.Controllers
 {
 
-    //[MemberShipAuthorizeAttribute]
-   // [Description(No = 2, Name = "个人中心")]
+    [LoginStateRequiredAttribute]
+    // [Description(No = 2, Name = "个人中心")]
     public class personalController : Controller
     {
 
@@ -27,17 +23,18 @@ namespace ehaiker.Controllers
         private EhaikerContext DbContext;
         private IHostingEnvironment _env;
         private GameListManager GamelistManager;
-        public personalController(EhaikerContext _cont,IHostingEnvironment env)
+        public personalController(EhaikerContext _cont, IHostingEnvironment env)
         {
             DbContext = _cont;
             _env = env;
 
 
         }
+        [LoginStateRequiredAttribute]
         public ActionResult Index()
         {
             //没有登录
-            MemberShip cookie = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext,"memshipUserInfo");
+            MemberShip cookie = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
             if (cookie != null)
             {
                 return View(cookie);
@@ -47,15 +44,17 @@ namespace ehaiker.Controllers
                 return RedirectToRoute(new { Controller = "Account", Action = "Index" });
             }
         }
-       
-       // [Description(No = 1, Name = "用户信息")]
+
+        // [Description(No = 1, Name = "用户信息")]
+        [LoginStateRequiredAttribute]
         public ActionResult UserInfo()
         {
 
             MemberShip juser = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
             return View(juser);
         }
-      //  [Description(No = 2, Name = "支付中心")]
+        //  [Description(No = 2, Name = "支付中心")]
+        [LoginStateRequiredAttribute]
         public ActionResult PayBill()
         {
             MemberShip cookie = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
@@ -65,7 +64,8 @@ namespace ehaiker.Controllers
             }
             return View();
         }
-      //  [Description(No = 3, Name = "我的账单")]
+        //  [Description(No = 3, Name = "我的账单")]
+        [LoginStateRequiredAttribute]
         public ActionResult MyBill(int pageindex = 1, int pagesize = 10)
         {
 
@@ -95,12 +95,14 @@ namespace ehaiker.Controllers
             List<PaybillApproveModel> tlst = new List<PaybillApproveModel>();
             return View(tlst);
         }
-       // [Description(No = 4, Name = "新密码")]
+        // [Description(No = 4, Name = "新密码")]
+        [LoginStateRequiredAttribute]
         public ActionResult NewPassword()
         {
             return View();
         }
-       // [Description(No = 5, Name = "显示个人游戏分享")]
+        // [Description(No = 5, Name = "显示个人游戏分享")]
+        [LoginStateRequiredAttribute]
         public ActionResult show(int pageindex = 1, int pagesize = 10)
         {
             IRepository<GameStrategies> _noteRepository;
@@ -133,13 +135,14 @@ namespace ehaiker.Controllers
             ViewBag.PageUri = "../personal/show";
             List<GameStrategies> tlst = new List<GameStrategies>();
             return View(tlst);
-            
+
         }
-       // [Description(No = 6, Name = "打开游戏分享界面")]
-       
+        // [Description(No = 6, Name = "打开游戏分享界面")]
+
         //用户修改密码
         [HttpPost]
         //[Description(No = 7, Name = "激活密码功能",isGet=false)]
+        [LoginStateRequiredAttribute]
         public JsonResult NewPassWordEx(string ehaiker_parameter)
         {
             LoginMessage msg = new LoginMessage();
@@ -150,11 +153,11 @@ namespace ehaiker.Controllers
                 MemberShip loginuser = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
                 if (loginuser != null)
                 {
-                   //网页端数据
+                    //网页端数据
                     membershiplogin juser = JsonHelper.DeserializeJsonToObject<membershiplogin>(ehaiker_parameter);
                     //验证数据
-                    if(HttpContext.Session.GetString("ValidPassword_user_ehaiker")==null||
-                        string.IsNullOrEmpty(HttpContext.Session.GetString("ValidPassword_user_ehaiker")) )
+                    if (HttpContext.Session.GetString("ValidPassword_user_ehaiker") == null ||
+                        string.IsNullOrEmpty(HttpContext.Session.GetString("ValidPassword_user_ehaiker")))
                     {
                         msg.msg = "非法用户";
                         return Json(msg);
@@ -163,9 +166,9 @@ namespace ehaiker.Controllers
                     if (valid != juser.verificat_code)
                     {
                         msg.msg = "激活码有误";
-                        return Json(msg);;
+                        return Json(msg); ;
                     }
-                   //激活信密码
+                    //激活信密码
                     loginuser.Password = Security.Sha256(juser.Password);
                     IRepository<MemberShip> memshipMgr = new MemberShipManager(DbContext);
                     memshipMgr.Update(loginuser);
@@ -183,6 +186,7 @@ namespace ehaiker.Controllers
         //PassValidMail
         [HttpPost]
         //[Description(No = 8, Name = "发送激活邮件", isGet = false)]
+        [LoginStateRequiredAttribute]
         public JsonResult PassValidMail(string ehaiker_parameter)
         {
             LoginMessage msg = new LoginMessage();
@@ -202,24 +206,25 @@ namespace ehaiker.Controllers
                     //实时验证码
                     string validcode = Security.Sha256(string.Format("{0}{1}{2}", loginuser.UserId,
                         loginuser.Password, DateTime.Now.ToLongTimeString()));
-                    var noticestring = 
+                    var noticestring =
                         string.Format("<h2>尊敬的{0},您好：</h2>您的新密码激活码为{1}，请前往会员中心激活第三步",
                         loginuser.UserName, validcode);
-                    SendMail.SendEmail(juser.Account, noticestring,"密码验证");
+                    SendMail.SendEmail(juser.Account, noticestring, "密码验证");
                     HttpContext.Session.SetString("ValidPassword_user_ehaiker", validcode);
                     msg.SuccessCode = "0";
                     msg.msg = "邮件发送成功";
                 }
                 else
-                msg.msg = "非法用户";
+                    msg.msg = "非法用户";
             }
 
             return Json(msg);
         }
-       
-        
-       
-         [HttpPost]
+
+
+
+        [HttpPost]
+        [LoginStateRequiredAttribute]
         // [Description(No = 12, Name = "上传头像", isGet = false)]
         public async Task<JsonResult> UploadFile()
         {
@@ -227,15 +232,15 @@ namespace ehaiker.Controllers
             msg.msg = "未知错误";
             msg.SuccessCode = "-1000";
             MemberShip loginUser = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
-            
+
             var files = Request.Form.Files;
 
             string error = string.Empty;
             string res = string.Empty;
-             long filelen=files[0].Length;
+            long filelen = files[0].Length;
             //~/UploadFiles/Icon/UserName/
             string fileroot = string.Format("~/UploadFiles/Icon/{0}/", loginUser.Account);
-            string filePath = _env.WebRootPath+(fileroot) ;
+            string filePath = _env.WebRootPath + (fileroot);
             if (!Directory.Exists(filePath))
             {
                 Directory.CreateDirectory(filePath);
@@ -272,57 +277,69 @@ namespace ehaiker.Controllers
             memshipMgr.Update(loginUser);
             MemUserDataManager.UpdateSessionData(HttpContext, "memshipUserInfo", loginUser);
             msg.msg = loginUser.Icon;
-                msg.SuccessCode = "0";
+            msg.SuccessCode = "0";
             return Json(msg);
         }
-      
+
         //
         [HttpPost]
+        [LoginStateRequiredAttribute]
         public JsonResult MyStoreGame(int type = 0)
         {
-            MyGameStragesManager GamelistManager = new MyGameStragesManager(DbContext);
+            MemberShip loginuser = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
+            MyGameStragesManager MyStragesMgr = new MyGameStragesManager(DbContext);
+            var query1 = new List<MyGameStrage>();
+            GameStrategiesRepository _GameStragies = new GameStrategiesRepository(DbContext);
             if (type == 0)
             {
-                var tt = GamelistManager.List();
-                return Json(tt);
+                query1 = (
+                             from d in MyStragesMgr.GetDbSet()
+                             where d.UserGuid == loginuser.UserGuid
+                             select d).ToList();
             }
             else
             {
-                MemberShip loginuser = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
-                int memshipID = 0;
-                if (loginuser != null)
-                {
-                    memshipID = loginuser.UserId;
-                }
-                    //取前8条记录
-                    var tt = GamelistManager.GetDbSet()?.Where(r => r.Gametype == type&& r.MemberShipID == memshipID).Take(8).ToList();
-                return Json(tt);
+                query1 = (
+                  from d in MyStragesMgr.GetDbSet()
+                  where d.UserGuid == loginuser.UserGuid & d.Gametype == type
+                  select d).ToList();
             }
-
+            var findItems = query1.OrderByDescending(r => r.IndexID)
+                   .Take(8)
+                   .ToList();
+            return Json(findItems);
 
         }
         [HttpPost]
+        [LoginStateRequiredAttribute]
         public JsonResult MyGames(int type = 0)
         {
-            MyGameManager GamelistManager = new MyGameManager(DbContext);
+            MyGameManager MyGameMgr = new MyGameManager(DbContext);
+            MemberShip loginuser = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
+            string memshipID = string.Empty;
+
+            GameListManager GamelistManager = new GameListManager(DbContext);
+            var query1 = new List<GameModel>();
             if (type == 0)
             {
-                var tt = GamelistManager.List();
-                return Json(tt);
+                query1 = (from c in GamelistManager.GetDbSet()
+                          from d in MyGameMgr.GetDbSet()
+                          where c.ItemID == d.GameID && loginuser.UserGuid.ToUpper() == d.UserGuid.ToUpper()
+                          select c).ToList();
+
             }
             else
             {
-                MemberShip loginuser = MemUserDataManager.GetMemSessionData<MemberShip>(HttpContext, "memshipUserInfo");
-                int memshipID = 0;
-                if (loginuser != null)
-                {
-                    memshipID = loginuser.UserId;
-                }
-                //取前8条记录
-                var tt = GamelistManager.GetDbSet()?.Where(r => r.Gametype == type && r.MemberShipID == memshipID).Take(8).ToList();
-                return Json(tt);
-            }
 
+                query1 = (from c in GamelistManager.GetDbSet()
+                          from d in MyGameMgr.GetDbSet()
+                          where c.ItemID == d.GameID && c.Gametype == d.Gametype && loginuser.UserGuid == d.UserGuid && c.Gametype == type
+                          select c).ToList();
+            }
+            var findItems = query1.OrderByDescending(r => r.TopLevel)
+                   .Take(8)
+                   .ToList();
+            return Json(findItems);
 
         }
 

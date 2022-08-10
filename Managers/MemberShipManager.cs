@@ -1,11 +1,8 @@
-﻿using System;
+﻿using ehaiker.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ehaiker;
-using ehaiker.Models;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace ehaiker
 {
@@ -28,12 +25,12 @@ namespace ehaiker
             {
                 // _resp.Code = 0;
                 // _resp.Message = "帐号已存在";
-                return ;
+                return;
             }
             else
             {
                 context.MemShips.Add(user);
-               
+
             }
         }
         public List<MemberShip> List()
@@ -69,8 +66,8 @@ namespace ehaiker
             else
             {
                 _admin.Password = password;
-                 Update(_admin);
-                 return SaveChanges();
+                Update(_admin);
+                return SaveChanges();
             }
         }
 
@@ -84,12 +81,12 @@ namespace ehaiker
             var _admin = GetById(administratorID);
             if (context.MemShips.Count() == 1)
             {
-                return ;
+                return;
             }
             else
             {
                 context.MemShips.Remove(_admin);
-                
+
             }
         }
         /// <summary>
@@ -100,7 +97,7 @@ namespace ehaiker
         public int DeleteArray(int[] administratorIDs)
         {
 
-            if (context.MemShips.Count() <=0 )
+            if (context.MemShips.Count() <= 0)
             {
                 return 0;
             }
@@ -119,8 +116,8 @@ namespace ehaiker
         {
             //try
             //{
-                return context.SaveChanges();
-           // }
+            return context.SaveChanges();
+            // }
             //catch (DbEntityValidationException exception)
             //{
             //    var errorMessages =
@@ -172,8 +169,8 @@ namespace ehaiker
             }
             else
             {
-              //  _admin.LoginIP = ip;
-              //  _admin.LoginTime = time;
+                //  _admin.LoginIP = ip;
+                //  _admin.LoginTime = time;
                 Update(_admin);
                 return SaveChanges();
             }
@@ -218,5 +215,5 @@ namespace ehaiker
             return new Tuple<List<MemberShip>, int>(notes, count);
         }
     }
-   
+
 }
