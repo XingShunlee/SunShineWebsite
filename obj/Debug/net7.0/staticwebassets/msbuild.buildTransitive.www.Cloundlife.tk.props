@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\www.Cloundlife.tk.props" />
+</Project>

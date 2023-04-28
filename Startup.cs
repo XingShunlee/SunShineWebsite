@@ -49,22 +49,33 @@ namespace ehaikerv202010
             // var connection = @"Server=localhost;uid=root; Database=NetNote; pwd=netnote5316;port=3306;sslmode=Preferred";
             //remote
             var connection = @"Server=localhost;uid=root; Database=NetNote; pwd=netnote5316;port=3306;sslmode=Preferred";
+            var serverVersion = new MySqlServerVersion(new Version(5, 0, 4)); // Get
             services.AddDbContext<EhaikerContext>(
             // options=>options.UseSqlServer(connection));
-            options => options.UseMySQL(connection));
+            options => options.UseMySql(connection, serverVersion));
             services.AddTransient<EncodeService>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("any", builder =>
-                 {
-                     builder.AllowAnyOrigin()//允许任何来源的主机访问
-                     .AllowAnyMethod()
-                     .AllowAnyHeader()
-                     .AllowCredentials();//指定处理cookie
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("any", builder =>
+            //     {
+            //         builder.AllowAnyOrigin()//允许任何来源的主机访问
+            //         .AllowAnyMethod()
+            //         .AllowAnyHeader()
+            //         .AllowCredentials();//指定处理cookie
 
-                 });
-            });
+            //     });
+            //});
+            #region Cors
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+            builder =>
+            {
+                builder.AllowAnyMethod()
+                    .SetIsOriginAllowed(_ => true)
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            }));
+            #endregion
             services.AddWebCountService();
             services.AddNoteCountService();
             //services.AddHostedService<CounterService>();
@@ -75,15 +86,19 @@ namespace ehaikerv202010
                     options.Filters.Add(typeof(LoginStateRequiredAttribute));
                     options.Filters.Add(typeof(AdminLoginStateRequiredAttribute));
                     options.Filters.Add(typeof(NoPermissionRequiredAttribute));
+                    options.EnableEndpointRouting = false;
                 }
                 ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-                    options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
-                }
-                );
+            #region newtonsoft
+                 .AddNewtonsoftJson(options =>
+                 {
+                     //修改属性名称的序列化方式，首字母小写
+                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); //序列化时key为驼峰样式
+                     options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
+                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;    //忽略循环引用
+                 });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

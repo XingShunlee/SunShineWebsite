@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.902
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ehaikerv202010", "ehaikerv202010.csproj", "{2500C034-67F9-49F8-B2D7-B035659B1C49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "www.Cloundlife.tk", "www.Cloundlife.tk.csproj", "{2500C034-67F9-49F8-B2D7-B035659B1C49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

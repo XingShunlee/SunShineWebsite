@@ -1,0 +1,8 @@
+D:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp3.1\ehaikerv202010.csproj.AssemblyReference.cache
+D:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp3.1\ehaikerv202010.GeneratedMSBuildEditorConfig.editorconfig
+D:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp3.1\ehaikerv202010.AssemblyInfoInputs.cache
+D:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp3.1\ehaikerv202010.AssemblyInfo.cs
+D:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp3.1\ehaikerv202010.csproj.CoreCompileInputs.cache
+D:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp3.1\ehaikerv202010.MvcApplicationPartsAssemblyInfo.cache
+D:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp3.1\ehaikerv202010.RazorAssemblyInfo.cache
+D:\CodeStore\ehaikerv202010\obj\Debug\netcoreapp3.1\ehaikerv202010.RazorAssemblyInfo.cs

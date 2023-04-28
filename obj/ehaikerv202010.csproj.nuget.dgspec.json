@@ -1,36 +1,37 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj": {}
+    "D:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj": {}
   },
   "projects": {
-    "E:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj": {
+    "D:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj",
+        "projectUniqueName": "D:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj",
         "projectName": "ehaikerv202010",
-        "projectPath": "E:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj",
-        "packagesPath": "E:\\Microsoft\\microsoft SDKS\\NuGetPackages\\",
-        "outputPath": "E:\\CodeStore\\ehaikerv202010\\obj\\",
+        "projectPath": "D:\\CodeStore\\ehaikerv202010\\ehaikerv202010.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "D:\\CodeStore\\ehaikerv202010\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Administrator.USER-20190819XC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp2.2"
+          "net7.0"
         ],
         "sources": {
-          "E:\\Microsoft\\microsoft SDKS\\NuGetPackages\\": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp2.2": {
-            "targetAlias": "netcoreapp2.2",
+          "net7.0": {
+            "targetAlias": "net7.0",
             "projectReferences": {}
           }
         },
@@ -41,53 +42,48 @@
         }
       },
       "frameworks": {
-        "netcoreapp2.2": {
-          "targetAlias": "netcoreapp2.2",
+        "net7.0": {
+          "targetAlias": "net7.0",
           "dependencies": {
-            "Microsoft.AspNetCore.App": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[2.2.0, )",
-              "autoReferenced": true
+              "version": "[7.0.2, )"
             },
-            "Microsoft.AspNetCore.Authentication": {
-              "target": "Package",
-              "version": "[2.2.0, )"
-            },
-            "Microsoft.AspNetCore.Razor.Design": {
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[2.2.0, )"
-            },
-            "Microsoft.EntityFrameworkCore.Relational": {
-              "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[7.0.2, )"
             },
             "Microsoft.Extensions.Caching.Abstractions": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[7.0.0, )"
             },
-            "Microsoft.NETCore.App": {
-              "suppressParent": "All",
+            "Microsoft.Extensions.Caching.Memory": {
               "target": "Package",
-              "version": "[2.2.0, )",
-              "autoReferenced": true
+              "version": "[7.0.0, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[2.2.3, )"
             },
-            "Mysql.Data.EntityFrameworkCore": {
+            "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
-              "version": "[8.0.19, )"
+              "version": "[7.0.0, )"
             },
             "System.Drawing.Common": {
               "target": "Package",
-              "version": "[4.7.0, )"
-            },
-            "microsoft.extensions.caching.memory": {
-              "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[7.0.0, )"
             }
           },
           "imports": [
@@ -96,11 +92,20 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }

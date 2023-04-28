@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ehaikerv202010.props" />
+</Project>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
     <UserSecretsId>d851b4fe-1919-4cf8-b4fc-63706ebc2c1d</UserSecretsId>
   </PropertyGroup>
@@ -74,15 +74,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
-    <PackageReference Include="microsoft.extensions.caching.memory" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-    <PackageReference Include="Mysql.Data.EntityFrameworkCore" Version="8.0.19" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
