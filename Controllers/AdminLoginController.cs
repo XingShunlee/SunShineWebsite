@@ -37,7 +37,7 @@ namespace ehaiker.Controllers
                 if (HttpContext.Session.GetString("ValidateCode") != juser.verificat_code)
                 {
                     ModelState.AddModelError("code", "validate code is error");
-                    msg.msg = "验证码错误";
+                    msg.msg = juser.verificat_code+":"+ HttpContext.Session.GetString("ValidateCode");//"验证码错误";
                     msg.SuccessCode = "10000";
                     return Json(msg);
                 }

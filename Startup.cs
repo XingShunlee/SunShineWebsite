@@ -93,7 +93,7 @@ namespace ehaikerv202010
                  .AddNewtonsoftJson(options =>
                  {
                      //修改属性名称的序列化方式，首字母小写
-                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); //序列化时key为驼峰样式
+                     options.SerializerSettings.ContractResolver = new DefaultContractResolver(); //序列化时key为驼峰样式
                      options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
                      options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                      options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;    //忽略循环引用
